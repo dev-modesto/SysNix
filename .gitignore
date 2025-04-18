@@ -1,0 +1,7 @@
+*.txt
+.env
+/vendor/
+*.sql
+/PHPMailer/
+.vscode/
+/master/
