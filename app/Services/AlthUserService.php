@@ -59,7 +59,7 @@ class AlthUserService {
     
                                 if ($enviarEmail) {
                                     // email enviado devemos redirecionar...
-                                    $mensagem = ['msg' => 'redirecionar para index de autenticação', 'alert' => 0];
+                                    $mensagem = ['msg' => 'redirecionar para index de autenticação', 'alert' => 0, 'redirecionar' => 'autenticacao/'];
                                     // header("location: " . BASE_URL . "/autenticacao/index.php");
     
                                 } else {
@@ -79,6 +79,9 @@ class AlthUserService {
                                 $mensagem = ['msg' => 'Tentativas de login excedidas. Tente novamente em: 3 minutos.', 'alert' => 1];
                                 return $mensagem;
                             }
+
+                            $mensagem = ['msg' => 'Login concedido.', 'alert' => 0, 'redirecionar' => 'app/'];
+                            return $mensagem;
     
                         } else {
                             // exibir alerta isuario sem acesso ao sistema.
