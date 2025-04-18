@@ -1,0 +1,59 @@
+.btn-verificar {
+    /* width: 100%; */
+    width: auto;
+    min-width: 156px;
+    height: 48px;
+    border: 1px solid transparent;
+    border-radius: .2em;
+    background-color: #273746;
+    color: var(--color-c1);
+    letter-spacing: .2rem;
+}
+
+.btn-verificar:hover {
+    background-color: #0A1224;
+}
+
+.btn-verificar:active {
+    background-color: #273746;;
+    color: #fff;
+}
+
+.btn-verificar:disabled {
+    background-color: var(--color-s1);
+    cursor: not-allowed;
+}
+
+.container-btn-voltar {
+    display: inline-flex;
+    padding: 5px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    transition: all ease-in-out .2s;
+}
+
+.container-btn-voltar:hover{
+    cursor: pointer;
+}
+
+.container-btn-voltar:hover .icon-voltar{
+    color: #273746;
+}
+
+.icon-voltar {
+    transition: all ease-in-out .2s;
+}
+
+.container-formulario.autenticacao ::placeholder  {
+    padding-left: 0px;
+    font-size: .875rem;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+.container-formulario.autenticacao input {
+    padding-left: 20px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: .1rem;
+}
