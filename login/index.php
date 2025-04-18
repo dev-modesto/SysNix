@@ -108,13 +108,16 @@
                 $('.btn-entrar').prop('disabled', true);
             },
             success: function (response) {
-
+                const btnHtmlString = 'ENTRAR';
+                $('.btn-entrar').html(btnHtmlString);
+                
                 if ((response.alert) == 0) {
                     window.location.href = '../' + response.redirecionar;
+                    $('.btn-entrar').prop('disabled', false);
+                    $('#senha-login').val('');
+                    $('#email-login').val('');
 
                 } else {
-                    const btnHtmlString = 'ENTRAR';
-                    $('.btn-entrar').html(btnHtmlString);
                     $('.btn-entrar').prop('disabled', false);
                     $('#container-msg').html(response.msgHtml);
                 }
