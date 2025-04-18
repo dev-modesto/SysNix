@@ -3,4 +3,5 @@
 /vendor/
 *.sql
 /PHPMailer/
-
+.vscode/
+/master/
