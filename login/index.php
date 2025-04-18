@@ -1,14 +1,6 @@
 <?php
     include '../config/base.php';
     include BASE_PATH . '/include/funcoes/geral/mensagem.php';
-
-    $msg = '';
-    $alert = '';
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        include 'include/cLogin.php';
-    }   
-
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +31,7 @@
                 <a href=""><img src="<?= BASE_URL ?>/assets/img/logo/logo-full-color.svg" alt="logo"></a>
             </div>
             <h1>Entrar</h1>
-            <form class="container-formulario" action="" method="POST">
+            <form id="form-login" class="container-formulario">
                 <div class="mb-0">
                     <label class="font-1-s peso-medio" for="email-login">E-mail</label>
                     <div class="container-input-usuario">
@@ -61,9 +53,8 @@
                 <div class="">
                     <button class="btn-entrar font-1-s peso-semi-bold" type="submit">ENTRAR</button>
                 </div>
-                <?php
-                    mensagemAlertaSet($msg, $alert);
-                ?>
+                <div id="container-msg">
+                </div>
             </form>
         </div>
         <div class="rodape-login">
@@ -79,8 +70,6 @@
 <!-- importação scripts -->
 <script src="<?= BASE_URL ?>/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 
@@ -97,6 +86,41 @@
             inputSenha.type = 'password';
             iconVerSenha.classList.remove('visible');
         }
+    });
+
+
+    $('#form-login').submit(function (e) { 
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append('acao','login-usuario');
+
+        $.ajax({
+            type: "POST",
+            url: "../public/ajaxController.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            
+            beforeSend: function () {
+                const btnHtmlString = '<svg width="24" height="24" stroke="#45D7C6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3" stroke-linecap="round"><animate attributeName="stroke-dasharray" dur="1.5s" calcMode="spline" values="0 150;42 150;42 150;42 150" keyTimes="0;0.475;0.95;1" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" repeatCount="indefinite"/><animate attributeName="stroke-dashoffset" dur="1.5s" calcMode="spline" values="0;-16;-59;-59" keyTimes="0;0.475;0.95;1" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" repeatCount="indefinite"/></circle><animateTransform attributeName="transform" type="rotate" dur="2s" values="0 12 12;360 12 12" repeatCount="indefinite"/></g></svg>';
+                $('.btn-entrar').html(btnHtmlString);
+                $('.btn-entrar').prop('disabled', true);
+            },
+            success: function (response) {
+
+                if ((response.alert) == 0) {
+                    window.location.href = '../' + response.redirecionar;
+
+                } else {
+                    const btnHtmlString = 'ENTRAR';
+                    $('.btn-entrar').html(btnHtmlString);
+                    $('.btn-entrar').prop('disabled', false);
+                    $('#container-msg').html(response.msgHtml);
+                }
+            }
+        });
+
     });
 
 </script>
