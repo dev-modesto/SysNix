@@ -130,7 +130,20 @@ class AlthUserService {
 
                     if(mysqli_query($con, $sqlUpdateUsoCodigo)) {
                         if(mysqli_affected_rows($con) > 0) {
-                            $mensagem = ['msg' => 'Código válido.', 'alert' => 0];
+                            $email = $_SESSION['email'];
+                            $sqlUpdateUsuario = "UPDATE tbl_usuario SET primeiro_acesso = 'nao', status = 'ativo', updated_at = '$dataHoraSistema' WHERE email = '$email'";
+
+                            if(mysqli_query($con, $sqlUpdateUsuario)) {
+                                if(mysqli_affected_rows($con) > 0) { 
+                                    $mensagem = ['msg' => 'Código válido.', 'alert' => 0];
+
+                                } else {
+                                    $mensagem = ['msg' => 'Não foi possível prosseguir com sua validação.', 'alert' => 1];
+                                }
+
+                            } else {
+                                $mensagem = ['msg' => 'Ocorreu um erro. Não foi possível validar o codigo de autenticação.', 'alert' => 1];
+                            }
 
                         } else {
                             $mensagem = ['msg' => 'Não foi possível validar o codigo de autenticação.', 'alert' => 1];
