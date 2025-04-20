@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $dadosRetorno = AuthController::consultaLoginController($con,$dataHoraSistema,$emailUsuario,$senhaUsuario);
 
             if ($dadosRetorno['alert'] == 0) {
-                $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 0, 'redirecionar' => 'autenticacao/'];
+                $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 0, 'redirecionar' => $dadosRetorno['redirecionar']];
                 $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
                 header('Content-Type: application/json');
                 echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -57,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $dadosRetorno = AuthController::validaTokenController($con, $dataHoraSistema, $token, $codigo);
 
                         if ($dadosRetorno['alert'] == 0) {
-                            $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 0, 'redirecionar' => 'redirecionar para a aplicacao'];
+                            $_SESSION['token'] = null;
+                            $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 0, 'redirecionar' => 'app/'];
                             header('Content-Type: application/json');
                             echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 

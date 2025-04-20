@@ -1,96 +1,95 @@
 html {
-    font-family: Montserrat, sans-serif;
-    font-size: 16px;
-    line-height: 16px;
+    font-size: 1rem;
+    line-height: auto;
 }
 
 .font-1-xxl-1 {
-    font: 400 1.5rem/1.5 "Montserrat", sans-serif;
+    font: 400 1.5rem/1.5 "Roboto", sans-serif;
   }
 
 .font-1-h1-b {
-    font: 700 4rem/1em "Montserrat", sans-serif;
+    font: 700 4rem/1em "Roboto", sans-serif;
 }
 
 .font-1-h2-b {
-    font: 700 2.5rem/3.5rem "Montserrat", sans-serif;
+    font: 700 2.5rem/3.5rem "Roboto", sans-serif;
     margin-bottom: 20px;
 }
 
 .font-1-h3-b {
-    font: 700 2.25rem/3.5 "Montserrat", sans-serif;
+    font: 700 2.25rem/3.5 "Roboto", sans-serif;
 }
 
 .font-1-h4-b {
-    font: 700 2rem/3 "Montserrat", sans-serif;
+    font: 700 2rem/3 "Roboto", sans-serif;
 }
 
 .font-1-h4-sb {
-    font: 600 2rem/3 "Montserrat", sans-serif;
+    font: 600 2rem/3 "Roboto", sans-serif;
 }
 
 /* texto funcional e outros */
 .font-1-lg-r {
-    font: 400 1.25rem/1.88 "Montserrat", sans-serif;
+    font: 400 1.25rem/1.88 "Roboto", sans-serif;
 }
 
 .font-1-lg-sb {
-    font: 600 1.25rem/1.88 "Montserrat", sans-serif;
+    font: 600 1.25rem/1.88 "Roboto", sans-serif;
 }
 
 .font-1-md-l {
-    font: 300 1rem/1.5 "Montserrat", sans-serif;
+    font: 300 1rem/1.5 "Roboto", sans-serif;
 }
 
 .font-1-md-sb {
-    font: 600 .88rem/1.5 "Montserrat", sans-serif;
+    font: 600 .88rem/1.5 "Roboto", sans-serif;
 }
 
 .font-1-s {
-    font: 400 .875rem/1.125 "Montserrat", sans-serif;
+    font: 400 .875rem/1.125 "Roboto", sans-serif;
     /* 14px */
 }
 
 .font-base {
-    font: 400 1rem/1.125 "Montserrat", sans-serif;
+    font: 400 1rem/1.125 "Roboto", sans-serif;
     /* 16px */
 }
 .font-lg {
-    font: 400 1.125rem/1.25 "Montserrat", sans-serif;
+    font: 400 1.125rem/1.25 "Roboto", sans-serif;
     /* 18px */
 }
 .font-xl {
-    font: 400 1.25rem/1.5 "Montserrat", sans-serif;
+    font: 400 1.25rem/1.5 "Roboto", sans-serif;
     /* 20px */
 }
 .font-1-x {
-    font: 400 1.5rem/1.85 "Montserrat", sans-serif;
+    font: 400 1.5rem/1.85 "Roboto", sans-serif;
     /* 24px */
 }
 .font-2-x {
-    font: 400 1.875rem/2 "Montserrat", sans-serif;
+    font: 400 1.875rem/2 "Roboto", sans-serif;
     /* 30px */
 }
 .font-3-x {
-    font: 400 2rem/2.125 "Montserrat", sans-serif;
+    font: 400 2rem/2.125 "Roboto", sans-serif;
     /* 32px */
 }
 
 
 .font-1-s-2 {
-    font: 400 1rem/1.5 "Montserrat", sans-serif;
+    font: 400 1rem/1.5 "Roboto", sans-serif;
 }
 
 .font-1-sm-sb {
-    font: 500 .81rem/1 "Montserrat", sans-serif;
+    font: 500 .81rem/1 "Roboto", sans-serif;
 }
 
 .font-1-sm-r {
-    font: 400 .75rem/1.125 "Montserrat", sans-serif;
+    font: 400 .75rem/1.125 "Roboto", sans-serif;
 }
 
 .font-1-titulo-adm {
-    font: 600 1.75rem/1.75 "Montserrat", sans-serif;
+    font: 600 1.75rem/1.75 "Roboto", sans-serif;
 }
 
 .font-2-md-r {
@@ -99,7 +98,7 @@ html {
 }
 
 .font-2-lg-r {
-    font: 400 1.25rem/1.65 "Montserrat", sans-serif;
+    font: 400 1.25rem/1.65 "Roboto", sans-serif;
 }
 
 /* pesos de fonte */
@@ -138,29 +137,29 @@ html {
 
 @media (min-width: 768px) and (max-width:991px){
     .font-1-h1-b {
-        font: 700 3rem/1.1 "Montserrat", sans-serif;
+        font: 700 3rem/1.1 "Roboto", sans-serif;
     }
     
     .font-1-xxl-1 {
-        font: 400 1.1rem/1.6 "Montserrat", sans-serif;
+        font: 400 1.1rem/1.6 "Roboto", sans-serif;
     }
 
 }
 
 @media (min-width: 481px) and (max-width:767px){
     .font-1-h1-b  {
-        font: 700 3rem/1.1 "Montserrat", sans-serif;
+        font: 700 3rem/1.1 "Roboto", sans-serif;
     }
     
     .font-1-xxl-1 {
-        font: 400 1.1rem/1.6 "Montserrat", sans-serif;
+        font: 400 1.1rem/1.6 "Roboto", sans-serif;
     }
 
 }
 
 @media (max-width:480px){
     .font-1-h1-b {
-        font: 700 2.25rem/1.2 "Montserrat", sans-serif;
+        font: 700 2.25rem/1.2 "Roboto", sans-serif;
     }
 
     .font-1-h2-b {
@@ -170,7 +169,7 @@ html {
     }
     
     .font-1-xxl-1 {
-        font: 400 .875rem/1.6 "Montserrat", sans-serif;
+        font: 400 .875rem/1.6 "Roboto", sans-serif;
     }
 
     .font-2-md-r {

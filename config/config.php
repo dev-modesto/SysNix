@@ -1,8 +1,12 @@
 <?php
 
     date_default_timezone_set('America/Sao_Paulo');
-    $data = new DateTime();
-    $anoAtual = date_format($data, 'Y');
+    $date = new DateTime();
+    $anoAtual = date_format($date, 'Y');
+    $dataSistemaBanco = date_format($date, 'Y-m-d');
+    $dataSistemaPtBr = date_format($date, 'd/m/Y');
+    $hora = date("H:i:s");
+    $dataHoraSistema = "$dataSistemaBanco $hora";
     
     $caminhoProjetoLocal = "/sysnix";
     $protocolo = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';

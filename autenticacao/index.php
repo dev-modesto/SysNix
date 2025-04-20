@@ -1,6 +1,15 @@
 <?php
     include '../config/base.php';
     include BASE_PATH . '/include/funcoes/geral/mensagem.php';
+
+    if(session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    if ($_SESSION['token'] === null) {
+        header('location: ../login/');
+        die();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +41,7 @@
                 <span style="font-size: 2rem" class="icon-voltar material-symbols-rounded">arrow_back_ios</span>
             </a>
             <h1 class="font-3-x peso-semi-bold">Código de autenticação</h1>
-            <p style="margin-bottom: 40px;" class="font-1-s peso-normal">Enviamos um código de verificação de seis dígitos para o e-mail <strong>contato@devmodesto.com.br</strong></p>
+            <p style="margin-bottom: 40px;" class="font-1-s peso-normal">Enviamos um código de verificação de seis dígitos para o e-mail <strong><?= $_SESSION['email']?></strong></p>
             <form class="container-formulario autenticacao">
                 <div class="mb-0">
                     <div class="">
@@ -123,7 +132,7 @@
                 $('.btn-verificar').prop('disabled', false);
                 
                 if ((response.alert) == 0) {
-                    // window.location.href = '../' + response.redirecionar;
+                    window.location.href = '../' + response.redirecionar;
                     
                 } else {
                     $('#container-msg').html(response.msgHtml);
