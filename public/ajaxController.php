@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\AuthController;
+use App\Services\StatusService;
 
 require_once '../config/base.php';
 include BASE_PATH . '/include/funcoes/geral/mensagem.php';
@@ -91,6 +92,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // nenhum post realziadoo..
             }
 
+            break;
+
+        case 'cStatus-uso-equipamento':
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $idStatusFuncional = $_POST['id-status'];
+
+                $retorno = StatusService::consultarStatusUsoEquipamento($con, $idStatusFuncional);
+
+                header('Content-Type: application/json');
+                echo json_encode($retorno);
+                die();
+            }
+        
             break;
 
         default:
