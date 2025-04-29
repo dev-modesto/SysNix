@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/sidebar/sidebar.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/navbar/navbar-top.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/tabela.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/modal.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"/>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.css">
@@ -433,6 +434,9 @@
             </table>
         </div>
     </div>
+
+    <div class="carregar-modal">
+    </div>
 </div>
 
 <div class="container-copyright">
@@ -462,11 +466,14 @@
 
 <script src="<?= BASE_URL ?>/vendor/igorescobar/jquery-mask-plugin/src/jquery.mask.js"></script>
 <script src="<?= BASE_URL ?>/js/menu.js"></script>
+<script src="<?= BASE_URL ?>/js/modalLoader.js"></script>
 
 </body>
 
 <script>
+
     $(document).ready( function () {
+        // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
         new DataTable('.myTable', {
             pagingType: 'simple_numbers',
             language: {
@@ -493,8 +500,6 @@
         responsive: true,
 
         layout: {
-
-            // topEnd: 'pageLength',
             topEnd: {
                     pageLength: {
                     menu: [10, 25, 50, 100],
@@ -521,11 +526,6 @@
             },
             top2End: {
                 buttons: [
-                    // {
-                    //     extend: 'colvis',
-                    //     text: 'Colunas visíveis',
-                    //     className: 'btn-personalizado-tabela btn-dropdown',
-                    // },
                     {
                         extend: 'print',
                         exportOptions: {
@@ -545,21 +545,16 @@
                                 exportOptions: {
                                     columns: ':visible'
                                 },
-                                // className: 'btn-personalizado-tabela btn-excel',
                             }
                         ],
                         className: 'btn-personalizado-tabela btn-exportar',
                     },
                     {
-                        
-                        // text: function () {
-                        //     let btnCadastrar = document.createElement('div');
-                        //     btnCadastrar.innerHTML = '<span class="material-symbols-rounded icone">add</span> Cadastrar';
-                        //     btnCadastrar.classList.add = 'btn btn-personalizado-tabela btn-cadastro';
-                        //     return btnCadastrar
-                        // },
                         text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
                         className: 'btn btn-personalizado-tabela btn-cadastro',
+                        action: function (e, dt, node, config, cb) {
+                            abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
+                        }
                     },
                 ],
             },
@@ -567,7 +562,6 @@
             bottomEnd: {
                 paging: {
                     type: 'first_last_numbers',
-                    // boundaryNumbers: true,
                 }
             },
         },
