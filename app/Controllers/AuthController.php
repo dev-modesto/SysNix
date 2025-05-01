@@ -1,37 +1,18 @@
 <?php
 namespace App\Controllers;
 
+use App\Helpers\MensagemHelper;
+use App\Models\TokenModel;
 use App\Services\AlthUserService;
 use App\Services\EmailService;
 
 class AuthController {
-    public static function salvarTokenBancoController($con, $dataHoraSistema, $idUsuario) {
+    public static function salvarTokenBancoController($dados) {
 
-        $tokenCodigo = tokenCodigo();
-        $token = $tokenCodigo['token'];
-        $codigo = $tokenCodigo['codigo'];
-        $usado = 'nao';
-    
-        $validade = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-    
-        $sql = "INSERT INTO tbl_token(id_usuario,token,codigo_verificacao,usado,created_at,validade) values(?,?,?,?,?,?)";
-        $sqlPrepare = mysqli_prepare($con, $sql);
-        mysqli_stmt_bind_param($sqlPrepare, "isisss", $idUsuario, $token, $codigo, $usado, $dataHoraSistema, $validade);
-        
-        if(mysqli_stmt_execute($sqlPrepare)) {
-            $mensagem = [
-                'alert' => 0, 
-                'status' => 'sucesso', 
-                'text' => 'Token salva com sucesso.',
-                'token' => $token,
-                'codigo' => $codigo
-            ];
-    
-        } else {
-            $mensagem = ['alert' => 1, 'status' => 'erro', 'text' => 'Erro ao salvar token.'];
-        }
-    
-        return $mensagem;
+        $tokenModel = new TokenModel();
+        $return = $tokenModel->inserir($dados);
+
+        return $return;
     }
 
     public static function enviarEmailController($destinatarioEmail, $destinatarioNome, $codigo) {
@@ -41,12 +22,15 @@ class AuthController {
 
     }
 
-    public static function consultaLoginController($con, $dataHoraSistema, $emailLogin, $senhaLogin) {
-        return $althUserService = AlthUserService::consultaLoginService($con, $dataHoraSistema, $emailLogin, $senhaLogin);
-    }
-
     public static function validaTokenController($con, $dataHoraSistema, $token, $codigo) {
         return $validaToken = AlthUserService::validaCodigoAutenticacaoService($con, $dataHoraSistema, $token, $codigo);
+    }
+
+    public function consultar($dados) {
+        $dadosReturn = AlthUserService::consultar($dados);
+        $dadosReturn = array_merge($dadosReturn, ['msgHtml' => MensagemHelper::mensagemAlertaHtml($dadosReturn['msg'], $dadosReturn['alert'])]);
+        return $dadosReturn;
+
     }
 
 }

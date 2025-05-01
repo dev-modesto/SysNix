@@ -1,98 +1,62 @@
 <?php
 
-use App\Controllers\AuthController;
+use App\Helpers\MensagemHelper;
 
-require_once '../config/base.php';
-include BASE_PATH . '/include/funcoes/geral/mensagem.php';
+require_once '../app/Config/config.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $acao = $_POST['acao'];
-
-    switch($acao) {
-        case 'login-usuario':
-            $emailUsuario = $_POST['email-login'];
-            $senhaUsuario = $_POST['senha-login'];
-            $dadosRetorno = AuthController::consultaLoginController($con,$dataHoraSistema,$emailUsuario,$senhaUsuario);
-
-            if ($dadosRetorno['alert'] == 0) {
-                $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 0, 'redirecionar' => $dadosRetorno['redirecionar']];
-                $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
-                header('Content-Type: application/json');
-                echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-                die();
-
-            } else {
-                $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 1];
-                $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
-                header('Content-Type: application/json');
-                echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-                die();
-            }
-
-            break;
-
-        case 'valida-token':
-            
-            if(session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-
-            if (isset($_POST['codigo-autenticacao'])) {
-                $codigo = $_POST['codigo-autenticacao'];
-
-                if ($codigo !== '') {
-
-                    if (is_numeric($codigo)) {
-                        $codigo = intval($codigo);
-
-                        if (strlen($codigo) < 6) {
-                            $mensagem = ['msg' => 'O código deve conter 6 dígitos.', 'alert' => 1];
-                            $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
-                            header('Content-Type: application/json');
-                            echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-                            die();
-                        }
-                        
-                        $token = $_SESSION['token'];
-                        $dadosRetorno = AuthController::validaTokenController($con, $dataHoraSistema, $token, $codigo);
-
-                        if ($dadosRetorno['alert'] == 0) {
-                            $_SESSION['token'] = null;
-                            $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 0, 'redirecionar' => 'app/'];
-                            header('Content-Type: application/json');
-                            echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-                        } else {
-                            $mensagem = ['msg' => $dadosRetorno['msg'], 'alert' => 1, 'redirecionar' => 'autenticacao/'];
-                            $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($dadosRetorno['msg'], $dadosRetorno['alert'])]);
-                            // $mensagem = array_merge(['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
-                            header('Content-Type: application/json');
-                            echo json_encode($mensagem);
-                        }
+$rotasPermitidas = [
+    'Auth' => ['consultar'], 
+    'EquipamentoCalibracao' => ['selecionar', 'cadastrar', 'atualizar', 'remover'],
+    'StatusEquipamentoCalibracao' => ['selecionarId'] 
+];
 
 
-                    } else {
-                        $mensagem = ['msg' => 'O código deve conter apenas números.', 'alert' => 1];
-                        $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
-                        header('Content-Type: application/json');
-                        echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-                        die();
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                    }
+    $acao = htmlspecialchars(trim($_POST['acao']));
+    $controller = htmlspecialchars(trim($_POST['controller']));
+    header('Content-Type: application/json');
 
-                } else {
-                    $mensagem = ['msg' => 'Informe o código de autenticação', 'alert' => 1];
-                    $mensagem = array_merge($mensagem, ['msgHtml' => mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
-                    header('Content-Type: application/json');
-                    echo json_encode($mensagem);
-                }
-            
-            } else {
-                // nenhum post realziadoo..
-            }
-
-            break;
-
-        default:
+    if (str_starts_with($acao, '__')) {
+        http_response_code(403);
+        echo json_encode(['status' => false, 'msg' => 'Método proibido']);
+        exit;
     }
+
+    if (!$controller || !$acao) {
+        http_response_code(400);
+        echo json_encode(['status' => false, 'msg' => 'Parâmetros ausentes']);
+        exit;
+    }
+
+    if (!array_key_exists($controller, $rotasPermitidas) || !in_array($acao, $rotasPermitidas[$controller])) {
+        http_response_code(403);
+        echo json_encode(['status' => false, 'msg' => 'Ação não permitida'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    $controllerClass = "App\\Controllers\\" . $controller . "Controller";
+
+    if (!class_exists($controllerClass)) {
+        http_response_code(404);
+        echo json_encode(['status' => false, 'msg' => 'Controller não encontrado']);
+        exit;
+    }
+
+    $controller = new $controllerClass();
+
+    if (!method_exists($controller, $acao)) {
+        http_response_code(404);
+        echo json_encode(['status' => false, 'msg' => 'Método não encontrado']);
+        exit;
+    }
+    try {
+        $resposta = $controller->{$acao}($_POST);
+        echo json_encode(['data' => $resposta], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['status' => false, 'msg' => 'Erro interno', 'erro' => $e->getMessage()]);
+    }
+
 }
