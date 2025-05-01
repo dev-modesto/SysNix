@@ -34,7 +34,7 @@ class EquipamentoCalibracaoService
         
         if (!empty($camposVazios)) {
             $retorno = array_keys($camposVazios);
-            $retorno = ['status' => 1, 'msg' => 'Todos os campos precisam ser preenchidos corretamente.', 'dados' => $retorno];
+            $retorno = ['status' => 1, 'dados' => $retorno, 'msg' => 'Todos os campos precisam ser preenchidos corretamente.', 'alert' => 1];
 
         } else {
             $dataHelper = DataHelper::getDataHoraSistema();
