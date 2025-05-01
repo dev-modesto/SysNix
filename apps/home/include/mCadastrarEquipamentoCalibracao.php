@@ -11,7 +11,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-container" method="post" action="">
+                <form class="form-container" id="form-cadastrar-equipamento-calibracao">
 
                     <ul class="nav nav-underline">
                         <li class="nav-item" role="presentation">
@@ -109,7 +109,7 @@
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-4">
                                     <label class="font-1-s" for="status-funcional">Status funcional <em>*</em></label><br>
-                                    <select class="form-select" name="id-status-funcional" id="status-funcional">
+                                    <select class="form-select" name="id-status-funcional" id="status-funcional" required>
                                         <option value="" selected>Escolha um status</option>
                                         <?php
 
@@ -133,7 +133,7 @@
                                 
                                 <div class="col-md-6 mb-4">
                                     <label class="font-1-s" for="status-uso">Status de uso <em>*</em></label><br>
-                                    <select class="form-select" name="id-status-uso" id="status-uso" disabled>
+                                    <select class="form-select" name="id-status-uso" id="status-uso">
                                         <option value="" selected>Escolha um status funcional</option>
                                     </select>                                        
                                 </div>
@@ -165,14 +165,15 @@
                 type: "POST",
                 url: "../../public/ajaxController.php",
                 data: {
-                    'acao':'cStatus-uso-equipamento',
-                    'id-status':idStatusFuncional
+                    'id':idStatusFuncional,
+                    'controller':'StatusEquipamentoCalibracao',
+                    'acao':'selecionarId'
                 },
                 success: function (response) {
 
-                    if(response.alert == 0) {
-                        
-                        response.dados.forEach(function (item){
+                    if(response.data.status == 0) {
+                        const dados = response.data.dados;
+                        dados.forEach(function (item){
                             htmlString += `<option value="${item.id}">${item.nome}</option>`;
                         });
                         
@@ -196,6 +197,27 @@
             $('#status-uso').html('<option value="" selected>Escolha um status funcional</option>');
         }
 
+    });
+
+    $('#form-cadastrar-equipamento-calibracao').submit(function (e) { 
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        formData.append('controller', 'EquipamentoCalibracao')
+        formData.append('acao','cadastrar');
+
+        $.ajax({
+            type: "POST",
+            url: "../../public/ajaxController.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            
+            success: function (response) {
+                window.location.href = `../../apps/home/?msg=${encodeURIComponent(response.data.msg)}&alert= ${encodeURIComponent(response.data.alert)}`;
+            }
+        });
+ 
     });
 
 </script>
