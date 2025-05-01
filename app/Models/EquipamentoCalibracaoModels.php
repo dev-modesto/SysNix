@@ -13,7 +13,17 @@ class EquipamentoCalibracaoModels
     }
 
     public function selecionar() {
-        $query = "SELECT * FROM tbl_equipamento_calibracao";
+        $query = 
+        "SELECT 
+            e.*, 
+            f.nome as nome_status_funcional, 
+            f.cor as cor_status_funcional,
+            u.nome as nome_status_uso, 
+            u.cor as cor_status_uso  
+            FROM tbl_equipamento_calibracao e 
+            INNER JOIN tbl_status_funcional f ON (e.id_status_funcional = f.id)
+            INNER JOIN tbl_status_uso u ON (e.id_status_uso = u.id)
+        ";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
