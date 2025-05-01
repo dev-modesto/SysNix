@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autenticação | SysNix</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/global/global.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/cor.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/fonts.css">
@@ -114,7 +114,7 @@
 
         $.ajax({
             type: "POST",
-            url: "../public/ajaxController.php",
+            url: "../public/ajaxControllere.php",
             data: {
                 'acao':'valida-token',
                 'codigo-autenticacao':codigoAutenticacao
@@ -126,7 +126,6 @@
                 $('.btn-verificar').prop('disabled', true);
             },
             success: function (response) {
-                // console.log(response);
                 const btnHtmlString = 'VERIFICAR';
                 $('.btn-verificar').html(btnHtmlString);
                 $('.btn-verificar').prop('disabled', false);
