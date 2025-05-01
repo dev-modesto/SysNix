@@ -1,15 +1,11 @@
 <?php
-    include '../../config/base.php';
+
+use App\Controllers\EquipamentoCalibrabracaoController;
+use App\Models\EquipamentoCalibracaoModels;
+include_once '../../app/config/config.php';
 
     $tituloPaginaHead = 'Home | Sysnix';
     $tituloPagina = 'Home';
-
-    $sql = "SELECT * FROM tbl_equipamento_calibracao";
-    $consulta = mysqli_query($con, $sql);
-
-    if (mysqli_num_rows($consulta) > 0 ) {
-        $dadosEquipamentosCalibracao = mysqli_fetch_all($consulta, MYSQLI_ASSOC);
-    }
 
 ?>
 
@@ -29,6 +25,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/navbar/navbar-top.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/tabela.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/modal.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/pre-loader.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"/>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.css">
@@ -36,9 +33,6 @@
 
     <!-- fonts google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -46,12 +40,18 @@
 </head>
 
     <style>
+    .container-msg {
+        margin: 15px 0;
+        padding: 0px 40px;
+    }
+
     .breadcrumb {
         font-family: Arial, sans-serif;
         font-size: 14px;
         margin: 15px 0;
         margin-top: 90px;
         padding: 0px 40px;
+        grid-area: breadcrumb;
     }
     .breadcrumb a {
         color: #007BFF;
@@ -150,163 +150,19 @@
         color:var(--color-a8)
     }
 
-
-
-
-    .btn-group {
-        display: flex;
-        gap: 8px;
-    }
-
-    .btn-personalizado-tabela{
-        border-radius: .3rem !important;
-        height: 40px !important;
-        background-color: #fff !important;
-        color: var(--color-c6) !important;
-        /* background-color: var(--color-a1) !important; */
-        /* border: inherit !important; */
-        border-color: var(--color-a3) !important;
-    }
-
-    .btn-cadastro {
-        background-color: tomato !important;
-        background-color: var(--color-p6) !important;
-        background-color: var(--color-t1) !important;
-        /* background-color: var(--color-p7) !important; */
-        border: inherit !important;
-        color: #fff !important;
-    }
-
-    .btn-cadastro span {
-        display: flex !important;
-        gap: 4px !important;
-    }
-
-    .btn-cadastro span.icone {
-        color: #fff !important;
-        font-size: 1.3rem !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-
-    .btn-exportar span {
-        display: inline-flex !important;
-        gap: 4px !important;
-    }
-
-    .btn-exportar span.icone {
-        color: inherit !important;
-        font-size: 1.3rem !important;
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-
-    .dt-info {
-        font-size: .875rem !important;
-        color: var(--color-a6) !important;
-    }
-
-    .dt-length {
-        font-size: .875rem !important;
-        color: var(--color-a6) !important;
-        padding: 0px;
-        display: flex !important;
-        gap: 8px !important;
-    }
-
-    .dt-length select {
-        color: var(--color-a6) !important;
-        border-radius: .3rem !important;
-        padding: 8px !important;
-        border-color: var(--color-a3) !important;
-    }
-
-    /* paginação */
-    .dt-paging {
-        padding: 5px !important;
-        gap: 0px !important;
-    }
-
-    .dt-paging-button.previous {
-        /* background-color: tomato !important; */
-        width: auto !important;
-    }
-
-    .dt-paging-button {
-        background-color: #fff !important;
-        width: auto !important;
-        height: auto !important;
-        font-size: .875rem !important;
-        text-align: center !important;
-        border: 1px solid var(--color-a3) !important;
-    }
-
-    .dt-paging-button.next {
-        width: auto !important;
-    }
-
-    .dt-paging-button.current {
-        background-color: var(--color-a3) !important;
-    }
-
-    .dt-paging-button.disabled {
-        background-color: var(--color-a1) !important;
-    }
-
-    /* barra de pesquisa da tabela */
-    .dt-search {
-        background-color: var(--color-c1) !important;
-        display: flex !important;
-        flex-direction: row-reverse;
-        align-items: center !important;
-        padding: 0px !important;
-        padding-right: 20px !important;
-        border-radius: .3rem;
-        position: relative !important;
-    }
-
-    .dt-search label{
-        color: rebeccapurple !important;
-        font-size: .75rem;
-        padding: 0px !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-
-    .dt-search label span {
-        color: var(--color-c5) !important;
-    }
-
-    .dt-search input {
-        background-color: var(--color-c0) !important;
-        border: none !important;
-        min-width: 350px !important;
-        width: 100%;
-        height: 40px !important;
-        padding-left: 20px !important;
-        outline: none !important;
-        position: relative !important;
-        margin: 0px !important;
-    }
-
-    .dt-search input::placeholder {
-        color: var(--color-c5) !important;
-    }
     </style>
 <body>
 
 <?php
+    include BASE_PATH . '/include/preLoad/preLoad.php';
     include BASE_PATH . '/include/sidebar/sidebar.php';
 ?>
+<div id="container-msg" class="container-msg"></div>
 
 <div class="breadcrumb">
-    <!-- <span>Home</span> &gt;
-    <a href="usuarios.php">Usuários</a> &gt; -->
-
     <span>Home</span>
+    <!-- <a href="usuarios.php">Usuários</a> &gt;
+    <a href="usuarios.php">Usuários</a> &gt; -->
 </div>
 
 <div class="conteudo">
@@ -389,45 +245,72 @@
                 </thead>
                 <tbody class="table-group-divider">
                     <?php
-                    
-                        foreach ($dadosEquipamentosCalibracao as $chave => $valor) {
 
-                            $nomeIdentificador     = $valor['nome_identificador'] ?? null;
-                            $descricao = $valor['descricao'] ?? null;
-                            $modelo = $valor['modelo'] ?? null;
-                            $fabricante = $valor['fabricante'] ?? null;
-                            $serie = $valor['serie'] ?? null;
-                            $resolucao = $valor['resolucao'] ?? null;
-                            $faixaUso = $valor['faixa_uso'] ?? null;
-                            $dtUltimaCalibracao = $valor['dt_ultima_calibracao'] ?? null;
-                            $numeroCertificado = $valor['numero_certificado'] ?? null;
-                            $dtCalibracaoPrevisao = $valor['dt_calibracao_previsao'] ?? null;
-                            $ei15a25n = $valor['ei_15a25_n'] ?? null;
-                            $ei2a8 = $valor['ei_2a8'] ?? null;
-                            $ei15a25 = $valor['ei_15a25'] ?? null;
-                            $statusFuncional = $valor['status_funcional'] ?? null;
-                            $statusUso = $valor['status_uso'] ?? null;
+                        $allEquipamentoCalibracao = EquipamentoCalibrabracaoController::selecionar();
+
+                        if(count($allEquipamentoCalibracao) > 0) {
+
+                            foreach ($allEquipamentoCalibracao as $chave => $valor) {
+
+                                $nomeIdentificador     = $valor['nome_identificador'] ?? null;
+                                $descricao = $valor['descricao'] ?? null;
+                                $modelo = $valor['modelo'] ?? null;
+                                $fabricante = $valor['fabricante'] ?? null;
+                                $serie = $valor['serie'] ?? null;
+                                $resolucao = $valor['resolucao'] ?? null;
+                                $faixaUso = $valor['faixa_uso'] ?? null;
+                                $dtUltimaCalibracao = $valor['dt_ultima_calibracao'] ?? null;
+                                $numeroCertificado = $valor['numero_certificado'] ?? null;
+                                $dtCalibracaoPrevisao = $valor['dt_calibracao_previsao'] ?? null;
+                                $ei15a25n = $valor['ei_15a25_n'] ?? null;
+                                $ei2a8 = $valor['ei_2a8'] ?? null;
+                                $ei15a25 = $valor['ei_15a25'] ?? null;
+                                $statusFuncional = $valor['status_funcional'] ?? null;
+                                $statusUso = $valor['status_uso'] ?? null;
+    
+                                echo <<<HTML
+                                        <tr>
+                                            <td>$nomeIdentificador</td>
+                                            <td>$descricao</td>
+                                            <td>$modelo</td>
+                                            <td>$fabricante</td>
+                                            <td>$serie</td>
+                                            <td>$resolucao</td>
+                                            <td>$faixaUso</td>
+                                            <td>$dtUltimaCalibracao</td>
+                                            <td>$numeroCertificado</td>
+                                            <td>$dtCalibracaoPrevisao</td>
+                                            <td>$ei15a25n</td>
+                                            <td>$ei2a8</td>
+                                            <td>$ei15a25</td>
+                                            <td>$statusFuncional</td>
+                                            <td>$statusUso</td>
+                                        </tr>
+                                    HTML
+                                ;
+                            }
+
+                        } else {
 
                             echo <<<HTML
-                                    <tr>
-                                        <td>$nomeIdentificador</td>
-                                        <td>$descricao</td>
-                                        <td>$modelo</td>
-                                        <td>$fabricante</td>
-                                        <td>$serie</td>
-                                        <td>$resolucao</td>
-                                        <td>$faixaUso</td>
-                                        <td>$dtUltimaCalibracao</td>
-                                        <td>$numeroCertificado</td>
-                                        <td>$dtCalibracaoPrevisao</td>
-                                        <td>$ei15a25n</td>
-                                        <td>$ei2a8</td>
-                                        <td>$ei15a25</td>
-                                        <td>$statusFuncional</td>
-                                        <td>$statusUso</td>
-                                    </tr>
-                                HTML
-                            ;
+                                <tr>
+                                    <td style="text-align: center;">Nenhum equipamento encontrado.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            HTML;
                         }
                     ?>
                 </tbody>
@@ -435,8 +318,6 @@
         </div>
     </div>
 
-    <div class="carregar-modal">
-    </div>
 </div>
 
 <div class="container-copyright">
@@ -464,6 +345,7 @@
 <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
 
 
+<script src="<?= BASE_URL ?>/js/preLoader.js"></script>
 <script src="<?= BASE_URL ?>/vendor/igorescobar/jquery-mask-plugin/src/jquery.mask.js"></script>
 <script src="<?= BASE_URL ?>/js/menu.js"></script>
 <script src="<?= BASE_URL ?>/js/modalLoader.js"></script>
@@ -474,6 +356,7 @@
 
     $(document).ready( function () {
         // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
+
         new DataTable('.myTable', {
             pagingType: 'simple_numbers',
             language: {
