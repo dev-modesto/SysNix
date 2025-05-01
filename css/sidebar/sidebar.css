@@ -154,6 +154,7 @@
     grid-template-rows: auto auto 1fr;
     grid-template-areas:
         'aside principal-header'
+        'aside breadcrumb'
         'aside sub-header'
         'aside conteudo'
         'aside rodape'
