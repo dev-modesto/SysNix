@@ -22,10 +22,6 @@ class AuthController {
 
     }
 
-    public static function consultaLoginController($con, $dataHoraSistema, $emailLogin, $senhaLogin) {
-        return $althUserService = AlthUserService::consultaLoginService($con, $dataHoraSistema, $emailLogin, $senhaLogin);
-    }
-
     public static function validaTokenController($con, $dataHoraSistema, $token, $codigo) {
         return $validaToken = AlthUserService::validaCodigoAutenticacaoService($con, $dataHoraSistema, $token, $codigo);
     }
