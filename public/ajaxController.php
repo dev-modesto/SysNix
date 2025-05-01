@@ -5,6 +5,7 @@ use App\Helpers\MensagemHelper;
 require_once '../app/Config/config.php';
 
 $rotasPermitidas = [
+    'Auth' => ['consultar'], 
     'EquipamentoCalibracao' => ['selecionar', 'cadastrar', 'atualizar', 'remover'],
     'StatusEquipamentoCalibracao' => ['selecionarId'] 
 ];
