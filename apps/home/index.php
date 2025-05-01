@@ -1,7 +1,8 @@
 <?php
 
-use App\Controllers\EquipamentoCalibrabracaoController;
-use App\Models\EquipamentoCalibracaoModels;
+use App\Controllers\EquipamentoCalibracaoController;
+use App\Helpers\MensagemHelper;
+
 include_once '../../app/config/config.php';
 
     $tituloPaginaHead = 'Home | Sysnix';
@@ -43,13 +44,14 @@ include_once '../../app/config/config.php';
     .container-msg {
         margin: 15px 0;
         padding: 0px 40px;
+        margin-top: 90px;
     }
 
     .breadcrumb {
         font-family: Arial, sans-serif;
         font-size: 14px;
         margin: 15px 0;
-        margin-top: 90px;
+        margin-top: 0px;
         padding: 0px 40px;
         grid-area: breadcrumb;
     }
@@ -156,8 +158,14 @@ include_once '../../app/config/config.php';
 <?php
     include BASE_PATH . '/include/preLoad/preLoad.php';
     include BASE_PATH . '/include/sidebar/sidebar.php';
+    
 ?>
-<div id="container-msg" class="container-msg"></div>
+
+<div id="container-msg" class="container-msg">
+    <?php
+        MensagemHelper::mensagemAlertaGet();
+    ?>
+</div>
 
 <div class="breadcrumb">
     <span>Home</span>
@@ -246,7 +254,7 @@ include_once '../../app/config/config.php';
                 <tbody class="table-group-divider">
                     <?php
 
-                        $allEquipamentoCalibracao = EquipamentoCalibrabracaoController::selecionar();
+                        $allEquipamentoCalibracao = EquipamentoCalibracaoController::selecionar();
 
                         if(count($allEquipamentoCalibracao) > 0) {
 
@@ -265,8 +273,11 @@ include_once '../../app/config/config.php';
                                 $ei15a25n = $valor['ei_15a25_n'] ?? null;
                                 $ei2a8 = $valor['ei_2a8'] ?? null;
                                 $ei15a25 = $valor['ei_15a25'] ?? null;
-                                $statusFuncional = $valor['status_funcional'] ?? null;
-                                $statusUso = $valor['status_uso'] ?? null;
+                                $statusFuncional = $valor['nome_status_funcional'] ?? null;
+                                $statusUso = $valor['nome_status_uso'] ?? null;
+
+                                $corStatusFuncional = $valor['cor_status_funcional'] ?? null;
+                                $corStatusUso = $valor['cor_status_uso'] ?? null;
     
                                 echo <<<HTML
                                         <tr>
