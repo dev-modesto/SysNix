@@ -12,3 +12,16 @@ function abrirModal(idModal, urlModal) {
         }
     });
 }
+
+function fecharModal(idModal, urlModal) {
+    $.ajax({
+        url: urlModal,
+        method: 'GET',
+        success: function () {
+            $(`#${idModal}`).modal('hide');
+        },
+        error: function () {
+            alert("Erro ao fechar modal.");
+        }
+    });
+}
