@@ -114,9 +114,10 @@
 
         $.ajax({
             type: "POST",
-            url: "../public/ajaxControllere.php",
+            url: "../public/ajaxController.php",
             data: {
-                'acao':'valida-token',
+                'controller':'Auth',
+                'acao':'validarToken',
                 'codigo-autenticacao':codigoAutenticacao
             },
         
