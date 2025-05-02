@@ -1,6 +1,6 @@
 <?php
-    include '../config/base.php';
-    include BASE_PATH . '/include/funcoes/geral/mensagem.php';
+require_once '../app/Config/config.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +95,8 @@
         e.preventDefault();
 
         const formData = new FormData(this);
-        formData.append('acao','login-usuario');
+        formData.append('controller','Auth');
+        formData.append('acao','consultar');
 
         $.ajax({
             type: "POST",
@@ -113,15 +114,15 @@
                 const btnHtmlString = 'ENTRAR';
                 $('.btn-entrar').html(btnHtmlString);
                 
-                if ((response.alert) == 0) {
-                    window.location.href = '../' + response.redirecionar;
+                if ((response.data.alert) == 0) {
+                    window.location.href = '../' + response.data.redirecionar;
                     $('.btn-entrar').prop('disabled', false);
                     $('#senha-login').val('');
                     $('#email-login').val('');
 
                 } else {
                     $('.btn-entrar').prop('disabled', false);
-                    $('#container-msg').html(response.msgHtml);
+                    $('#container-msg').html(response.data.msgHtml);
                 }
             }
         });
