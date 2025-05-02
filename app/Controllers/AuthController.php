@@ -26,6 +26,10 @@ class AuthController {
         return $validaToken = AlthUserService::validaCodigoAutenticacaoService($con, $dataHoraSistema, $token, $codigo);
     }
 
+    public static function validarToken($dados) {
+        return $validaToken = AlthUserService::validarCodigoAutenticacao($dados);
+    }
+
     public function consultar($dados) {
         $dadosReturn = AlthUserService::consultar($dados);
         $dadosReturn = array_merge($dadosReturn, ['msgHtml' => MensagemHelper::mensagemAlertaHtml($dadosReturn['msg'], $dadosReturn['alert'])]);
