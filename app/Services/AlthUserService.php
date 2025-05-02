@@ -122,61 +122,6 @@ class AlthUserService {
         }
     }
 
-    public static function validaCodigoAutenticacaoService($con, $dataHoraSistema, string $token, int $codigo) {     
-        
-        $sql = "SELECT * FROM tbl_token WHERE token = ? AND codigo_verificacao = ?";
-        $sqlPrepare = mysqli_prepare($con, $sql);
-
-        mysqli_stmt_bind_param($sqlPrepare, 'si', $token, $codigo);
-        
-        if(mysqli_stmt_execute($sqlPrepare)) {
-            $result = mysqli_stmt_get_result($sqlPrepare);
-
-            if(mysqli_num_rows($result) > 0) {
-                $dados = mysqli_fetch_assoc($result);
-                $idCodigo = $dados['id'];
-
-                if($dataHoraSistema < $dados['validade'] && $dados['usado'] === 'nao') {
-
-                    $sqlUpdateUsoCodigo = "UPDATE tbl_token SET usado = 'sim' WHERE id = $idCodigo";
-
-                    if(mysqli_query($con, $sqlUpdateUsoCodigo)) {
-                        if(mysqli_affected_rows($con) > 0) {
-                            $email = $_SESSION['email'];
-                            $sqlUpdateUsuario = "UPDATE tbl_usuario SET primeiro_acesso = 'nao', status = 'ativo', updated_at = '$dataHoraSistema' WHERE email = '$email'";
-
-                            if(mysqli_query($con, $sqlUpdateUsuario)) {
-                                if(mysqli_affected_rows($con) > 0) { 
-                                    $mensagem = ['msg' => 'Código válido.', 'alert' => 0];
-
-                                } else {
-                                    $mensagem = ['msg' => 'Não foi possível prosseguir com sua validação.', 'alert' => 1];
-                                }
-
-                            } else {
-                                $mensagem = ['msg' => 'Ocorreu um erro. Não foi possível validar o codigo de autenticação.', 'alert' => 1];
-                            }
-
-                        } else {
-                            $mensagem = ['msg' => 'Não foi possível validar o codigo de autenticação.', 'alert' => 1];
-                        }
-
-                    } else {
-                        $mensagem = ['msg' => 'Ocorreu um erro. Não foi possível validar o codigo de autenticação.', 'alert' => 1];
-                    };
-
-                } else {
-                    $mensagem = ['msg' => 'Código expirado. Reenvie novamente.', 'alert' => 1];
-                }
-
-            } else {
-                $mensagem = ['msg' => 'Código inválido.', 'alert' => 1];
-            }
-    
-            return $mensagem;
-        }
-    }
-
     public static function validarCodigoAutenticacao($dados) {
 
         $codigo = $_POST['codigo-autenticacao'];
