@@ -75,6 +75,7 @@ include_once '../../app/config/config.php';
         margin-bottom: 20px;
         flex-wrap: wrap;
         box-sizing: border-box;
+        box-shadow:0px 0px 10px 1px rgba(0, 0, 0, 5%);
     }
 
     .card-dash {
