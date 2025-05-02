@@ -130,8 +130,8 @@
                 const btnHtmlString = 'VERIFICAR';
                 $('.btn-verificar').html(btnHtmlString);
                 $('.btn-verificar').prop('disabled', false);
-                
-                if ((response.alert) == 0) {
+
+                if ((response.status) == 0) {
                     window.location.href = '../' + response.redirecionar;
                     
                 } else {
