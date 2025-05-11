@@ -153,8 +153,8 @@ class EmailService {
             $numero_certificado = $valor['numero_certificado'];
             $dt_calibracao_previsao = new DateTime($valor['dt_calibracao_previsao']);
             $dt_calibracao_previsao = date_format($dt_calibracao_previsao, 'd/m/Y');
-            $id_status_funcional = $valor['status_funcional'];
-            $id_status_uso = $valor['status_uso'];
+            $nome_status_funcional = $valor['nome_status_funcional'];
+            $nome_status_uso = $valor['nome_status_uso'];
             $dias_calibracao_previsao = $valor['dias_calibracao_previsao'];
 
             $numRow++;
@@ -170,8 +170,8 @@ class EmailService {
                     <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$dt_ultima_calibracao</td>
                     <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$numero_certificado</td>
                     <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$dt_calibracao_previsao</td>
-                    <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$id_status_funcional</td>
-                    <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$id_status_uso</td>
+                    <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$nome_status_funcional</td>
+                    <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$nome_status_uso</td>
                     <td style='border: 1px solid #ddd; text-align: center; padding: 8px'>$dias_calibracao_previsao</td>
                 </tr>
             ";
