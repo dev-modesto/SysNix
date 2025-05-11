@@ -3,8 +3,8 @@ namespace App\Services;
 
 use App\Controllers\EquipamentoCalibracaoController;
 use App\Helpers\DataHelper;
-use App\Models\AlertaModels;
-use App\Models\EquipamentoCalibracaoModels;
+use App\Models\AlertaModel;
+use App\Models\EquipamentoCalibracaoModel;
 use App\Models\LogModel;
 
 include_once BASE_PATH . '/vendor/autoload.php';
@@ -14,8 +14,8 @@ class AlertaCalibracaoService
 
     public static function cronjobAlertaCalibracao() {
 
-        $equipamentoCalibracaoModels = new EquipamentoCalibracaoModels();
-        $dadosEquipamentosCalibracao = $equipamentoCalibracaoModels->selecionar(30);
+        $EquipamentoCalibracaoModel = new EquipamentoCalibracaoModel();
+        $dadosEquipamentosCalibracao = $EquipamentoCalibracaoModel->selecionar(30);
         $arrayDatas = DataHelper::getDataHoraSistema();
         $dataPtbr = $arrayDatas['data_ptbr'];
         $hora = $arrayDatas['hora'];
@@ -24,8 +24,8 @@ class AlertaCalibracaoService
         $logModel = new LogModel();
 
         if (!empty($dadosEquipamentosCalibracao)) {
-            $alertaModels = new AlertaModels();
-            $dadosUsuarioAlerta = $alertaModels->consultarAlertaUsuario();
+            $alertaModel = new AlertaModel();
+            $dadosUsuarioAlerta = $alertaModel->consultarAlertaUsuario();
 
             if (!empty($dadosUsuarioAlerta)) {
                 echo '<pre>';
@@ -48,7 +48,7 @@ class AlertaCalibracaoService
                         $dt_calibracao_previsao = $valor['dt_calibracao_previsao'];
                         $nome_identificador = $valor['nome_identificador'];
 
-                        $dadosConsultaVerifica = $alertaModels->consultarNotificacaoEquipamentoUsuario($id_equipamento, $numero_certificado, $idUsuario, $dt_calibracao_previsao, $canalAlerta);
+                        $dadosConsultaVerifica = $alertaModel->consultarNotificacaoEquipamentoUsuario($id_equipamento, $numero_certificado, $idUsuario, $dt_calibracao_previsao, $canalAlerta);
 
                         if (empty($dadosConsultaVerifica)) {
                             // echo "$nomeUsuario $sobrenomeUsuario | NÃO RECEBEU alerta '$canalAlerta' referente ao equipamento: $nome_identificador." . "<br>";
@@ -65,7 +65,7 @@ class AlertaCalibracaoService
                                 'created_at' => $createdAt
                             ];
 
-                            $insertAlertaCalibracao = $alertaModels->inserirAlertaCalibracaoEquipamento($arrayDadosAlertaCalibracao);
+                            $insertAlertaCalibracao = $alertaModel->inserirAlertaCalibracaoEquipamento($arrayDadosAlertaCalibracao);
                             $statusReturnInsert = '';
                             
                             foreach ($insertAlertaCalibracao as $chave => $valorInsert) {
