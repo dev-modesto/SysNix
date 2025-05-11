@@ -2,7 +2,7 @@
 
 namespace App\Config;
 
-include_once 'config.php';
+// include_once 'config.php';
 
 use PDO;
 use PDOException;
