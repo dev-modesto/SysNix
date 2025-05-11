@@ -2,15 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Models\EquipamentoCalibracaoModels;
+use App\Models\EquipamentoCalibracaoModel;
+use App\Services\EmailService;
 use App\Services\EquipamentoCalibracaoService;
 
 class EquipamentoCalibracaoController
 {
 
-    public static function selecionar() {
-        $equipamento = new EquipamentoCalibracaoModels();
-        $dadosReturn = $equipamento->selecionar();
+    public static function selecionar($filtroDiasCalibracao = null) {
+        $equipamento = new EquipamentoCalibracaoModel();
+        $dadosReturn = $equipamento->selecionar($filtroDiasCalibracao);
         return $dadosReturn;
     }
 
@@ -29,5 +30,12 @@ class EquipamentoCalibracaoController
 
     public function remover() {
         
+    }
+
+    public static function enviarEmailAlertaEquipamentoController($destinatarioEmail, $destinatarioNome, $dados) {
+        $emailService = new EmailService();
+
+        return $emailService->enviarEmailAlertaEquipamentosCalibracao($destinatarioEmail, $destinatarioNome, $dados);
+
     }
 }

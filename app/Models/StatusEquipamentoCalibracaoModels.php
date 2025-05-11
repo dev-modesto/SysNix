@@ -3,7 +3,7 @@ namespace App\Models;
 use App\Config\Connection;
 use PDO;
 
-class StatusEquipamentoCalibracaoModels {
+class StatusEquipamentoCalibracaoModel {
 
     protected PDO $pdo;
 

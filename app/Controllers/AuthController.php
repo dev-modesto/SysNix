@@ -22,8 +22,8 @@ class AuthController {
 
     }
 
-    public static function validaTokenController($con, $dataHoraSistema, $token, $codigo) {
-        return $validaToken = AlthUserService::validaCodigoAutenticacaoService($con, $dataHoraSistema, $token, $codigo);
+    public static function validarToken($dados) {
+        return $validaToken = AlthUserService::validarCodigoAutenticacao($dados);
     }
 
     public function consultar($dados) {

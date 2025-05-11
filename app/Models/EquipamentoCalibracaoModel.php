@@ -4,7 +4,7 @@ namespace App\Models;
 use App\Config\Connection;
 use PDO;
 
-class EquipamentoCalibracaoModels
+class EquipamentoCalibracaoModel
 {
     protected PDO $pdo;
 
@@ -12,19 +12,46 @@ class EquipamentoCalibracaoModels
         $this->pdo = Connection::getInstance();
     }
 
-    public function selecionar() {
+    public function selecionar($filtroDiasCalibracao = null) {
+        $where = 'WHERE 1=1';
+    
+        if (!empty($filtroDiasCalibracao)) {
+            $where .= " AND DATEDIFF(dt_calibracao_previsao, CURRENT_DATE()) <= :dias";
+        }
+
         $query = 
-        "SELECT 
-            e.*, 
-            f.nome as nome_status_funcional, 
+        "SELECT
+            e.id,
+            e.nome_identificador,
+            e.descricao,
+            e.modelo,
+            e.fabricante,
+            e.serie,
+            e.resolucao,
+            e.faixa_uso,
+            e.dt_ultima_calibracao,
+            e.numero_certificado,
+            e.dt_calibracao_previsao,
+            e.ei_15a25_n,
+            e.ei_2a8,
+            e.ei_15a25,
+            e.created_at,
+			f.nome as nome_status_funcional, 
             f.cor as cor_status_funcional,
             u.nome as nome_status_uso, 
-            u.cor as cor_status_uso  
-            FROM tbl_equipamento_calibracao e 
-            INNER JOIN tbl_status_funcional f ON (e.id_status_funcional = f.id)
-            INNER JOIN tbl_status_uso u ON (e.id_status_uso = u.id)
+            u.cor as cor_status_uso,
+            DATEDIFF(dt_calibracao_previsao, CURRENT_DATE()) AS dias_calibracao_previsao 
+        FROM tbl_equipamento_calibracao e 
+        INNER JOIN tbl_status_funcional f ON (f.id = e.id_status_funcional)
+        INNER JOIN tbl_status_uso u ON (u.id = e.id_status_uso)
+        $where 
+		ORDER BY dias_calibracao_previsao
         ";
         $stmt = $this->pdo->prepare($query);
+
+        if (!empty($filtroDiasCalibracao)) {
+            $stmt->bindValue(':dias', $filtroDiasCalibracao, PDO::PARAM_INT);
+        }
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -6,6 +6,8 @@ use App\Config\Connection;
 use App\Models\UsuarioModels;
 use App\Helpers\GeralHelper;
 use App\Helpers\DataHelper;
+use App\Helpers\MensagemHelper;
+use App\Models\TokenModel;
 
 class AlthUserService {
 
@@ -120,58 +122,91 @@ class AlthUserService {
         }
     }
 
-    public static function validaCodigoAutenticacaoService($con, $dataHoraSistema, string $token, int $codigo) {     
+    public static function validarCodigoAutenticacao($dados) {
+
+        $codigo = $_POST['codigo-autenticacao'];
+
+        if ($codigo !== '') {
+
+            if (is_numeric($codigo)) {
+                $codigo = intval($codigo);
+
+                if (strlen($codigo) < 6) {
+                    $mensagem = ['status' => 1, 'msg' => 'O código deve conter 6 dígitos.', 'alert' => 1];
+                    $mensagem = array_merge($mensagem, ['msgHtml' => MensagemHelper::mensagemAlertaHtml($mensagem['msg'], $mensagem['alert'])]);
+                    header('Content-Type: application/json');
+                    echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                    die();
+                }
+
+                if(session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
         
-        $sql = "SELECT * FROM tbl_token WHERE token = ? AND codigo_verificacao = ?";
-        $sqlPrepare = mysqli_prepare($con, $sql);
+                $token = $_SESSION['token'];
+                $dadosEnviarConsultaToken = ['token' => $token, 'codigo_verificacao' => $codigo];
 
-        mysqli_stmt_bind_param($sqlPrepare, 'si', $token, $codigo);
-        
-        if(mysqli_stmt_execute($sqlPrepare)) {
-            $result = mysqli_stmt_get_result($sqlPrepare);
+                $tokenModel = new TokenModel();
+                $arrayRetorno = $tokenModel->consultar($dadosEnviarConsultaToken);
 
-            if(mysqli_num_rows($result) > 0) {
-                $dados = mysqli_fetch_assoc($result);
-                $idCodigo = $dados['id'];
+                if($arrayRetorno['status'] == 0) {
+                    $dadosRetorno = $arrayRetorno['dados'];
 
-                if($dataHoraSistema < $dados['validade'] && $dados['usado'] === 'nao') {
+                    if(!empty($dadosRetorno)) {
+                        $dataHelper = DataHelper::getDataHoraSistema();
+                        $dataHoraSistema = $dataHelper['data_hora_banco'];
 
-                    $sqlUpdateUsoCodigo = "UPDATE tbl_token SET usado = 'sim' WHERE id = $idCodigo";
+                        if($dataHoraSistema < $dadosRetorno['validade'] && $dadosRetorno['usado'] === 'nao') {
 
-                    if(mysqli_query($con, $sqlUpdateUsoCodigo)) {
-                        if(mysqli_affected_rows($con) > 0) {
-                            $email = $_SESSION['email'];
-                            $sqlUpdateUsuario = "UPDATE tbl_usuario SET primeiro_acesso = 'nao', status = 'ativo', updated_at = '$dataHoraSistema' WHERE email = '$email'";
+                            $idToken = ['id_token' => $dadosRetorno['id']];
+                            $returnAtualizar = $tokenModel->atualizar($idToken);
 
-                            if(mysqli_query($con, $sqlUpdateUsuario)) {
-                                if(mysqli_affected_rows($con) > 0) { 
-                                    $mensagem = ['msg' => 'Código válido.', 'alert' => 0];
+                            if ($returnAtualizar['linhas_afetadas'] == 1) {
+                                $dadosEnviarAtualizarAcesso = ['updated_at' => $dataHoraSistema, 'email' => $_SESSION['email']];
+                                $returnAtualizarAcesso = $tokenModel->atualizarAcessoLoginUsuarioToken($dadosEnviarAtualizarAcesso);
+
+                                if ($returnAtualizarAcesso['status'] === 0) {
+                                    
+                                    if ($returnAtualizarAcesso['linhas_afetadas'] == 1) {
+                                        $_SESSION['token'] = null;
+                                        $mensagem = ['status' => 0, 'redirecionar' => 'app/'];
+
+                                    } else {
+                                        $mensagem = ['status' => 1 , 'redirecionar' => 'autenticacao/', 'msgHtml' => MensagemHelper::mensagemAlertaHtml($returnAtualizarAcesso['msg'], 1)];
+                                    }
 
                                 } else {
-                                    $mensagem = ['msg' => 'Não foi possível prosseguir com sua validação.', 'alert' => 1];
+                                    $mensagem = ['status' => 1 , 'redirecionar' => 'autenticacao/', 'msgHtml' => MensagemHelper::mensagemAlertaHtml($returnAtualizarAcesso['msg'], 1)];
                                 }
 
                             } else {
-                                $mensagem = ['msg' => 'Ocorreu um erro. Não foi possível validar o codigo de autenticação.', 'alert' => 1];
+                                $mensagem = ['status' => 1, 'msgHtml' => MensagemHelper::mensagemAlertaHtml('Não foi possível validar o código de autenticação.', 1)];
                             }
-
+                        
                         } else {
-                            $mensagem = ['msg' => 'Não foi possível validar o codigo de autenticação.', 'alert' => 1];
+                            $mensagem = ['status' => 1, 'msgHtml' => MensagemHelper::mensagemAlertaHtml('Código expirado. Reenvie novamente.', 1)];
                         }
 
                     } else {
-                        $mensagem = ['msg' => 'Ocorreu um erro. Não foi possível validar o codigo de autenticação.', 'alert' => 1];
-                    };
-
-                } else {
-                    $mensagem = ['msg' => 'Código expirado. Reenvie novamente.', 'alert' => 1];
+                        $mensagem = ['status' => 1, 'msgHtml' => MensagemHelper::mensagemAlertaHtml('Código não encontrado.', 1)];
+                    }
                 }
 
+                header('Content-Type: application/json');
+                echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                die();
+
             } else {
-                $mensagem = ['msg' => 'Código inválido.', 'alert' => 1];
+                $mensagem = ['status' => 1, 'msgHtml' => MensagemHelper::mensagemAlertaHtml('O código deve conter apenas números.', 1)];
+                header('Content-Type: application/json');
+                echo json_encode($mensagem, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                die();
             }
-    
-            return $mensagem;
+
+        } else {
+            $mensagem = ['status' => 1, 'msgHtml' => MensagemHelper::mensagemAlertaHtml('Informe o código de autenticação.', 1)];
+            header('Content-Type: application/json');
+            echo json_encode($mensagem);
         }
     }
 }

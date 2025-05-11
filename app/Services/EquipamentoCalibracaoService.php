@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\DataHelper;
-use App\Models\EquipamentoCalibracaoModels;
+use App\Models\EquipamentoCalibracaoModel;
 
 include BASE_PATH . '/include/funcoes/geral/geral.php'; 
 
@@ -58,7 +58,7 @@ class EquipamentoCalibracaoService
                 'id_status_uso' => $idStatusUso
             ];
            
-            $cadastrarEquipamentos = new EquipamentoCalibracaoModels();
+            $cadastrarEquipamentos = new EquipamentoCalibracaoModel();
             $retorno = $cadastrarEquipamentos->cadastrar($dadosTratados);
         }
 

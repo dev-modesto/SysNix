@@ -114,9 +114,10 @@
 
         $.ajax({
             type: "POST",
-            url: "../public/ajaxControllere.php",
+            url: "../public/ajaxController.php",
             data: {
-                'acao':'valida-token',
+                'controller':'Auth',
+                'acao':'validarToken',
                 'codigo-autenticacao':codigoAutenticacao
             },
         
@@ -129,8 +130,8 @@
                 const btnHtmlString = 'VERIFICAR';
                 $('.btn-verificar').html(btnHtmlString);
                 $('.btn-verificar').prop('disabled', false);
-                
-                if ((response.alert) == 0) {
+
+                if ((response.status) == 0) {
                     window.location.href = '../' + response.redirecionar;
                     
                 } else {
