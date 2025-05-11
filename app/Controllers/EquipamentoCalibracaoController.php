@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\EquipamentoCalibracaoModels;
+use App\Services\EmailService;
 use App\Services\EquipamentoCalibracaoService;
 
 class EquipamentoCalibracaoController
@@ -29,5 +30,12 @@ class EquipamentoCalibracaoController
 
     public function remover() {
         
+    }
+
+    public static function enviarEmailAlertaEquipamentoController($destinatarioEmail, $destinatarioNome, $dados) {
+        $emailService = new EmailService();
+
+        return $emailService->enviarEmailAlertaEquipamentosCalibracao($destinatarioEmail, $destinatarioNome, $dados);
+
     }
 }
