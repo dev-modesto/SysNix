@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\EquipamentoCalibracaoModels;
+use App\Models\EquipamentoCalibracaoModel;
 use App\Services\EmailService;
 use App\Services\EquipamentoCalibracaoService;
 
@@ -10,7 +10,7 @@ class EquipamentoCalibracaoController
 {
 
     public static function selecionar($filtroDiasCalibracao = null) {
-        $equipamento = new EquipamentoCalibracaoModels();
+        $equipamento = new EquipamentoCalibracaoModel();
         $dadosReturn = $equipamento->selecionar($filtroDiasCalibracao);
         return $dadosReturn;
     }

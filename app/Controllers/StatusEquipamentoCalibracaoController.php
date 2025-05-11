@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\StatusEquipamentoCalibracaoModels;
+use App\Models\StatusEquipamentoCalibracaoModel;
 
 class StatusEquipamentoCalibracaoController
 {
@@ -12,7 +12,7 @@ class StatusEquipamentoCalibracaoController
         $id = $dados['id'];
 
         if(intval($id)) {
-            $equipamento = new StatusEquipamentoCalibracaoModels();
+            $equipamento = new StatusEquipamentoCalibracaoModel();
             $dados = $equipamento->selecionarId($id);
             $dadosReturn = ['status' => 0, 'dados' => $dados];
 
