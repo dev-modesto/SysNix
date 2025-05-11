@@ -9,9 +9,9 @@ use App\Services\EquipamentoCalibracaoService;
 class EquipamentoCalibracaoController
 {
 
-    public static function selecionar() {
+    public static function selecionar($filtroDiasCalibracao = null) {
         $equipamento = new EquipamentoCalibracaoModels();
-        $dadosReturn = $equipamento->selecionar();
+        $dadosReturn = $equipamento->selecionar($filtroDiasCalibracao);
         return $dadosReturn;
     }
 
