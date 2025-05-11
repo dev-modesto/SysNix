@@ -1,10 +1,12 @@
 <?php
 
 use App\Controllers\EquipamentoCalibracaoController;
+use App\Helpers\EquipamentoCalibracao\StatusEquipamentoCalibracaoHelper;
 use App\Helpers\MensagemHelper;
 
 include_once '../../app/config/config.php';
 
+$totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipamentoCalibracao();
     $tituloPaginaHead = 'Home | Sysnix';
     $tituloPagina = 'Home';
 
@@ -182,7 +184,7 @@ include_once '../../app/config/config.php';
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash geral"></span>
-                    <p class="font-xl peso-medio">65</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_equipamentos'] ?></p>
                     <span class="font-1-s">Total de Equipamentos</span>
                 </div>
             </div>
@@ -194,12 +196,12 @@ include_once '../../app/config/config.php';
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash operacional"></span>
-                    <p class="font-xl peso-medio">65</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_operacional'] ?></p>
                     <span class="font-1-s">Operacional</span>
                 </div>
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash defeito"></span>
-                    <p class="font-xl peso-medio">65</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_defeito'] ?></p>
                     <span class="font-1-s">Defeito</span>
                 </div>
             </div>
@@ -211,17 +213,17 @@ include_once '../../app/config/config.php';
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash vencendo"></span>
-                    <p class="font-xl peso-medio">8</p>
+                    <p class="font-xl peso-medio">-</p>
                     <span class="font-1-s">Vencendo</span>
                 </div>
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash env-calibracao"></span>
-                    <p class="font-xl peso-medio">0</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_em_calibracao'] ?></p>
                     <span class="font-1-s">Env. calib.</span>
                 </div>
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash vencido"></span>
-                    <p class="font-xl peso-medio">0</p>
+                    <p class="font-xl peso-medio">-</p>
                     <span class="font-1-s">Vencido</span>
                 </div>
             </div>
@@ -250,6 +252,7 @@ include_once '../../app/config/config.php';
                         <th class="none">Eri. 15 a 25</th>
                         <th class="all">Status Funcional</th>
                         <th class="all">Status Uso</th>
+                        <th class="all"></th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -297,6 +300,7 @@ include_once '../../app/config/config.php';
                                             <td>$ei15a25</td>
                                             <td>$statusFuncional</td>
                                             <td>$statusUso</td>
+                                            <td></td>
                                         </tr>
                                     HTML
                                 ;
@@ -365,7 +369,7 @@ include_once '../../app/config/config.php';
 </body>
 
 <script>
-
+console.log(<?= json_encode($totalStatusEquipamento) ?>);
     $(document).ready( function () {
         // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
 
@@ -391,6 +395,7 @@ include_once '../../app/config/config.php';
                 { data: 'Eri. 15 a 25' },
                 { data: 'Status Funcional' },
                 { data: 'Status Uso' },
+                { data: '' },
             ],
         responsive: true,
 
