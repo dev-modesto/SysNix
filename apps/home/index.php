@@ -29,6 +29,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/tabela.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/modal.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/pre-loader.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/componentes.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"/>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.css">
@@ -252,6 +253,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                         <th class="none">Eri. 15 a 25</th>
                         <th class="all">Status Funcional</th>
                         <th class="all">Status Uso</th>
+                        <th class="all">Situação</th>
                         <th class="all"></th>
                     </tr>
                 </thead>
@@ -280,6 +282,15 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 $statusFuncional = $valor['nome_status_funcional'] ?? null;
                                 $statusUso = $valor['nome_status_uso'] ?? null;
 
+                                $statusCalibracao = $valor['situacao_dt_calibracao'];
+
+                                $legendaStatusCalibracao = match ($statusCalibracao) {
+                                    'Dentro do prazo' => 'status-sit-cal-1',
+                                    'Vencendo' => 'status-sit-cal-2',
+                                    'Vencido' => 'status-sit-cal-3',
+                                    default => 'status-sit-cal-1'
+                                };
+
                                 $corStatusFuncional = $valor['cor_status_funcional'] ?? null;
                                 $corStatusUso = $valor['cor_status_uso'] ?? null;
     
@@ -300,6 +311,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$ei15a25</td>
                                             <td>$statusFuncional</td>
                                             <td>$statusUso</td>
+                                            <td><span class="legenda-bg $legendaStatusCalibracao">$statusCalibracao</span></td>
                                             <td></td>
                                         </tr>
                                     HTML
@@ -311,6 +323,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                             echo <<<HTML
                                 <tr>
                                     <td style="text-align: center;">Nenhum equipamento encontrado.</td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -395,6 +408,7 @@ console.log(<?= json_encode($totalStatusEquipamento) ?>);
                 { data: 'Eri. 15 a 25' },
                 { data: 'Status Funcional' },
                 { data: 'Status Uso' },
+                { data: 'Situação' },
                 { data: '' },
             ],
         responsive: true,
