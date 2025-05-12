@@ -1,0 +1,29 @@
+
+/* legenda */
+.legenda-bg {
+    border-radius: .2rem;
+    padding: 5px;
+    max-width: fit-content;
+}
+
+/* 
+    dentro do prazo = sit-cal-1
+    vencendo = sit-cal-2
+    vencido = sit-cal-3
+*/
+.legenda-bg.status-sit-cal-1 {
+    background-color: var(--color-a-green2);
+    color: var(--color-a-green4);
+}
+
+.legenda-bg.status-sit-cal-2 {
+    background-color: var(--color-a-yellow2);
+    color: var(--color-a-yellow4);
+}
+
+.legenda-bg.status-sit-cal-3 {
+    background-color: var(--color-a-red3);
+    color: var(--color-a-red1);
+}
+
+
