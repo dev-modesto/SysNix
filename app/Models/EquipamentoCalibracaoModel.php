@@ -40,7 +40,12 @@ class EquipamentoCalibracaoModel
             f.cor as cor_status_funcional,
             u.nome as nome_status_uso, 
             u.cor as cor_status_uso,
-            DATEDIFF(dt_calibracao_previsao, CURRENT_DATE()) AS dias_calibracao_previsao 
+            DATEDIFF(dt_calibracao_previsao, CURRENT_DATE()) AS dias_calibracao_previsao,
+            CASE
+            WHEN (DATEDIFF(dt_calibracao_previsao, CURRENT_DATE())) <= 0 THEN 'Vencido'
+            WHEN (DATEDIFF(dt_calibracao_previsao, CURRENT_DATE())) <= 30 THEN 'Vencendo'
+            ELSE 'Dentro do prazo'
+            END AS situacao_dt_calibracao 
         FROM tbl_equipamento_calibracao e 
         INNER JOIN tbl_status_funcional f ON (f.id = e.id_status_funcional)
         INNER JOIN tbl_status_uso u ON (u.id = e.id_status_uso)
