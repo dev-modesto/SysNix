@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Helpers\EquipamentoCalibracao;
-use App\Models\StatusEquipamentoCalibracaoModels;
+
+use App\Models\StatusEquipamentoCalibracaoModel;
 
 class StatusEquipamentoCalibracaoHelper
 {
 
     public static function totalStatusEquipamentoCalibracao() {
 
-        $statusEquipamentoCalibracaoModels = new StatusEquipamentoCalibracaoModels();
-        $dadosContagemStatusUso = $statusEquipamentoCalibracaoModels->consultarContagemStatusUso();
-        $dadosContagemStatusFuncional = $statusEquipamentoCalibracaoModels->consultarContagemStatusFuncional();
+        $statusEquipamentoCalibracaoModel = new StatusEquipamentoCalibracaoModel();
+        $dadosContagemStatusUso = $statusEquipamentoCalibracaoModel->consultarContagemStatusUso();
+        $dadosContagemStatusFuncional = $statusEquipamentoCalibracaoModel->consultarContagemStatusFuncional();
+        $dadosContagemStatusVencendo = $statusEquipamentoCalibracaoModel->consultarContagemDinamica(1);
+        $dadosContagemStatusVencido = $statusEquipamentoCalibracaoModel->consultarContagemDinamica(null, 1);
 
         $dadosFuncional = [];
         $dadosUso = [];
@@ -44,6 +47,8 @@ class StatusEquipamentoCalibracaoHelper
         $totalPerda = $dadosUso[4]['total'] ?? 0;
         $totalForaUso = $dadosUso[5]['total'] ?? 0;
         $totalEquipamentos = $totalEmUso + $totalDisponivel + $totalCalibracao + $totalPerda + $totalForaUso;
+        $totalVencendo = $dadosContagemStatusVencendo[0]['total'] ?? 0;
+        $totalVencido = $dadosContagemStatusVencido[0]['total'] ?? 0;
 
         return [
             'totais' =>
@@ -55,7 +60,9 @@ class StatusEquipamentoCalibracaoHelper
                     'total_disponivel' => $totalDisponivel,
                     'total_em_calibracao' => $totalCalibracao,
                     'total_perda' => $totalPerda,
-                    'total_fora_uso' => $totalForaUso
+                    'total_fora_uso' => $totalForaUso,
+                    'total_vencendo' => $totalVencendo,
+                    'total_vencido' => $totalVencido
                 ],
         ];
 
