@@ -62,6 +62,26 @@
     --color-a-blue3: #51ADE5;
     --color-a-blue2: #B1E0FC;
     --color-a-blue1: #DFF3FF;
+
+    --color-a-purple1: #E2D9F3;
+    --color-a-purple2: #C5B3E5;
+    --color-a-purple3: #A98ED9;
+    --color-a-purple4: #8D68CC;
+    --color-a-purple5: #7142BF;
+    --color-a-purple6: #5A3599;
+    --color-a-purple7: #442873;
+    --color-a-purple8: #2D1A4C;
+    --color-a-purple9: #160D27;
+
+    --color-a-orange1: #FCE6D1;
+    --color-a-orange2: #F9CCA3;
+    --color-a-orange3: #F7B475;
+    --color-a-orange4: #F59B4A;
+    --color-a-orange5: #F48325;
+    --color-a-orange6: #C3691D;
+    --color-a-orange7: #934F15;
+    --color-a-orange8: #61340D;
+    --color-a-orange9: #61340D;
 }
 
 /* Cores base cinza */
@@ -176,3 +196,24 @@
   .cor-a-blue1 {
     color: var(--color-a-blue1);
   }
+
+
+.cor-a-purple1 { color: var(--color-a-purple1); }
+.cor-a-purple2 { color: var(--color-a-purple2); }
+.cor-a-purple3 { color: var(--color-a-purple3); }
+.cor-a-purple4 { color: var(--color-a-purple4); }
+.cor-a-purple5 { color: var(--color-a-purple5); }
+.cor-a-purple6 { color: var(--color-a-purple6); }
+.cor-a-purple7 { color: var(--color-a-purple7); }
+.cor-a-purple8 { color: var(--color-a-purple8); }
+.cor-a-purple9 { color: var(--color-a-purple9); }
+
+.cor-a-orange1 { color: var(--color-a-orange1); }
+.cor-a-orange2 { color: var(--color-a-orange2); }
+.cor-a-orange3 { color: var(--color-a-orange3); }
+.cor-a-orange4 { color: var(--color-a-orange4); }
+.cor-a-orange5 { color: var(--color-a-orange5); }
+.cor-a-orange6 { color: var(--color-a-orange6); }
+.cor-a-orange7 { color: var(--color-a-orange7); }
+.cor-a-orange8 { color: var(--color-a-orange8); }
+.cor-a-orange9 { color: var(--color-a-orange9); }
