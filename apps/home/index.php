@@ -213,7 +213,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash vencendo"></span>
-                    <p class="font-xl peso-medio">-</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_vencendo'] ?> </p>
                     <span class="font-1-s">Vencendo</span>
                 </div>
                 <div class="div-conteudo-dash">
@@ -223,7 +223,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                 </div>
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash vencido"></span>
-                    <p class="font-xl peso-medio">-</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_vencido'] ?></p>
                     <span class="font-1-s">Vencido</span>
                 </div>
             </div>
