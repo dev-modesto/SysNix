@@ -67,4 +67,28 @@ class StatusEquipamentoCalibracaoModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function consultarContagemDinamica($vencendo = null, $vencido = null) {
+        $where = 'WHERE 1=1';
+    
+        if ($vencendo == 1) {
+            $where .= " AND DATEDIFF(e.dt_calibracao_previsao, current_date()) >= 0 AND DATEDIFF(e.dt_calibracao_previsao, current_date()) <= 30";
+        }
+
+        if ($vencido == 1) {
+            $where .= " AND DATEDIFF(e.dt_calibracao_previsao, current_date()) < 0";
+        }
+
+        $query = 
+            "SELECT COUNT(*) AS total
+            FROM tbl_equipamento_calibracao e
+            INNER JOIN tbl_status_funcional f ON (f.id = e.id_status_funcional)
+            INNER JOIN tbl_status_uso u ON (u.id = e.id_status_uso)
+            $where
+        ";
+
+        $stmt = $this->pdo->prepare($query);    
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
