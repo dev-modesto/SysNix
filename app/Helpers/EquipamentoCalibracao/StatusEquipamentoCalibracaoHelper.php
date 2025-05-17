@@ -103,6 +103,7 @@ class StatusEquipamentoCalibracaoHelper
             ],
             'status-uso-grafico' => [
                 'status-uso-nomes' => [$dadosUso[1]['nome'], $dadosUso[2]['nome'], $dadosUso[3]['nome'], $dadosUso[4]['nome'], $dadosUso[5]['nome']],
+                'status-uso-total' => [$dadosUso[1]['total'], $dadosUso[2]['total'], $dadosUso[3]['total'], $dadosUso[4]['total'], $dadosUso[5]['total']],
                 'status-uso-cores' => [$dadosUso[1]['cor'], $dadosUso[2]['cor'], $dadosUso[3]['cor'], $dadosUso[4]['cor'], $dadosUso[5]['cor']],
             ]
         ];
