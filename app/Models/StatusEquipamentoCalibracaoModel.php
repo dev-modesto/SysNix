@@ -67,7 +67,7 @@ class StatusEquipamentoCalibracaoModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function consultarContagemDinamica($vencendo = null, $vencido = null) {
+    public function consultarContagemDinamica($vencendo = null, $vencido = null, $dentroPrazo = null) {
         $where = 'WHERE 1=1';
     
         if ($vencendo == 1) {
@@ -76,6 +76,10 @@ class StatusEquipamentoCalibracaoModel {
 
         if ($vencido == 1) {
             $where .= " AND DATEDIFF(e.dt_calibracao_previsao, current_date()) < 0";
+        }
+
+        if ($dentroPrazo == 1) {
+            $where .= " AND DATEDIFF(e.dt_calibracao_previsao, current_date()) > 30";
         }
 
         $query = 

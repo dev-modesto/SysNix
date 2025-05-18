@@ -14,6 +14,7 @@ class StatusEquipamentoCalibracaoHelper
         $dadosContagemStatusFuncional = $statusEquipamentoCalibracaoModel->consultarContagemStatusFuncional();
         $dadosContagemStatusVencendo = $statusEquipamentoCalibracaoModel->consultarContagemDinamica(1);
         $dadosContagemStatusVencido = $statusEquipamentoCalibracaoModel->consultarContagemDinamica(null, 1);
+        $dadosContagemStatusDentroPrazo = $statusEquipamentoCalibracaoModel->consultarContagemDinamica(null, null, 1);
 
         $dadosFuncional = [];
         $dadosUso = [];
@@ -49,22 +50,64 @@ class StatusEquipamentoCalibracaoHelper
         $totalEquipamentos = $totalEmUso + $totalDisponivel + $totalCalibracao + $totalPerda + $totalForaUso;
         $totalVencendo = $dadosContagemStatusVencendo[0]['total'] ?? 0;
         $totalVencido = $dadosContagemStatusVencido[0]['total'] ?? 0;
+        $totalDentroPrazo = $dadosContagemStatusDentroPrazo[0]['total'] ?? 0;
 
         return [
-            'totais' =>
-                [
-                    'total_equipamentos' => $totalEquipamentos,
-                    'total_operacional' => $totalOperacional,
-                    'total_defeito' => $totalDefeito,
-                    'total_em_uso' => $totalEmUso,
-                    'total_disponivel' => $totalDisponivel,
-                    'total_em_calibracao' => $totalCalibracao,
-                    'total_perda' => $totalPerda,
-                    'total_fora_uso' => $totalForaUso,
-                    'total_vencendo' => $totalVencendo,
-                    'total_vencido' => $totalVencido
+            'totais' => [
+                'total_equipamentos' => [
+                    'total' => $totalEquipamentos
                 ],
+
+                'total_operacional' => [
+                    'total' => $totalOperacional,
+                    'cor' => $dadosFuncional[1]['cor'] ?? '#cccccc'
+                ],
+                'total_defeito' => [
+                    'total' => $totalDefeito,
+                    'cor' => $dadosFuncional[2]['cor'] ?? '#cccccc'
+                ],
+
+                'total_em_uso' => [
+                    'total' => $totalEmUso,
+                    'cor' => $dadosUso[1]['cor'] ?? '#cccccc'
+                ],
+                'total_disponivel' => [
+                    'total' => $totalDisponivel,
+                    'cor' => $dadosUso[2]['cor'] ?? '#cccccc'
+                ],
+                'total_em_calibracao' => [
+                    'total' => $totalCalibracao,
+                    'cor' => $dadosUso[3]['cor'] ?? '#cccccc'
+                ],
+                'total_perda' => [
+                    'total' => $totalPerda,
+                    'cor' => $dadosUso[4]['cor'] ?? '#cccccc'
+                ],
+                'total_fora_uso' => [
+                    'total' => $totalForaUso,
+                    'cor' => $dadosUso[5]['cor'] ?? '#cccccc'
+                ],
+
+                'total_vencendo' => [
+                    'total' => $totalVencendo,
+                    'cor' => '#FFCC00'
+                ],
+                'total_vencido' => [
+                    'total' => $totalVencido,
+                    'cor' => '#FF0000'
+                ],
+                'total_dentro_prazo' => [
+                    'total' => $totalDentroPrazo,
+                    'cor' => '#FF0000'
+                ]
+            ],
+            'status-uso-grafico' => [
+                'status-uso-nomes' => [$dadosUso[1]['nome'], $dadosUso[2]['nome'], $dadosUso[3]['nome'], $dadosUso[4]['nome'], $dadosUso[5]['nome']],
+                'status-uso-total' => [$dadosUso[1]['total'], $dadosUso[2]['total'], $dadosUso[3]['total'], $dadosUso[4]['total'], $dadosUso[5]['total']],
+                'status-uso-cores' => [$dadosUso[1]['cor'], $dadosUso[2]['cor'], $dadosUso[3]['cor'], $dadosUso[4]['cor'], $dadosUso[5]['cor']],
+            ]
         ];
+
 
     }
 
