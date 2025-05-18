@@ -1,10 +1,12 @@
 <?php
 
 use App\Controllers\EquipamentoCalibracaoController;
+use App\Helpers\EquipamentoCalibracao\StatusEquipamentoCalibracaoHelper;
 use App\Helpers\MensagemHelper;
 
 include_once '../../app/config/config.php';
 
+$totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipamentoCalibracao();
     $tituloPaginaHead = 'Home | Sysnix';
     $tituloPagina = 'Home';
 
@@ -27,6 +29,7 @@ include_once '../../app/config/config.php';
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/tabela.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/modal.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/pre-loader.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/componentes/componentes.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"/>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.css">
@@ -86,6 +89,7 @@ include_once '../../app/config/config.php';
         display: flex;
         flex-direction: column;
         gap: 10px;
+        height: 250px;
     }
 
     .card-dash span::before {
@@ -101,7 +105,6 @@ include_once '../../app/config/config.php';
     .container-conteudo-dash {
         display: flex;
         gap: 10px;
-        
     }
 
     .div-conteudo-dash {
@@ -110,6 +113,43 @@ include_once '../../app/config/config.php';
         /* border-left: 10px solid; */
         border-radius: .3rem;
         position: relative;
+    }
+
+    .container-conteudo-dash.status-uso {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 180px;
+    }
+
+    .legenda-status-uso {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .legenda-status-uso ul {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .legenda-status-uso ul li {
+        position: relative;
+        padding: 2px 5px;
+        padding-left: 25px;
+    }
+    .legenda-status-uso ul li span {
+        position: absolute;
+        content: '';
+        background-color: blue;
+        width: 10px;
+        height: 10px;
+        border-radius: 50px;
+        top: 50%;
+        left: 10px;
+        transform: translate(-50%, -50%);
+
     }
 
     .card-dash h1,
@@ -130,7 +170,7 @@ include_once '../../app/config/config.php';
     }
 
     .marcador-dash.operacional {
-        background-color: var(--color-a-green4);
+        background-color: var(--color-a6);
     }
 
     .marcador-dash.defeito {
@@ -146,7 +186,11 @@ include_once '../../app/config/config.php';
     }
 
     .marcador-dash.vencido {
-        background-color: var(--color-a-green4);
+        background-color: var(--color-a-purple3);
+    }
+
+    .marcador-dash.dentro-prazo {
+        background-color: var(--color-a-green3);
     }
 
     .font-1-s {
@@ -175,15 +219,17 @@ include_once '../../app/config/config.php';
 </div>
 
 <div class="conteudo">
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;" class="cards-equipamentos-calibracao column-gap-4 row-gap-4 ">
+
+ 
+    <div style="display: grid; grid-template-columns: 1fr 1fr 2fr 2fr;" class="cards-equipamentos-calibracao column-gap-4 row-gap-4 ">
         
         <div class="card-dash col">
             <h1 class="font-1-s peso-medio">Geral</h1>
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash geral"></span>
-                    <p class="font-xl peso-medio">65</p>
-                    <span class="font-1-s">Total de Equipamentos</span>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_equipamentos']['total'] ?></p>
+                    <span class="font-1-s">Total de Equip.</span>
                 </div>
             </div>
             <span></span>
@@ -194,12 +240,12 @@ include_once '../../app/config/config.php';
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash operacional"></span>
-                    <p class="font-xl peso-medio">65</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_operacional']['total'] ?></p>
                     <span class="font-1-s">Operacional</span>
                 </div>
                 <div class="div-conteudo-dash">
                     <span class="marcador-dash defeito"></span>
-                    <p class="font-xl peso-medio">65</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_defeito']['total'] ?></p>
                     <span class="font-1-s">Defeito</span>
                 </div>
             </div>
@@ -207,22 +253,41 @@ include_once '../../app/config/config.php';
         </div>
 
         <div class="card-dash col">
-            <h1 class="font-1-s peso-medio">Acompanhamento cabibração</h1>
+            <h1 class="font-1-s peso-medio">Situação Calibração</h1>
             <div class="container-conteudo-dash">
                 <div class="div-conteudo-dash">
+                    <span class="marcador-dash dentro-prazo"></span>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_dentro_prazo']['total'] ?></p>
+                    <span class="font-1-s">Dentro prazo</span>
+                </div>
+                <div class="div-conteudo-dash">
                     <span class="marcador-dash vencendo"></span>
-                    <p class="font-xl peso-medio">8</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_vencendo']['total'] ?> </p>
                     <span class="font-1-s">Vencendo</span>
                 </div>
                 <div class="div-conteudo-dash">
-                    <span class="marcador-dash env-calibracao"></span>
-                    <p class="font-xl peso-medio">0</p>
-                    <span class="font-1-s">Env. calib.</span>
-                </div>
-                <div class="div-conteudo-dash">
                     <span class="marcador-dash vencido"></span>
-                    <p class="font-xl peso-medio">0</p>
+                    <p class="font-xl peso-medio"><?= $totalStatusEquipamento['totais']['total_vencido']['total'] ?></p>
                     <span class="font-1-s">Vencido</span>
+                </div>
+            </div>
+            <span></span>
+        </div>
+
+        <div class="card-dash col">
+            <h1 class="font-1-s peso-medio">Status Uso</h1>
+            <div class="container-conteudo-dash status-uso">
+                <div class="legenda-status-uso">
+                    <ul>
+                        <li class="font-1-s"><span style="background-color: <?= $totalStatusEquipamento['totais']['total_em_uso']['cor']?>;"></span>Em uso</li>
+                        <li class="font-1-s"><span style="background-color: <?= $totalStatusEquipamento['totais']['total_disponivel']['cor']?>;"></span>Disponível</li>
+                        <li class="font-1-s"><span style="background-color: <?= $totalStatusEquipamento['totais']['total_em_calibracao']['cor']?>;"></span>Em calibração</li>
+                        <li class="font-1-s"><span style="background-color: <?= $totalStatusEquipamento['totais']['total_perda']['cor']?>;"></span>Perda</li>
+                        <li class="font-1-s"><span style="background-color: <?= $totalStatusEquipamento['totais']['total_fora_uso']['cor']?>;"></span>Fora de uso</li>
+                    </ul>
+                </div>
+                <div style="max-width: auto;">
+                    <canvas id="myChart"></canvas>
                 </div>
             </div>
             <span></span>
@@ -250,6 +315,8 @@ include_once '../../app/config/config.php';
                         <th class="none">Eri. 15 a 25</th>
                         <th class="all">Status Funcional</th>
                         <th class="all">Status Uso</th>
+                        <th class="all">Situação</th>
+                        <th class="all"></th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -277,6 +344,15 @@ include_once '../../app/config/config.php';
                                 $statusFuncional = $valor['nome_status_funcional'] ?? null;
                                 $statusUso = $valor['nome_status_uso'] ?? null;
 
+                                $statusCalibracao = $valor['situacao_dt_calibracao'];
+
+                                $legendaStatusCalibracao = match ($statusCalibracao) {
+                                    'Dentro do prazo' => 'status-sit-cal-1',
+                                    'Vencendo' => 'status-sit-cal-2',
+                                    'Vencido' => 'status-sit-cal-3',
+                                    default => 'status-sit-cal-1'
+                                };
+
                                 $corStatusFuncional = $valor['cor_status_funcional'] ?? null;
                                 $corStatusUso = $valor['cor_status_uso'] ?? null;
     
@@ -297,6 +373,8 @@ include_once '../../app/config/config.php';
                                             <td>$ei15a25</td>
                                             <td>$statusFuncional</td>
                                             <td>$statusUso</td>
+                                            <td><span class="legenda-bg $legendaStatusCalibracao">$statusCalibracao</span></td>
+                                            <td></td>
                                         </tr>
                                     HTML
                                 ;
@@ -307,6 +385,7 @@ include_once '../../app/config/config.php';
                             echo <<<HTML
                                 <tr>
                                     <td style="text-align: center;">Nenhum equipamento encontrado.</td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -340,6 +419,7 @@ include_once '../../app/config/config.php';
 <!-- importação scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.dataTables.js"></script>
@@ -366,6 +446,35 @@ include_once '../../app/config/config.php';
 
 <script>
 
+    const ctx = document.getElementById('myChart');
+
+    const dadosStatusUso = <?= json_encode($totalStatusEquipamento['status-uso-grafico']) ?>;
+    const statusUsoNome = dadosStatusUso['status-uso-nomes'];
+    const statusUsoCores = dadosStatusUso['status-uso-cores'];
+
+    new Chart(ctx, {
+
+        type: 'doughnut',
+        data: {
+            labels: statusUsoNome,
+            datasets: [{
+                label: ' Total',
+                data: [50, 30, 10, 5, 5],
+                borderWidth: 3,
+                backgroundColor: statusUsoCores,
+            }]
+        },
+        options: {
+            plugins: {
+            legend: {
+                display: false,
+                position: 'left',
+            }
+            }
+        }
+
+    });
+
     $(document).ready( function () {
         // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
 
@@ -391,6 +500,8 @@ include_once '../../app/config/config.php';
                 { data: 'Eri. 15 a 25' },
                 { data: 'Status Funcional' },
                 { data: 'Status Uso' },
+                { data: 'Situação' },
+                { data: '' },
             ],
         responsive: true,
 

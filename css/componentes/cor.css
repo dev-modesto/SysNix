@@ -43,10 +43,15 @@
     --color-t3: #1E2638;
     --color-t4: #141C2E;
 
-    --color-a-red4: #E05C5C;
-    --color-a-red3: #D77C7C;
-    --color-a-red2: #FCEEEE;
-    --color-a-red1: #FDF4F4;
+    --color-a-red1: #F8D7DA;
+    --color-a-red2: #F1AEB5;
+    --color-a-red3: #EA868F;
+    --color-a-red4: #E35D6A;
+    --color-a-red5: #DC3545;
+    --color-a-red6: #B02A37;
+    --color-a-red7: #842029;
+    --color-a-red8: #58151C;
+    --color-a-red9: #2C0B0E;
 
     --color-a-green4: #4EB899;
     --color-a-green3: #75D5B9;
@@ -62,6 +67,26 @@
     --color-a-blue3: #51ADE5;
     --color-a-blue2: #B1E0FC;
     --color-a-blue1: #DFF3FF;
+
+    --color-a-purple1: #E2D9F3;
+    --color-a-purple2: #C5B3E5;
+    --color-a-purple3: #A98ED9;
+    --color-a-purple4: #8D68CC;
+    --color-a-purple5: #7142BF;
+    --color-a-purple6: #5A3599;
+    --color-a-purple7: #442873;
+    --color-a-purple8: #2D1A4C;
+    --color-a-purple9: #160D27;
+
+    --color-a-orange1: #FCE6D1;
+    --color-a-orange2: #F9CCA3;
+    --color-a-orange3: #F7B475;
+    --color-a-orange4: #F59B4A;
+    --color-a-orange5: #F48325;
+    --color-a-orange6: #C3691D;
+    --color-a-orange7: #934F15;
+    --color-a-orange8: #61340D;
+    --color-a-orange9: #61340D;
 }
 
 /* Cores base cinza */
@@ -113,21 +138,16 @@
 .cor-s22 { color: var(--color-s22); }
 .cor-s23 { color: var(--color-s23); }
 
-.cor-a-red4 {
-    color: var(--color-a-red4);
-}
+.cor-a-red1 { color: var(--color-a-red1); }
+.cor-a-red2 { color: var(--color-a-red2); }
+.cor-a-red3 { color: var(--color-a-red3); }
+.cor-a-red4 { color: var(--color-a-red4); }
+.cor-a-red5 { color: var(--color-a-red5); }
+.cor-a-red6 { color: var(--color-a-red6); }
+.cor-a-red7 { color: var(--color-a-red7); }
+.cor-a-red8 { color: var(--color-a-red8); }
+.cor-a-red9 { color: var(--color-a-red9); }
 
-.cor-a-red3 {
-    color: var(--color-a-red3);
-}
-
-.cor-a-red2 {
-    color: var(--color-a-red2);
-}
-
-.cor-a-red1 {
-    color: var(--color-a-red1);
-}
 
 .cor-a-green4 {
     color: var(--color-a-green4);
@@ -176,3 +196,24 @@
   .cor-a-blue1 {
     color: var(--color-a-blue1);
   }
+
+
+.cor-a-purple1 { color: var(--color-a-purple1); }
+.cor-a-purple2 { color: var(--color-a-purple2); }
+.cor-a-purple3 { color: var(--color-a-purple3); }
+.cor-a-purple4 { color: var(--color-a-purple4); }
+.cor-a-purple5 { color: var(--color-a-purple5); }
+.cor-a-purple6 { color: var(--color-a-purple6); }
+.cor-a-purple7 { color: var(--color-a-purple7); }
+.cor-a-purple8 { color: var(--color-a-purple8); }
+.cor-a-purple9 { color: var(--color-a-purple9); }
+
+.cor-a-orange1 { color: var(--color-a-orange1); }
+.cor-a-orange2 { color: var(--color-a-orange2); }
+.cor-a-orange3 { color: var(--color-a-orange3); }
+.cor-a-orange4 { color: var(--color-a-orange4); }
+.cor-a-orange5 { color: var(--color-a-orange5); }
+.cor-a-orange6 { color: var(--color-a-orange6); }
+.cor-a-orange7 { color: var(--color-a-orange7); }
+.cor-a-orange8 { color: var(--color-a-orange8); }
+.cor-a-orange9 { color: var(--color-a-orange9); }
