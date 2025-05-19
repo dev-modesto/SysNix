@@ -29,5 +29,5 @@
     $url = $protocolo . $host . $caminhoProjeto;
     
     define('BASE_URL', $url);
-    define('SEGURANCA', BASE_PATH . '/core/seguranca.php');
+    define('SEGURANCA', BASE_PATH . '/app/Config/seguranca.php');
     include_once BASE_PATH . '/vendor/autoload.php';
