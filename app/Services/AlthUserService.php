@@ -32,6 +32,7 @@ class AlthUserService {
                 $primeiroAcesso = $dados['primeiro_acesso'];
                 $tentativasLogin = $dados['tentativas_login'];
                 $status = $dados['status'];
+                $acessoEmpresa = $dados['acesso_empresa'];
 
                 if(password_verify($senha, $senhaBanco)) {
                     // ok, senha correta. Faremos agora outras verificações...
