@@ -1,6 +1,12 @@
-<?php 
+<?php
 
-    $nomeUsuario = 'Gabriel Modesto';
+use App\Models\ModuloModel;
+use App\Models\PermissaoModuloModel;
+
+$dadosUsuarioPermissao = ['id_usuario' => $idUsuario, 'id_empresa' => 1];
+$permissaoModulo = new PermissaoModuloModel();
+$dadosModulos = $permissaoModulo->selecionarModulosPermitidos($dadosUsuarioPermissao);
+
 ?>
 
 <body class="body-conteudo">
@@ -21,7 +27,7 @@
         <div class="container-usuario-logado">
             <div class="usuario-info">
                 <div class="usuario-logado-texto">
-                    <p><?= $nomeUsuario ?></p> 
+                    <p><?= $nomeCompletoUsuario ?></p> 
                     <span>Administrador</span>
                 </div>
                 <div class="usuario-logado-icodown">
@@ -30,7 +36,7 @@
                 <div class="usuario-logado-dropdown">
                     <ul class="dropwdown-logado" class="font-2-xs">
                         <li><a href="<?= BASE_URL ?>/app/administracao/perfil/index.php"><span class="material-symbols-rounded">account_circle</span>Meu perfil</a></li>
-                        <li><a href="<?=BASE_URL?>/config/logoff.php"><span class="material-symbols-rounded">logout</span>Sair</a></li>
+                        <li><a href="<?=BASE_URL?>/app/Config/logoff.php"><span class="material-symbols-rounded">logout</span>Sair</a></li>
                     </ul>
                 </div>
             </div>
@@ -44,8 +50,26 @@
     </div>
 
     <ul class="sidebar-itens">
-        <li class=""><a href="<?=BASE_URL?>/apps/home/" class="font-1-s"><span class="material-symbols-rounded">dashboard</span><p class="texto-nav">Dashboard</p></a></li>
-        <li class=""><a href="<?=BASE_URL?>/app/projeto/" class="font-1-s"><span class="material-symbols-rounded">dashboard</span><p class="texto-nav">Dashboard</p></a></li>
+        <?php 
+            if (!empty($dadosModulos)) {
+
+                $baseUrl = BASE_URL;
+
+                foreach ($dadosModulos as $chave => $valor) {
+
+                    $idModulo = $valor['id'];
+                    $nome = $valor['nome'];
+                    $icone = $valor['icone'];
+                    $caminho = $valor['caminho'];
+                    $status = $valor['status'];
+
+                    echo <<<PHP
+                            <li class=""><a href="$baseUrl/apps/$caminho/" class="font-1-s"><span class="material-symbols-rounded">$icone</span><p class="texto-nav">$nome</p></a></li>
+                    PHP;
+                }
+
+            } 
+        ?>
     </ul>
 </nav>
 
