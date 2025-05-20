@@ -1,11 +1,11 @@
 <?php
 
 use App\Models\ModuloModel;
+use App\Models\PermissaoModuloModel;
 
-$nomeUsuario = 'Gabriel Modesto';
-
-$moduloModel = new ModuloModel();
-$dadosModulos = $moduloModel->selecionarModulos();
+$dadosUsuarioPermissao = ['id_usuario' => $idUsuario, 'id_empresa' => 1];
+$permissaoModulo = new PermissaoModuloModel();
+$dadosModulos = $permissaoModulo->selecionarModulosPermitidos($dadosUsuarioPermissao);
 
 ?>
 
@@ -27,7 +27,7 @@ $dadosModulos = $moduloModel->selecionarModulos();
         <div class="container-usuario-logado">
             <div class="usuario-info">
                 <div class="usuario-logado-texto">
-                    <p><?= $nomeUsuario ?></p> 
+                    <p><?= $nomeCompletoUsuario ?></p> 
                     <span>Administrador</span>
                 </div>
                 <div class="usuario-logado-icodown">
