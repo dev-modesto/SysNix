@@ -6,7 +6,7 @@
 
     if(isset($_SESSION['uuid'])){
 
-        $idUsuario = $_SESSION['idUsuario'];
+        $idUsuario = $_SESSION['id_usuario'];
         $uuidUsuario = $_SESSION['uuid'];
         $email = $_SESSION['email'];
         $nomeUsuario = $_SESSION['nome'];
