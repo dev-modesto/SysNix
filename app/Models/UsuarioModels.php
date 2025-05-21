@@ -16,19 +16,17 @@ class UsuarioModels
     public function selecionarCriterio($email) {
         $query = 
             "SELECT 
-            u.id,
-            u.uuid,
-            u.email,
-            u.nome,
-            u.sobrenome,
-            u.senha,
-            u.primeiro_acesso,
-            u.tentativas_login,
-            u.status,
-            COUNT(id_usuario) acesso_empresa
+                u.id,
+                u.uuid,
+                u.email,
+                u.nome,
+                u.sobrenome,
+                u.senha,
+                u.primeiro_acesso,
+                u.tentativas_login,
+                u.status,
+                (SELECT COUNT(*) FROM tbl_usuario_empresa WHERE id_usuario = u.id) AS acesso_empresa
             FROM tbl_usuario u
-            INNER JOIN tbl_usuario_empresa ue ON (ue.id_usuario = u.id)
-            INNER JOIN tbl_empresa e ON(e.id = ue.id_empresa) 
             WHERE u.email = :email
         ";
         $stmt = $this->pdo->prepare($query);
