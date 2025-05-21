@@ -7,7 +7,7 @@ include_once '../../app/config/config.php';
 include SEGURANCA;
 include ARQUIVO_CONEXAO;
 
-$idUsuario = $_SESSION['idUsuario'];
+$idUsuario = $_SESSION['id_usuario'];
 $moduloPagina = 'Operacional';
 
 $nomePasta = basename(__DIR__);
