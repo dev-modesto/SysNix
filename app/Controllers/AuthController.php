@@ -40,7 +40,8 @@ class AuthController {
         $uuidEmpresa = $dados['empresa-login'];
 
         $uuidHelper = new UuidHelper();
-        $retornoIdEmpresa = $uuidHelper->enviaIdBuscaUuid('tbl_empresa', $uuidEmpresa);
+        $retornoUuidHelper = $uuidHelper->enviaIdBuscaUuid('tbl_empresa', $uuidEmpresa);
+        $retornoIdEmpresa = $retornoUuidHelper['id'];
 
         if (!empty($retornoIdEmpresa)) {
             
