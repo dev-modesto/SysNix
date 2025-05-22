@@ -2,25 +2,42 @@
 
 namespace App\Controllers;
 
+use App\Helpers\UuidHelper;
 use App\Models\StatusEquipamentoCalibracaoModel;
 
 class StatusEquipamentoCalibracaoController
 {
 
-    public static function selecionarId($dados) {
+    public static function retornarStatusUso($dados) {
 
-        $id = $dados['id'];
-
-        if(intval($id)) {
-            $equipamento = new StatusEquipamentoCalibracaoModel();
-            $dados = $equipamento->selecionarId($id);
-            $dadosReturn = ['status' => 0, 'dados' => $dados];
-
-        } else {
-            $dadosReturn = ['status' => 1, 'mensagem' => 'Número de ID não permitido.', 'alert' => 1];
-        }
+        $publicKey = $dados['public-key'];
         
-        return $dadosReturn;
+        $uuidHelper = new UuidHelper();
+        $retornoUuidHelper = $uuidHelper->enviaIdBuscaUuid('tbl_status_funcional', $publicKey);
+
+        if (empty($retornoUuidHelper)) {
+            return ['status' => 1, 'mensagem' => 'Número de ID não permitido.', 'alert' => 1];
+        } 
+
+        $retornoId = $retornoUuidHelper['id'];
+        $equipamento = new StatusEquipamentoCalibracaoModel();
+        $dados = $equipamento->consultarStatusUsoPorFuncional($retornoId);
+
+        $dadosArrayReturn = [];
+
+        foreach ($dados as $valor) {
+            $uuidStatus = $valor['uuid'];
+            $nomeStatus = $valor['nome'];
+            $dadosArrayReturn[] = ['public_key_return' => $uuidStatus, 'nome' => $nomeStatus];
+        }
+
+        return ['status' => 0, 'dados' => $dadosArrayReturn];
+    }
+
+    public static function bucarStatusFuncional() {
+        $statusFuncionalModel = new StatusEquipamentoCalibracaoModel();
+        $dadosStatusFuncional = $statusFuncionalModel->consultarContagemStatusFuncional();
+        return $dadosStatusFuncional;
     }
     
 }
