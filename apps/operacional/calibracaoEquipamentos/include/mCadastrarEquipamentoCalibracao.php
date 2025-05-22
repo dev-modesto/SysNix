@@ -1,4 +1,7 @@
 <?php
+
+use App\Controllers\StatusEquipamentoCalibracaoController;
+
     include_once '../../../../config/base.php';
 ?>
 
@@ -109,31 +112,25 @@
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-4">
                                     <label class="font-1-s" for="status-funcional">Status funcional <em>*</em></label><br>
-                                    <select class="form-select" name="id-status-funcional" id="status-funcional" required>
+                                    <select class="form-select" name="public-key-status-funcional" id="status-funcional" required>
                                         <option value="" selected>Escolha um status</option>
                                         <?php
 
-                                            $sqlStatusFuncional = "SELECT * FROM tbl_status_funcional";
-                                            $query = mysqli_query($con, $sqlStatusFuncional);
-                                            
-                                            if ($query) {
-                                                $dadosStatusFuncional = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                                            $dadosStatusEquipamento = StatusEquipamentoCalibracaoController::bucarStatusFuncional();
 
-                                                foreach ($dadosStatusFuncional as $valor) {
-                                                    $idStatusFuncional = $valor['id'];
-                                                    $nome = $valor['nome'];
-                                                    ?>
-                                                        <option value="<?= $idStatusFuncional ?>"><?= $nome ?></option>
-                                                    <?php
-                                                }
+                                            foreach ($dadosStatusEquipamento as $valor) {
+                                                echo <<<HTML
+                                                    <option value="{$valor['uuid']}">{$valor['nome']}</option>
+                                                HTML;
                                             }
+                                           
                                         ?>
                                     </select>                                        
                                 </div>
                                 
                                 <div class="col-md-6 mb-4">
                                     <label class="font-1-s" for="status-uso">Status de uso <em>*</em></label><br>
-                                    <select class="form-select" name="id-status-uso" id="status-uso">
+                                    <select class="form-select" name="public-key-status-uso" id="status-uso">
                                         <option value="" selected>Escolha um status funcional</option>
                                     </select>                                        
                                 </div>
@@ -153,30 +150,32 @@
 
 <script>
 
-    $('#status-funcional').on('change', function () {
-        idStatusFuncional = $('#status-funcional').val();
+    const baseUrl = <?= json_encode(BASE_URL)?>;
 
-        if (idStatusFuncional !== '') {
+    $('#status-funcional').on('change', function () {
+        publicKey = $('#status-funcional').val();
+
+        if (publicKey !== '') {
             $('#status-uso').attr('disabled', false);
 
             htmlString = '';
 
             $.ajax({
                 type: "POST",
-                url: "../../public/ajaxController.php",
+                url: `${baseUrl}/public/ajaxController.php`,
                 data: {
-                    'id':idStatusFuncional,
+                    'public-key':publicKey,
                     'controller':'StatusEquipamentoCalibracao',
-                    'acao':'selecionarId'
+                    'acao':'retornarStatusUso'
                 },
                 success: function (response) {
 
                     if(response.data.status == 0) {
                         const dados = response.data.dados;
                         dados.forEach(function (item){
-                            htmlString += `<option value="${item.id}">${item.nome}</option>`;
+                            htmlString += `<option value="${item.public_key_return}">${item.nome}</option>`;
                         });
-                        
+
                         $('#status-uso').html(htmlString);
 
                     } else {
@@ -208,13 +207,13 @@
 
         $.ajax({
             type: "POST",
-            url: "../../public/ajaxController.php",
+            url: `${baseUrl}/public/ajaxController.php`,
             data: formData,
             processData: false,
             contentType: false,
             
             success: function (response) {
-                window.location.href = `../../apps/home/?msg=${encodeURIComponent(response.data.msg)}&alert= ${encodeURIComponent(response.data.alert)}`;
+                window.location.href = `${baseUrl}/${response.data.redirecionar}?msg=${encodeURIComponent(response.data.msg)}&alert=${response.data.alert}`;
             }
         });
  
