@@ -11,10 +11,11 @@ class StatusEquipamentoCalibracaoModel {
         $this->pdo = Connection::getInstance();
     }
 
-    public function selecionarId($id):array {
+    public function consultarStatusUsoPorFuncional($id):array {
         $query = 
         "SELECT 
                 u.id,
+                u.uuid,
                 u.nome,
                 u.cor
             FROM tbl_index_status_equipamento_calibracao i
@@ -34,6 +35,7 @@ class StatusEquipamentoCalibracaoModel {
         $query = 
             "SELECT 
                 f.id AS id_status_funcional, 
+                f.uuid,
                 f.nome,
                 f.cor,
                 count(c.id_status_funcional) as total 
@@ -53,6 +55,7 @@ class StatusEquipamentoCalibracaoModel {
         $query = 
             "SELECT 
                 u.id AS id_status_uso,
+                u.uuid,
                 u.nome,
                 u.cor,
                 COUNT(c.id_status_uso) AS total
