@@ -67,6 +67,7 @@ class EquipamentoCalibracaoModel
         $query = 
             "INSERT INTO tbl_equipamento_calibracao
             (
+                uuid,
                 nome_identificador,
                 descricao,
                 modelo,
@@ -84,6 +85,7 @@ class EquipamentoCalibracaoModel
                 id_status_funcional,
                 id_status_uso
             ) VALUES(
+                :uuid,
                 :nome_identificador, 
                 :descricao, 
                 :modelo, 
@@ -108,16 +110,8 @@ class EquipamentoCalibracaoModel
         foreach ($dados as $chave => $valor) {
             $stmt->bindValue(":$chave", $valor);
         }
-
-        if($stmt->execute()) {
-            $mensagem = ['status' => 0, 'msg' => 'Equipamento cadastrado com sucesso.', 'alert' => 0];
-
-        } else {
-            $mensagem = ['status' => 1, 'msg' => 'Ocorreu um erro ao cadastrar o equipamento.', 'alert' => 1];
-        };
-
-        return $mensagem;
-
+        $stmt->execute();
+        return $this->pdo->lastInsertId();
     }
 
     public function removerEquipamento($id) {
