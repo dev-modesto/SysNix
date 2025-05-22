@@ -22,6 +22,7 @@ class EquipamentoCalibracaoModel
         $query = 
         "SELECT
             e.id,
+            e.uuid,
             e.nome_identificador,
             e.descricao,
             e.modelo,
@@ -117,5 +118,13 @@ class EquipamentoCalibracaoModel
 
         return $mensagem;
 
+    }
+
+    public function removerEquipamento($id) {
+        $query = "DELETE FROM tbl_equipamento_calibracao WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
     }
 }
