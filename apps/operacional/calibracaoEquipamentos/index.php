@@ -338,7 +338,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                         if(count($allEquipamentoCalibracao) > 0) {
 
                             foreach ($allEquipamentoCalibracao as $chave => $valor) {
-
+                                $uuidEquipamento = $valor['uuid'];
                                 $nomeIdentificador     = $valor['nome_identificador'] ?? null;
                                 $descricao = $valor['descricao'] ?? null;
                                 $modelo = $valor['modelo'] ?? null;
@@ -375,7 +375,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 
     
                                 echo <<<HTML
-                                        <tr>
+                                        <tr data-key-public="$uuidEquipamento">
                                             <td>$nomeIdentificador</td>
                                             <td>$descricao</td>
                                             <td>$modelo</td>
@@ -432,6 +432,13 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
         </div>
     </div>
 
+    <div class="carregar-modal"></div>
+
+    <!-- capa modal -->
+    <?php
+        include BASE_PATH . '/include/modal/capaModalExcluir.php';
+    ?>
+
 </div>
 
 <div class="container-copyright">
@@ -468,7 +475,6 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 </body>
 
 <script>
-
     const ctx = document.getElementById('myChart');
 
     const dadosStatusUso = <?= json_encode($totalStatusEquipamento['status-uso-grafico']) ?>;
@@ -508,26 +514,26 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                 url: '<?= BASE_URL ?>/js/pt_br.json'
             },
             order: [],
-            columns: [
-                { data: 'Equipamento' },
-                { data: 'Descricao' },
-                { data: 'Modelo' },
-                { data: 'Fabricante' },
-                { data: 'Nº série' },
-                { data: 'Resolução' },
-                { data: 'Faixa Uso' },
-                { data: 'Última calibração' },
-                { data: 'Nº Certificado' },
-                { data: 'Calibração prevista' },
-                { data: 'Eri. -15 a -25' },
-                { data: 'Eri. 2 a 8' },
-                { data: 'Eri. 15 a 25' },
-                { data: 'Status Funcional' },
-                { data: 'Status Uso' },
-                { data: 'Situação' },
-                { data: 'Ação' },
-                { data: '' },
-            ],
+            // columns: [
+            //     { data: 'Equipamento' },
+            //     { data: 'Descricao' },
+            //     { data: 'Modelo' },
+            //     { data: 'Fabricante' },
+            //     { data: 'Nº série' },
+            //     { data: 'Resolução' },
+            //     { data: 'Faixa Uso' },
+            //     { data: 'Última calibração' },
+            //     { data: 'Nº Certificado' },
+            //     { data: 'Calibração prevista' },
+            //     { data: 'Eri. -15 a -25' },
+            //     { data: 'Eri. 2 a 8' },
+            //     { data: 'Eri. 15 a 25' },
+            //     { data: 'Status Funcional' },
+            //     { data: 'Status Uso' },
+            //     { data: 'Situação' },
+            //     { data: 'Ação' },
+            //     { data: '' },
+            // ],
             responsive: true,
 
             layout: {
