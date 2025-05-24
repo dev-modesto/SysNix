@@ -1,12 +1,52 @@
 <?php
 
+use App\Controllers\EquipamentoCalibracaoController;
 use App\Controllers\StatusEquipamentoCalibracaoController;
 
     include_once '../../../../config/base.php';
 
     if(isset($_POST['click-acao-modal'])){
         $uuidPublic = $_POST['idPrincipal'];
+        $dadosEquipamentoCalibracao = EquipamentoCalibracaoController::selecionarUuid($uuidPublic);
+
+        if (empty($dadosEquipamentoCalibracao)) {
+            echo <<<HTML
+                <div>
+                    <p>Dados para edição não encontrados.</p>
+                </div>
+            HTML;
+            die();
+        }
+
+        $nomeIdentificador = $dadosEquipamentoCalibracao['nome_identificador'];
+        $descricao = $dadosEquipamentoCalibracao['descricao'];
+        $modelo = $dadosEquipamentoCalibracao['modelo'];
+        $fabricante = $dadosEquipamentoCalibracao['fabricante'];
+        $serie = $dadosEquipamentoCalibracao['serie'];
+        $resolucao = $dadosEquipamentoCalibracao['resolucao'];
+        $faixaUso = $dadosEquipamentoCalibracao['faixa_uso'];
+        $dtUltimaCalibracao = $dadosEquipamentoCalibracao['dt_ultima_calibracao'];
+        $numeroCertificado = $dadosEquipamentoCalibracao['numero_certificado'];
+        $dtCalibracaoPrevisao = $dadosEquipamentoCalibracao['dt_calibracao_previsao'];
+        $ei15a25n = $dadosEquipamentoCalibracao['ei_15a25_n'];
+        $ei2a8 = $dadosEquipamentoCalibracao['ei_2a8'];
+        $ei15a25 = $dadosEquipamentoCalibracao['ei_15a25'];
+        $idStatusFuncionalBanco = $dadosEquipamentoCalibracao['id_status_funcional'];
+        $idStatusUsoBanco = $dadosEquipamentoCalibracao['id_status_uso'];
+
+        $retornarStatusUso = StatusEquipamentoCalibracaoController::retornarStatusUsoPorFuncionalId($idStatusFuncionalBanco);
+        $dadosStatusUso = $retornarStatusUso['dados'];
+
+        if (empty($dadosStatusUso)) {
+            echo <<<HTML
+                <div>
+                    <p>Alguns dados não foram encontrados. Não é será possível prosseguir.</p>
+                </div>
+            HTML;
+            die();
+        }
     } 
+
 ?>
 
 <div>
@@ -34,26 +74,26 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <label class="font-1-s" for="nome-identificador">Nome identificador <em>*</em></label><br>
-                        <input class="form-control" type="text" name="nome-identificador" id="nome-identificador" required>
+                        <input class="form-control" type="text" name="nome-identificador" id="nome-identificador" value="<?= $nomeIdentificador ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label class="font-1-s" for="descricao">Descrição <em>*</em></label><br>
-                        <input class="form-control" type="text" name="descricao" id="descricao" required>
+                        <input class="form-control" type="text" name="descricao" id="descricao" value="<?= $descricao ?>" required>
                     </div>
                 </div>
 
                 <div class="row mb-4">
                     <div class="col-md-6 mb-4">
                         <label class="font-1-s" for="modelo">Modelo <em>*</em></label><br>
-                        <input class="form-control" type="text" name="modelo" id="modelo" required>
+                        <input class="form-control" type="text" name="modelo" id="modelo" value="<?= $modelo ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="font-1-s" for="fabricante">Fabricante <em>*</em></label><br>
-                        <input class="form-control" type="text" name="fabricante" id="fabricante" required>
+                        <input class="form-control" type="text" name="fabricante" id="fabricante" value="<?= $fabricante ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="font-1-s" for="numero-serie">Número de série <em>*</em></label><br>
-                        <input class="form-control" type="text" name="numero-serie" id="numero-serie" required>
+                        <input class="form-control" type="text" name="numero-serie" id="numero-serie" value="<?= $serie ?>" required>
                     </div>
         
                 </div>
@@ -63,25 +103,25 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <label class="font-1-s" for="resolucao">Resolução <em>*</em></label><br>
-                        <input class="form-control" type="text" name="resolucao" id="resolucao" required>
+                        <input class="form-control" type="text" name="resolucao" id="resolucao" value="<?= $resolucao ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label class="font-1-s" for="faixa-uso">Faixa de uso <em>*</em></label><br>
-                        <input class="form-control" type="text" name="faixa-uso" id="faixa-uso" required>
+                        <input class="form-control" type="text" name="faixa-uso" id="faixa-uso" value="<?= $faixaUso ?>" required>
                     </div>
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-3 mb-4">
                         <label class="font-1-s" for="data-ultima-calibracao">Data última calibração <em>*</em></label><br>
-                        <input class="form-control" type="date" name="data-ultima-calibracao" id="data-ultima-calibracao">
+                        <input class="form-control" type="date" name="data-ultima-calibracao" id="data-ultima-calibracao" value="<?= $dtUltimaCalibracao ?>">
                     </div>
                     <div class="col-md-3 mb-4">
                         <label class="font-1-s" for="data-previsao-calibracao">Data previsão calibração <em>*</em></label><br>
-                        <input class="form-control" type="date" name="data-previsao-calibracao" id="data-previsao-calibracao">
+                        <input class="form-control" type="date" name="data-previsao-calibracao" id="data-previsao-calibracao" value="<?= $dtCalibracaoPrevisao ?>">
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="font-1-s" for="numero-certificado">Nº Certificado <em>*</em></label>
-                        <input class="form-control" type="text" name="numero-certificado" id="numero-certificado" required>
+                        <input class="form-control" type="text" name="numero-certificado" id="numero-certificado" value="<?= $numeroCertificado ?>" required>
                     </div>
                 </div>
             </div>
@@ -90,15 +130,15 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
                 <div class="row mb-4">
                     <div class="col-md-4 mb-4">
                         <label class="font-1-s" for="ei-15a25-n">-15° a -25° <em>*</em></label><br>
-                        <input class="form-control" type="text" name="ei-15a25-n" id="ei-15a25-n" required>
+                        <input class="form-control" type="text" name="ei-15a25-n" id="ei-15a25-n" value="<?= $ei15a25n ?>" required>
                     </div>
                     <div class="col-md-4 mb-4">
                         <label class="font-1-s" for="ei-2a8">2° a 8° <em>*</em></label><br>
-                        <input class="form-control" type="text" name="ei-2a8" id="ei-2a8" required>
+                        <input class="form-control" type="text" name="ei-2a8" id="ei-2a8" value="<?= $ei2a8 ?>" required>
                     </div>
                     <div class="col-md-4 mb-4">
                         <label class="font-1-s" for="ei-15a25">15° a 25° <em>*</em></label><br>
-                        <input class="form-control" type="text" name="ei-15a25" id="ei-15a25" required>
+                        <input class="form-control" type="text" name="ei-15a25" id="ei-15a25" value="<?= $ei15a25 ?>" required>
                     </div>
                 </div>
             </div>
@@ -111,15 +151,19 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
                         <select class="form-select select-status-funcional" name="public-key-status-funcional" id="status-funcional" required>
                             <option value="" selected>Escolha um status</option>
                             <?php
+                                $dadosStatusEquipamentoFuncional = StatusEquipamentoCalibracaoController::bucarStatusFuncional();
 
-                                $dadosStatusEquipamento = StatusEquipamentoCalibracaoController::bucarStatusFuncional();
+                                $selected = '';
+                                foreach ($dadosStatusEquipamentoFuncional as $valor) {
+                                    $idStatusFuncional = $valor['id_status_funcional'];
+                                    $uuidStatusFuncional = $valor['uuid'];
+                                    $nomeStatusFuncional = $valor['nome'];
 
-                                foreach ($dadosStatusEquipamento as $valor) {
+                                    $selected = $idStatusFuncionalBanco === $idStatusFuncional ? 'selected' : '';
                                     echo <<<HTML
-                                        <option value="{$valor['uuid']}">{$valor['nome']}</option>
+                                            <option value="{$uuidStatusFuncional}" {$selected} >{$nomeStatusFuncional}</option>
                                     HTML;
                                 }
-                                
                             ?>
                         </select>                                        
                     </div>
@@ -128,6 +172,22 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
                         <label class="font-1-s" for="status-uso">Status de uso <em>*</em></label><br>
                         <select class="form-select select-status-uso" name="public-key-status-uso" id="status-uso">
                             <option value="" selected>Escolha um status funcional</option>
+                            <?php
+                                
+
+                                $selected = '';
+                                foreach ($dadosStatusUso as $valor) {
+                                    $idStatusUso = $valor['id'];
+                                    $uuidStatusUso = $valor['uuid'];
+                                    $nomeStatusUso = $valor['nome'];
+
+                                    $selected = $idStatusUsoBanco === $idStatusUso ? 'selected' : '';
+                  
+                                    echo <<<HTML
+                                            <option value="<?= $uuidStatusUso ?>" {$selected} >{$nomeStatusUso}</option>
+                                    HTML;
+                                }
+                            ?>
                         </select>                                        
                     </div>
                 </div>
