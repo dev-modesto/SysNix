@@ -13,14 +13,8 @@ include_once '../../../../app/config/config.php';
     </p>
 </div>
 
-
 <script src="<?= BASE_URL ?>/js/ajaxModalTabela.js"></script>
 
 <script>
-    const publicKey = <?= json_encode($uuidPublic)?>;
-    const baseUrl = <?= json_encode(BASE_URL)?>;
-    const controller = 'EquipamentoCalibracao';
-    const acao = 'remover';
-
-    ajaxModalTabelaAcaoExcluir(publicKey, controller, acao, baseUrl);
+    ajaxModalTabelaAcaoExcluir(<?= json_encode($uuidPublic)?>, 'EquipamentoCalibracao', 'remover', baseUrl);
 </script>
