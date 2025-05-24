@@ -437,6 +437,8 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
     <!-- capa modal -->
     <?php
         include BASE_PATH . '/include/modal/capaModalExcluir.php';
+        include BASE_PATH . '/include/modal/capaModalEditar.php';
+        include BASE_PATH . '/include/modal/capaModalCadastrar.php';
     ?>
 
 </div>
@@ -468,6 +470,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 
 
 <script src="<?= BASE_URL ?>/js/preLoader.js"></script>
+<script src="<?= BASE_URL ?>/js/spinners.js"></script>
 <script src="<?= BASE_URL ?>/vendor/igorescobar/jquery-mask-plugin/src/jquery.mask.js"></script>
 <script src="<?= BASE_URL ?>/js/menu.js"></script>
 <script src="<?= BASE_URL ?>/js/modalLoader.js"></script>
@@ -475,12 +478,16 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 </body>
 
 <script>
+    var baseUrl = <?= json_encode(BASE_URL)?>;
+
     const ctx = document.getElementById('myChart');
 
     const dadosStatusUso = <?= json_encode($totalStatusEquipamento['status-uso-grafico']) ?>;
     const statusUsoNome = dadosStatusUso['status-uso-nomes'];
     const statusUsoTotal = dadosStatusUso['status-uso-total'];
     const statusUsoCores = dadosStatusUso['status-uso-cores'];
+
+    // abrirModal('mEditarEquipamentoCalibracao', 'include/mEditarEquipamentoCalibracao.php');
 
     new Chart(ctx, {
 
@@ -588,9 +595,10 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                         },
                         {
                             text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
-                            className: 'btn btn-personalizado-tabela btn-cadastro',
+                            className: 'btn btn-personalizado-tabela btn-cadastro btn-cadastro-equipamento-calibracao',
                             action: function (e, dt, node, config, cb) {
-                                abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
+                                // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
+                                abrirModalCadastro('include/mCadastrarEquipamentoCalibracao.php', '.modal-body-cadastrar', '#modal-cadastrar');
                             }
                         },
                     ],
