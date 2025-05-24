@@ -11,7 +11,7 @@ class UuidHelper {
         $this->pdo = Connection::getInstance();
     }
 
-    public function enviaIdBuscaUuid(string $tabela, string $uuid): ?array {
+    public function enviaUuidBuscaDados(string $tabela, string $uuid): ?array {
         $query = "SELECT * FROM {$tabela} WHERE uuid = :uuid LIMIT 1";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':uuid', $uuid);

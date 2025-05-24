@@ -30,8 +30,8 @@ class EquipamentoCalibracaoService
         $publicKeyStatusUso = $dados['public-key-status-uso'];
 
         $uuidHelper = new UuidHelper();
-        $retornoUuidHelperStatusFuncional = $uuidHelper->enviaIdBuscaUuid('tbl_status_funcional', $publicKeyStatusFuncional);
-        $retornoUuidHelperStatusUso = $uuidHelper->enviaIdBuscaUuid('tbl_status_uso', $publicKeyStatusUso);
+        $retornoUuidHelperStatusFuncional = $uuidHelper->enviaUuidBuscaDados('tbl_status_funcional', $publicKeyStatusFuncional);
+        $retornoUuidHelperStatusUso = $uuidHelper->enviaUuidBuscaDados('tbl_status_uso', $publicKeyStatusUso);
 
         if (empty($retornoUuidHelperStatusFuncional)) {
             return ['status' => 1, 'mensagem' => 'Status funcional não encontrado.', 'alert' => 1];

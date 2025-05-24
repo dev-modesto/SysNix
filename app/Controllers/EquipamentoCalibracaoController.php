@@ -33,7 +33,7 @@ class EquipamentoCalibracaoController
         
         $uuidEquipamento = $dados['public-key'];
         $uuidHelper = new UuidHelper();
-        $retornoUuidHelper = $uuidHelper->enviaIdBuscaUuid('tbl_equipamento_calibracao', $uuidEquipamento);
+        $retornoUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_equipamento_calibracao', $uuidEquipamento);
         $retornoId = $retornoUuidHelper['id'];
         $nomeIdentificadorEquipamento = $retornoUuidHelper['nome_identificador'];
 

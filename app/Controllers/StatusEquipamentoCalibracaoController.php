@@ -13,7 +13,7 @@ class StatusEquipamentoCalibracaoController
         $publicKey = $dados['public-key'];
         
         $uuidHelper = new UuidHelper();
-        $retornoUuidHelper = $uuidHelper->enviaIdBuscaUuid('tbl_status_funcional', $publicKey);
+        $retornoUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_status_funcional', $publicKey);
 
         if (empty($retornoUuidHelper)) {
             return ['status' => 1, 'mensagem' => 'Número de ID não permitido.', 'alert' => 1];
