@@ -432,14 +432,8 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
         </div>
     </div>
 
-    <div class="carregar-modal"></div>
-
-    <!-- capa modal -->
-    <?php
-        include BASE_PATH . '/include/modal/capaModalExcluir.php';
-        include BASE_PATH . '/include/modal/capaModalEditar.php';
-        include BASE_PATH . '/include/modal/capaModalCadastrar.php';
-    ?>
+    <div class="carregar-modal">
+    </div>
 
 </div>
 
@@ -486,8 +480,6 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
     const statusUsoNome = dadosStatusUso['status-uso-nomes'];
     const statusUsoTotal = dadosStatusUso['status-uso-total'];
     const statusUsoCores = dadosStatusUso['status-uso-cores'];
-
-    // abrirModal('mEditarEquipamentoCalibracao', 'include/mEditarEquipamentoCalibracao.php');
 
     new Chart(ctx, {
 
@@ -597,8 +589,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                             text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
                             className: 'btn btn-personalizado-tabela btn-cadastro btn-cadastro-equipamento-calibracao',
                             action: function (e, dt, node, config, cb) {
-                                // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
-                                abrirModalCadastro('include/mCadastrarEquipamentoCalibracao.php', '.modal-body-cadastrar', '#modal-cadastrar');
+                                abrirModalCadastrar('include/mCadastrarEquipamentoCalibracao.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-lg','Cadastrar equipamento de calibração');
                             }
                         },
                     ],
