@@ -34,6 +34,29 @@ class StatusEquipamentoCalibracaoController
         return ['status' => 0, 'dados' => $dadosArrayReturn];
     }
 
+    /**
+     * retornar dados de status de uso informando o id do status funcional
+     *
+     * @param [array] $idStatusFuncional
+     * @return void
+     */
+    public static function retornarStatusUsoPorFuncionalId($idStatusFuncional) {
+
+        $equipamento = new StatusEquipamentoCalibracaoModel();
+        $dados = $equipamento->consultarStatusUsoPorFuncional($idStatusFuncional);
+
+        $dadosArrayReturn = [];
+
+        foreach ($dados as $valor) {
+            $idStatus = $valor['id'];
+            $uuidStatus = $valor['uuid'];
+            $nomeStatus = $valor['nome'];
+            $dadosArrayReturn[] = ['id' => $idStatus, 'public_key_return' => $uuidStatus, 'nome' => $nomeStatus];
+        }
+
+        return ['status' => 0, 'dados' => $dadosArrayReturn];
+    }
+
     public static function bucarStatusFuncional() {
         $statusFuncionalModel = new StatusEquipamentoCalibracaoModel();
         $dadosStatusFuncional = $statusFuncionalModel->consultarContagemStatusFuncional();
