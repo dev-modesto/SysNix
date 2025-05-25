@@ -7,7 +7,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 
     if(isset($_POST['click-acao-modal'])){
         $uuidPublic = $_POST['idPrincipal'];
-        $dadosEquipamentoCalibracao = EquipamentoCalibracaoController::selecionarUuid($uuidPublic);
+        $dadosEquipamentoCalibracao = EquipamentoCalibracaoController::selecionarDadosEquipamentoCalibracaoUuid($uuidPublic);
 
         if (empty($dadosEquipamentoCalibracao)) {
             echo <<<HTML
@@ -178,13 +178,13 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
                                 $selected = '';
                                 foreach ($dadosStatusUso as $valor) {
                                     $idStatusUso = $valor['id'];
-                                    $uuidStatusUso = $valor['uuid'];
+                                    $uuidStatusUso = $valor['public_key_return'];
                                     $nomeStatusUso = $valor['nome'];
 
                                     $selected = $idStatusUsoBanco === $idStatusUso ? 'selected' : '';
                   
                                     echo <<<HTML
-                                            <option value="<?= $uuidStatusUso ?>" {$selected} >{$nomeStatusUso}</option>
+                                            <option value="{$uuidStatusUso}" {$selected} >{$nomeStatusUso}</option>
                                     HTML;
                                 }
                             ?>
@@ -247,7 +247,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 
     });
 
-    ajaxControllerModalAcao('#form-editar-equipamento-calibracao', 'EquipamentoCalibracao', 'atualizar', baseUrl);
+    ajaxControllerModalAcao(<?= json_encode($uuidPublic) ?>, '#form-editar-equipamento-calibracao', 'EquipamentoCalibracao', 'atualizar', baseUrl);
 </script>
 
 
