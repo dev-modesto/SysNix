@@ -182,6 +182,6 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 
     });
 
-    ajaxControllerModalAcao('#form-cadastrar-equipamento-calibracao', 'EquipamentoCalibracao', 'cadastrar', baseUrl);
+    ajaxControllerModalAcao(null, '#form-cadastrar-equipamento-calibracao', 'EquipamentoCalibracao', 'cadastrar', baseUrl);
 
 </script>
