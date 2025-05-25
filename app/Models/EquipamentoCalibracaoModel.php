@@ -121,4 +121,28 @@ class EquipamentoCalibracaoModel
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }
+
+    public function atualizar($id, $dados) {
+
+        $set = [];
+
+        foreach ($dados as $chave => $valor) {
+            $set[] = "$chave = :$chave";
+        }
+
+        $colunasValores = implode(',', $set);
+
+        $query = "UPDATE tbl_equipamento_calibracao SET $colunasValores WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    }
+
+    
 }
