@@ -24,7 +24,7 @@ function ajaxModalTabelaAcaoExcluir(publickey, controller, acao, baseUrl) {
     });
 }
 
-function ajaxControllerModalAcao(formSubmit, controller, acao, baseUrl) {
+function ajaxControllerModalAcao(publickey = null, formSubmit, controller, acao, baseUrl) {
 
     $(document).ready(function () {
 
@@ -39,6 +39,10 @@ function ajaxControllerModalAcao(formSubmit, controller, acao, baseUrl) {
             const formData = new FormData(this);
             formData.append('controller', controller)
             formData.append('acao',acao);
+
+            if (publickey) {
+                formData.append('public-key', publickey);
+            }
 
             $.ajax({
                 type: "POST",
