@@ -512,34 +512,12 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
     });
 
     $(document).ready( function () {
-        // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
-
         new DataTable('.myTable', {
             pagingType: 'simple_numbers',
             language: {
                 url: '<?= BASE_URL ?>/js/pt_br.json'
             },
             order: [],
-            // columns: [
-            //     { data: 'Equipamento' },
-            //     { data: 'Descricao' },
-            //     { data: 'Modelo' },
-            //     { data: 'Fabricante' },
-            //     { data: 'Nº série' },
-            //     { data: 'Resolução' },
-            //     { data: 'Faixa Uso' },
-            //     { data: 'Última calibração' },
-            //     { data: 'Nº Certificado' },
-            //     { data: 'Calibração prevista' },
-            //     { data: 'Eri. -15 a -25' },
-            //     { data: 'Eri. 2 a 8' },
-            //     { data: 'Eri. 15 a 25' },
-            //     { data: 'Status Funcional' },
-            //     { data: 'Status Uso' },
-            //     { data: 'Situação' },
-            //     { data: 'Ação' },
-            //     { data: '' },
-            // ],
             responsive: true,
 
             layout: {
@@ -580,7 +558,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                         },
                         {
                             extend: 'collection',
-                            text: '<span class="material-symbols-rounded icone">upload</span>Exportar',
+                            text: '<span class="material-symbols-rounded icone">download</span>Exportar',
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
