@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\EquipamentoCalibracaoController;
+use App\Helpers\DataHelper;
 use App\Helpers\EquipamentoCalibracao\StatusEquipamentoCalibracaoHelper;
 use App\Helpers\MensagemHelper;
 
@@ -347,8 +348,14 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 $resolucao = $valor['resolucao'] ?? null;
                                 $faixaUso = $valor['faixa_uso'] ?? null;
                                 $dtUltimaCalibracao = $valor['dt_ultima_calibracao'] ?? null;
+                                $dtUltimaCalibracao = DataHelper::converterData($dtUltimaCalibracao);
+                                $dtUltimaCalibracaoPtbr = $dtUltimaCalibracao['data_ptbr'];
+
                                 $numeroCertificado = $valor['numero_certificado'] ?? null;
                                 $dtCalibracaoPrevisao = $valor['dt_calibracao_previsao'] ?? null;
+                                $dtCalibracaoPrevisao = DataHelper::converterData($dtCalibracaoPrevisao);
+                                $dtCalibracaoPrevisaoPtbr = $dtCalibracaoPrevisao['data_ptbr'];
+
                                 $ei15a25n = $valor['ei_15a25_n'] ?? null;
                                 $ei2a8 = $valor['ei_2a8'] ?? null;
                                 $ei15a25 = $valor['ei_15a25'] ?? null;
@@ -383,9 +390,9 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$serie</td>
                                             <td>$resolucao</td>
                                             <td>$faixaUso</td>
-                                            <td>$dtUltimaCalibracao</td>
+                                            <td>$dtUltimaCalibracaoPtbr</td>
                                             <td>$numeroCertificado</td>
-                                            <td>$dtCalibracaoPrevisao</td>
+                                            <td>$dtCalibracaoPrevisaoPtbr</td>
                                             <td>$ei15a25n</td>
                                             <td>$ei2a8</td>
                                             <td>$ei15a25</td>
