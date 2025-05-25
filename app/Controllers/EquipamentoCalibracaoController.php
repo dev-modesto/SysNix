@@ -16,6 +16,12 @@ class EquipamentoCalibracaoController
         return $dadosReturn;
     }
 
+    public static function selecionarDadosEquipamentoCalibracaoUuid($uuidEquipamento) {
+        $uuidHelper = new UuidHelper();
+        $dadosUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_equipamento_calibracao', $uuidEquipamento);
+        return $dadosUuidHelper;
+    }
+
     public function cadastrar($dadosReceber) {
 
         $equipamento = new EquipamentoCalibracaoService();
@@ -25,8 +31,11 @@ class EquipamentoCalibracaoController
 
     }
 
-    public function atualizar() {
+    public function atualizar($dados) {
+        $equipamento = new EquipamentoCalibracaoService();
+        $dadosReturn = $equipamento->atualizarEquipamento($dados);
 
+        return $dadosReturn;
     }
 
     public function remover($dados) {
