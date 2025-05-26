@@ -430,6 +430,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                 </tr>
                             HTML;
                         }
@@ -569,6 +570,13 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 }
                             ],
                             className: 'btn-personalizado-tabela btn-exportar',
+                        },
+                        {
+                            text: '<span class="material-symbols-rounded icone">upload</span>Importar',
+                            className: 'btn-personalizado-tabela btn-exportar',
+                            action: function (){
+                                abrirModalCadastrar('include/mImportarEquipamentoCalibracao.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-md','Importar equipamentos de calibração');
+                            }
                         },
                         {
                             text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
