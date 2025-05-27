@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Config\Connection;
 use PDO;
+use PDOException;
 
 class EquipamentoCalibracaoModel
 {
@@ -10,6 +11,10 @@ class EquipamentoCalibracaoModel
 
     public function __construct() {
         $this->pdo = Connection::getInstance();
+    }
+
+    public function getPdo() {
+        return $this->pdo;
     }
 
     public function selecionar($filtroDiasCalibracao = null) {
@@ -144,5 +149,61 @@ class EquipamentoCalibracaoModel
         return $stmt->rowCount() > 0;
     }
 
-    
+    public function importar($dados) {
+
+        $query = 
+            "INSERT INTO tbl_equipamento_calibracao
+            (
+                uuid,
+                nome_identificador,
+                descricao,
+                modelo,
+                fabricante,
+                serie,
+                resolucao,
+                faixa_uso,
+                dt_ultima_calibracao,
+                numero_certificado,
+                dt_calibracao_previsao,
+                ei_15a25_n,
+                ei_2a8,
+                ei_15a25,
+                created_at,
+                updated_at,
+                id_status_funcional,
+                id_status_uso
+
+            ) VALUES(
+                :uuid,
+                :nome_identificador, 
+                :descricao, 
+                :modelo, 
+                :fabricante, 
+                :serie, 
+                :resolucao, 
+                :faixa_uso, 
+                :dt_ultima_calibracao, 
+                :numero_certificado, 
+                :dt_calibracao_previsao, 
+                :ei_15a25_n, 
+                :ei_2a8, 
+                :ei_15a25, 
+                :created_at,
+                :updated_at,
+                :id_status_funcional, 
+                :id_status_uso
+            )
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $linha) {
+            foreach ($linha as $chave => $valor) {
+                $stmt->bindValue(":$chave", $valor);
+            }
+            $stmt->execute();
+        }
+        return $this->pdo->lastInsertId();
+
+    }
 }
