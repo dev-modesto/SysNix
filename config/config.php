@@ -29,4 +29,4 @@
     $url = $protocolo . $host . $caminhoProjeto;
     
     define('BASE_URL', $url);
-    define('SEGURANCA', BASE_PATH . '/config/seguranca.php');
+    define('SEGURANCA', BASE_PATH . '/app/Config/seguranca.php');
