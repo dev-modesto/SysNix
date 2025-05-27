@@ -6,6 +6,9 @@ use App\Helpers\DataHelper;
 use App\Helpers\GeralHelper;
 use App\Helpers\UuidHelper;
 use App\Models\EquipamentoCalibracaoModel;
+use Exception;
+use PDOException;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 include BASE_PATH . '/include/funcoes/geral/geral.php'; 
 
@@ -133,5 +136,104 @@ class EquipamentoCalibracaoService
 
         return ['status' => 0, 'msg' => "Equipamento $nomeIdentificador atualizado com sucesso.", 'alert' => 0, 'redirecionar' => 'apps/operacional/calibracaoEquipamentos/'];
         
+    }
+
+    public function importarEquipamento($arquivo) {
+        
+        $caminhoTemporario = $arquivo['tmp_name'];
+
+        $tiposPermitidos = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        $tipoVerificado = mime_content_type($caminhoTemporario);
+
+        if (!in_array($tipoVerificado, $tiposPermitidos)) {
+            return ['status' => 1, 'msg' => 'Tipo de arquivo inválido. Somente os Xlsx são permitidos.', 'alert' => 1, 'redirecionar' => 'apps/operacional/calibracaoEquipamentos/'];
+        }
+
+        if ($arquivo['error'] == 1) {
+            return ['status' => 1, 'msg' => 'Erro com o arquivo de importação.', 'alert' => 1, 'redirecionar' => 'apps/operacional/calibracaoEquipamentos/'];
+        }
+
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($caminhoTemporario);
+
+        $dadosPlanilha = $spreadsheet->getActiveSheet();
+        $ultimaLinha = $dadosPlanilha->getHighestRow();
+        $dados = [];
+        $dataHelper = DataHelper::getDataHoraSistema();
+        $dataHoraSistema = $dataHelper['data_hora_banco'];
+
+        for ($i = 2; $i <= $ultimaLinha; $i++) {
+            $identificador = trim($dadosPlanilha->getCell("A$i")->getValue());
+            $descricao     = trim($dadosPlanilha->getCell("B$i")->getValue());
+            $modelo        = trim($dadosPlanilha->getCell("C$i")->getValue());
+            $fabricante    = trim($dadosPlanilha->getCell("D$i")->getValue());
+            $serie         = trim($dadosPlanilha->getCell("E$i")->getValue());
+            $resolucao     = trim($dadosPlanilha->getCell("F$i")->getValue());
+            $faixaUso      = trim($dadosPlanilha->getCell("G$i")->getValue());
+        
+            $valorUltimaCalibracao = $dadosPlanilha->getCell("H$i")->getValue();
+            $dtUltimaCalibracaoConvertida = Date::excelToDateTimeObject($valorUltimaCalibracao)
+                ? Date::excelToDateTimeObject($valorUltimaCalibracao)->format('Y-m-d')
+                : null;
+        
+            $numeroCertificado = $dadosPlanilha->getCell("I$i")->getValue(); 
+        
+            $dtCalibracaoPrevisao = $dadosPlanilha->getCell("J$i")->getValue();
+            $dtCalibracaoPrevisaoConvertida = Date::excelToDateTimeObject($dtCalibracaoPrevisao)
+                ? Date::excelToDateTimeObject($dtCalibracaoPrevisao)->format('Y-m-d')
+                : null;
+        
+            $ei15a25n = $dadosPlanilha->getCell("M$i")->getValue(); 
+            $ei2a8 = $dadosPlanilha->getCell("N$i")->getValue(); 
+            $ei15a25 = $dadosPlanilha->getCell("O$i")->getValue(); 
+        
+            $dados[] = [
+                'uuid' => gen_uuid(),
+                'nome_identificador' => $identificador,
+                'descricao' => $descricao,
+                'modelo' => $modelo,
+                'fabricante' => $fabricante,
+                'serie' => $serie,
+                'resolucao' => $resolucao,
+                'faixa_uso' => $faixaUso,
+                'dt_ultima_calibracao' => $dtUltimaCalibracaoConvertida,
+                'numero_certificado' => $numeroCertificado,
+                'dt_calibracao_previsao' => $dtCalibracaoPrevisaoConvertida,
+                'ei_15a25_n' => $ei15a25n,
+                'ei_2a8' => $ei2a8,
+                'ei_15a25' => $ei15a25,
+                'created_at' => $dataHoraSistema,
+                'updated_at' => $dataHoraSistema,
+                'id_status_funcional' => 1,
+                'id_status_uso' => 1,
+            ];
+        }
+
+        $cadastrarEquipamentos = new EquipamentoCalibracaoModel();
+        $pdo = $cadastrarEquipamentos->getPdo();
+
+        try {
+            $pdo->beginTransaction();
+
+            $retorno = $cadastrarEquipamentos->importar($dados);
+
+            if ($retorno == 0) {
+                $pdo->rollBack();
+                return ['status' => 1, 'msg' => 'Não foi possível realizar a importação dos equipamentos.', 'alert' => 1, 'redirecionar' => 'apps/operacional/calibracaoEquipamentos/'];
+            }
+
+            $pdo->commit();
+            return ['status' => 0, 'msg' => "Importação dos equipamentos realizada com sucesso.", 'alert' => 0, 'redirecionar' => 'apps/operacional/calibracaoEquipamentos/'];
+
+        } catch (PDOException $e) {
+            $pdo->rollBack();
+            return [
+                'status' => 1,
+                'msg' => 'Erro no banco de dados: ' . $e->getMessage(),
+                'alert' => 1,
+                'redirecionar' => 'apps/operacional/calibracaoEquipamentos/'
+            ];
+        } 
     }
 }
