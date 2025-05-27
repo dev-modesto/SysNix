@@ -100,7 +100,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 </style>
 
 <div>
-    <form class="form-container" id="form-cadastrar-equipamento-calibracao" enctype="multipart/form-data">
+    <form class="form-container" id="form-importar-equipamento-calibracao" enctype="multipart/form-data">
 
         <div class="container-importar">
             <div class="container-importar-text-icon">
@@ -108,7 +108,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
             </div>
             <div class="container-importar-input">
                 <label class="font-1-s label-input-importar" for="importar-equipamento-calibracao">Click para escolher o arquivo</label><br>
-                <input class="form-control input-importar" type="file" name="importar-equipamento-calibracao" id="importar-equipamento-calibracao"  required>
+                <input class="form-control input-importar" type="file" name="importar-equipamento-calibracao" id="importar-equipamento-calibracao" required>
             </div>
             <div class="container-importar-input">
                 <a href="include/modelo_plano_calibracao.xlsx" class="font-1-s modelo-importar" download>Baixar o modelo</a><br>
@@ -125,54 +125,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 <script src="<?= BASE_URL ?>/js/ajaxModalTabela.js"></script>
 <script>
 
-    $(document).off('change', '.select-status-funcional').on('change', '.select-status-funcional', function () {
-
-        let $statusFuncional = $(this);
-        let publicKey = $statusFuncional.val();
-
-        if (publicKey == '') {
-            $('.select-status-uso').attr('disabled', true);
-            $('.select-status-uso').html('<option value="" selected>Escolha um status funcional</option>');
-            return;
-        }
-
-        $('.select-status-uso').attr('disabled', false);
-
-        htmlString = '';
-
-        $.ajax({
-            type: "POST",
-            url: `${baseUrl}/public/ajaxController.php`,
-            data: {
-                'public-key':publicKey,
-                'controller':'StatusEquipamentoCalibracao',
-                'acao':'retornarStatusUso'
-            },
-            success: function (response) {
-
-                if (response.data.status !== 0) {
-                    $('.select-status-uso').html('<option value="">Erro ao carregar os dados</option>');
-                    $('.select-status-uso').attr('disabled', true);
-                    return;
-                }
-
-                const dados = response.data.dados;
-                dados.forEach(function (item){
-                    htmlString += `<option value="${item.public_key_return}">${item.nome}</option>`;
-                });
-
-                $('.select-status-uso').html(htmlString);
-            },
-            error: function(response) {
-                $('.select-status-uso').html('<option value="">Erro ao carregar os dados</option>');
-            }
-        });
-
-        $('.select-status-uso').html(htmlString);
-
-    });
-
-    ajaxControllerModalAcao(null, '#form-cadastrar-equipamento-calibracao', 'EquipamentoCalibracao', 'cadastrar', baseUrl);
+    ajaxControllerModalAcao(null, '#form-importar-equipamento-calibracao', 'EquipamentoCalibracao', 'importar', baseUrl);
 
     $('.input-importar').on('change', function () {
         let files = this.files;
