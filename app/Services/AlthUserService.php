@@ -3,11 +3,13 @@
 namespace App\Services;
 use App\Controllers\AuthController;
 use App\Config\Connection;
+use App\Controllers\PermissaoViewController;
 use App\Controllers\UsuarioEmpresaController;
 use App\Models\UsuarioModels;
 use App\Helpers\GeralHelper;
 use App\Helpers\DataHelper;
 use App\Helpers\MensagemHelper;
+use App\Models\PermissaoModuloModel;
 use App\Models\TokenModel;
 
 class AlthUserService {
@@ -99,11 +101,36 @@ class AlthUserService {
                                 return $mensagem;
                             }
 
+                                // pre
+                                    $permissaoModulo = new PermissaoModuloModel();
+
+                                    $dadosBuscarModulo = ['id_empresa' => $dadosBuscarEmpresasUsuario[0]['id'], 'id_usuario' => $idUsuario];
+                                    $modulo = $permissaoModulo->selecionarModulosPermitidos($dadosBuscarModulo);
+
+                                    if(empty($modulo)) {
+                                        return ['status' => 0, 'msg' => 'Usuário não possui nenhuma permissão aos módulos do sistema.', 'alert' => 1];
+                                    } 
+
+                                    $permissaoModuloCaminho = $modulo[0]['caminho'];
+
+                                    $arrayDadosViewsPermissoes = PermissaoViewController::retornarViewsPermitidasModulo($idUsuario, $permissaoModuloCaminho);
+
+                                    if(isset($arrayDadosViewsPermissoes['status']) == 1) {
+                                        return ['status' => 0, 'msg' => 'Usuário não possui nenhuma permissão as views do sistema.', 'alert' => 1];
+                                    } 
+
+                                    $caminho = $arrayDadosViewsPermissoes[0]['caminho_view'];
+                                    $status = $arrayDadosViewsPermissoes[0]['status'];
+                                    $caminhoModulo = $arrayDadosViewsPermissoes[0]['caminho_modulo'];
+                                    $caminhoCompleto = "apps/$caminhoModulo/$caminho";
+                                // pre
+
                             if ($acessoEmpresa === 1) {
                                 $_SESSION['id_empresa'] = $dadosBuscarEmpresasUsuario[0]['id'];    
                                 $_SESSION['uuid_empresa'] = $dadosBuscarEmpresasUsuario[0]['uuid'];    
                                 $_SESSION['nome_fantasia_empresa'] = $dadosBuscarEmpresasUsuario[0]['nome_fantasia'];
-                                $mensagem = ['status' => 0, 'msg' => 'Login concedido.', 'alert' => 0, 'redirecionar' => 'app/'];
+
+                                $mensagem = ['status' => 0, 'msg' => 'Login concedido.', 'alert' => 0, 'redirecionar' => "$caminhoCompleto"];
                             } 
                             
                             if ($acessoEmpresa > 1) {
@@ -118,7 +145,7 @@ class AlthUserService {
                         }
 
                     } else {
-                        $mensagem = ['status' => 0, 'msg' => 'Empresa inativa. Usuário <strong>sem acesso </strong> ao sistema.', 'alert' => 1];
+                        $mensagem = ['status' => 0, 'msg' => 'Empresa inativa ou usuário <strong>sem acesso </strong> a empresa.', 'alert' => 1];
                         return $mensagem;
                     }
 
