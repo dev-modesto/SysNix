@@ -97,7 +97,7 @@ class EmailService {
                                 <div>
                                     <table style="width: 100%; font-family: 'Roboto', segoe ui, sans-serif; background-color: #fff; margin: auto; box-sizing: border-box;">
                                         <tbody>
-                                            <tr><td style="padding-bottom: 30px;"><a href=""><img src='https://i.postimg.cc/PNmJDM8d/logo-full-color.png' alt="logo" width="auto" height="40"></a></td></tr>
+                                            <tr><td style="padding-bottom: 30px;"><a href=""><img src='https://i.postimg.cc/WtRx0H98/logo-full-color.png' alt="logo" width="auto" height="40"></a></td></tr>
                                             <tr style="font-size: 1.5rem; font-weight: 600; text-align: center;"><td style="padding-bottom: 30px;">Código de autenticação</td></tr>
                                             <tr><td>Olá, <strong>$destinatarioNome!</strong></td></tr>
                                             <tr><td style="padding-bottom: 30px;">Favor, informar o código de autenticação para validar a sua conta.</td></tr>
@@ -193,7 +193,7 @@ class EmailService {
                                 <div>
                                     <table style="width: 100%; font-family: 'Roboto', segoe ui, sans-serif; background-color: #fff; margin: auto;">
                                         <tbody>
-                                            <tr><td style="padding-bottom: 0px;"><a href=""><img src='https://i.postimg.cc/PNmJDM8d/logo-full-color.png' alt="logo" width="auto" height="40"></a></td></tr>
+                                            <tr><td style="padding-bottom: 0px;"><a href=""><img src='https://i.postimg.cc/WtRx0H98/logo-full-color.png' alt="logo" width="auto" height="40"></a></td></tr>
                                         </tbody>
                                     </table>
                                     <table style="width: 100%; font-family: 'Roboto', segoe ui, sans-serif; background-color: #fff; margin: auto;">
