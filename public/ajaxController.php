@@ -6,8 +6,8 @@ require_once '../app/Config/config.php';
 
 $rotasPermitidas = [
     'Auth' => ['consultar', 'validarToken', 'validarEmpresaSelecionada'], 
-    'EquipamentoCalibracao' => ['selecionar', 'cadastrar', 'atualizar', 'remover'],
-    'StatusEquipamentoCalibracao' => ['selecionarId'] 
+    'EquipamentoCalibracao' => ['selecionar', 'cadastrar', 'atualizar', 'remover', 'importar'],
+    'StatusEquipamentoCalibracao' => ['retornarStatusUso'] 
 ];
 
 

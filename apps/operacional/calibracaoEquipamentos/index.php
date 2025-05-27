@@ -1,12 +1,13 @@
 <?php
 
 use App\Controllers\EquipamentoCalibracaoController;
+use App\Helpers\DataHelper;
 use App\Helpers\EquipamentoCalibracao\StatusEquipamentoCalibracaoHelper;
 use App\Helpers\MensagemHelper;
 
 include_once '../../../app/config/config.php';
 include SEGURANCA;
-include ARQUIVO_CONEXAO;
+// include ARQUIVO_CONEXAO;
 
 $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipamentoCalibracao();
     $tituloPaginaHead = 'Home | Sysnix';
@@ -187,6 +188,26 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
         color:var(--color-a8)
     }
 
+    .container-icone-acao {
+        display: flex !important;
+        gap: 2px;
+    }
+
+    .container-icone-acao span{
+        display: flex;
+        align-items: center;
+    }
+
+      .td-icons span{
+        padding: 3px;
+        display: inline-flex;
+        margin: 0px 2px;
+        border: 1px solid var(--color-c4);
+        border-radius: .2rem;
+        transition: all .3s;
+        cursor: pointer;
+    }
+
     </style>
 <body>
 
@@ -306,6 +327,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                         <th class="all">Status Funcional</th>
                         <th class="all">Status Uso</th>
                         <th class="all">Situação</th>
+                        <th class="all">Ação</th>
                         <th class="all"></th>
                     </tr>
                 </thead>
@@ -317,7 +339,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                         if(count($allEquipamentoCalibracao) > 0) {
 
                             foreach ($allEquipamentoCalibracao as $chave => $valor) {
-
+                                $uuidEquipamento = $valor['uuid'];
                                 $nomeIdentificador     = $valor['nome_identificador'] ?? null;
                                 $descricao = $valor['descricao'] ?? null;
                                 $modelo = $valor['modelo'] ?? null;
@@ -326,8 +348,14 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 $resolucao = $valor['resolucao'] ?? null;
                                 $faixaUso = $valor['faixa_uso'] ?? null;
                                 $dtUltimaCalibracao = $valor['dt_ultima_calibracao'] ?? null;
+                                $dtUltimaCalibracao = DataHelper::converterData($dtUltimaCalibracao);
+                                $dtUltimaCalibracaoPtbr = $dtUltimaCalibracao['data_ptbr'];
+
                                 $numeroCertificado = $valor['numero_certificado'] ?? null;
                                 $dtCalibracaoPrevisao = $valor['dt_calibracao_previsao'] ?? null;
+                                $dtCalibracaoPrevisao = DataHelper::converterData($dtCalibracaoPrevisao);
+                                $dtCalibracaoPrevisaoPtbr = $dtCalibracaoPrevisao['data_ptbr'];
+
                                 $ei15a25n = $valor['ei_15a25_n'] ?? null;
                                 $ei2a8 = $valor['ei_2a8'] ?? null;
                                 $ei15a25 = $valor['ei_15a25'] ?? null;
@@ -354,7 +382,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 
     
                                 echo <<<HTML
-                                        <tr>
+                                        <tr data-key-public="$uuidEquipamento">
                                             <td>$nomeIdentificador</td>
                                             <td>$descricao</td>
                                             <td>$modelo</td>
@@ -362,15 +390,19 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$serie</td>
                                             <td>$resolucao</td>
                                             <td>$faixaUso</td>
-                                            <td>$dtUltimaCalibracao</td>
+                                            <td>$dtUltimaCalibracaoPtbr</td>
                                             <td>$numeroCertificado</td>
-                                            <td>$dtCalibracaoPrevisao</td>
+                                            <td>$dtCalibracaoPrevisaoPtbr</td>
                                             <td>$ei15a25n</td>
                                             <td>$ei2a8</td>
                                             <td>$ei15a25</td>
                                             <td><span class="legenda-bg $legandaStatusFuncional">$statusFuncional</span></td>
                                             <td class="legenda-bg-2"><span style="background-color: $corStatusUso"></span>$statusUso</td>
                                             <td><span class="legenda-bg $legendaStatusCalibracao">$statusCalibracao</span></td>
+                                            <td class="container-icone-acao td-icons">
+                                                <span class="material-symbols-rounded icone-acao-editar">edit</span>
+                                                <span class="material-symbols-rounded icone-acao-excluir">delete</span>
+                                            </td>
                                             <td></td>
                                         </tr>
                                     HTML
@@ -397,6 +429,8 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             HTML;
                         }
@@ -404,6 +438,9 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="carregar-modal">
     </div>
 
 </div>
@@ -435,6 +472,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 
 
 <script src="<?= BASE_URL ?>/js/preLoader.js"></script>
+<script src="<?= BASE_URL ?>/js/spinners.js"></script>
 <script src="<?= BASE_URL ?>/vendor/igorescobar/jquery-mask-plugin/src/jquery.mask.js"></script>
 <script src="<?= BASE_URL ?>/js/menu.js"></script>
 <script src="<?= BASE_URL ?>/js/modalLoader.js"></script>
@@ -442,6 +480,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 </body>
 
 <script>
+    var baseUrl = <?= json_encode(BASE_URL)?>;
 
     const ctx = document.getElementById('myChart');
 
@@ -474,107 +513,93 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
     });
 
     $(document).ready( function () {
-        // abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
-
         new DataTable('.myTable', {
             pagingType: 'simple_numbers',
             language: {
                 url: '<?= BASE_URL ?>/js/pt_br.json'
             },
             order: [],
-            columns: [
-                { data: 'Equipamento' },
-                { data: 'Descricao' },
-                { data: 'Modelo' },
-                { data: 'Fabricante' },
-                { data: 'Nº série' },
-                { data: 'Resolução' },
-                { data: 'Faixa Uso' },
-                { data: 'Última calibração' },
-                { data: 'Nº Certificado' },
-                { data: 'Calibração prevista' },
-                { data: 'Eri. -15 a -25' },
-                { data: 'Eri. 2 a 8' },
-                { data: 'Eri. 15 a 25' },
-                { data: 'Status Funcional' },
-                { data: 'Status Uso' },
-                { data: 'Situação' },
-                { data: '' },
-            ],
-        responsive: true,
+            responsive: true,
 
-        layout: {
-            topEnd: {
-                    pageLength: {
-                    menu: [10, 25, 50, 100],
-                    text: 'Linhas por página: _MENU_'
+            layout: {
+                topEnd: {
+                        pageLength: {
+                        menu: [10, 25, 50, 100],
+                        text: 'Linhas por página: _MENU_'
+                    },
+                },
+                
+                topStart: {
+                    search: {
+                        text: '<span class="material-symbols-rounded">search</span>',
+                        placeholder: 'Buscar na tabela',
+                        className: 'barra-pesquisa',
+                        processing: true
+                    }
+                },
+                top2Start: {
+                    buttons: [
+                        {
+                            extend: 'colvis',
+                            text: 'Colunas visíveis',
+                            className: 'btn-personalizado-tabela btn-dropdown',
+                        }
+                    ]
+                },
+                top2End: {
+                    buttons: [
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            },
+                            messageTop:
+                            'The information in this table is copyright to Sirius Cybernetics Corp.',
+                            className: 'btn-personalizado-tabela btn-impressao',
+                        },
+                        {
+                            extend: 'collection',
+                            text: '<span class="material-symbols-rounded icone">download</span>Exportar',
+                            buttons: [
+                                {
+                                    extend: 'excelHtml5',
+                                    text: 'Excel',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    },
+                                }
+                            ],
+                            className: 'btn-personalizado-tabela btn-exportar',
+                        },
+                        {
+                            text: '<span class="material-symbols-rounded icone">upload</span>Importar',
+                            className: 'btn-personalizado-tabela btn-exportar',
+                            action: function (){
+                                abrirModalCadastrar('include/mImportarEquipamentoCalibracao.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-md','Importar equipamentos de calibração');
+                            }
+                        },
+                        {
+                            text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
+                            className: 'btn btn-personalizado-tabela btn-cadastro btn-cadastro-equipamento-calibracao',
+                            action: function (e, dt, node, config, cb) {
+                                abrirModalCadastrar('include/mCadastrarEquipamentoCalibracao.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-lg','Cadastrar equipamento de calibração');
+                            }
+                        },
+                    ],
+                },
+                bottomStart: 'info',
+                bottomEnd: {
+                    paging: {
+                        type: 'first_last_numbers',
+                    }
                 },
             },
-            
-            topStart: {
-                search: {
-                    text: '<span class="material-symbols-rounded">search</span>',
-                    placeholder: 'Buscar na tabela',
-                    className: 'barra-pesquisa',
-                    processing: true
+            columnDefs: [
+                {
+                    targets: -1,
+                    visible: false,
                 }
-            },
-            top2Start: {
-                buttons: [
-                    {
-                        extend: 'colvis',
-                        text: 'Colunas visíveis',
-                        className: 'btn-personalizado-tabela btn-dropdown',
-                    }
-                ]
-            },
-            top2End: {
-                buttons: [
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible'
-                        },
-                        messageTop:
-                        'The information in this table is copyright to Sirius Cybernetics Corp.',
-                        className: 'btn-personalizado-tabela btn-impressao',
-                    },
-                    {
-                        extend: 'collection',
-                        text: '<span class="material-symbols-rounded icone">upload</span>Exportar',
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: 'Excel',
-                                exportOptions: {
-                                    columns: ':visible'
-                                },
-                            }
-                        ],
-                        className: 'btn-personalizado-tabela btn-exportar',
-                    },
-                    {
-                        text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
-                        className: 'btn btn-personalizado-tabela btn-cadastro',
-                        action: function (e, dt, node, config, cb) {
-                            abrirModal('mCadastrarEquipamentoCalibracao', 'include/mCadastrarEquipamentoCalibracao.php');
-                        }
-                    },
-                ],
-            },
-            bottomStart: 'info',
-            bottomEnd: {
-                paging: {
-                    type: 'first_last_numbers',
-                }
-            },
-        },
-        columnDefs: [
-            {
-                targets: -1,
-                visible: false,
-            }
-        ]
+            ]
 
         });
     } );

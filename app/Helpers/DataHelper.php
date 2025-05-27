@@ -5,6 +5,12 @@ use DateTime;
 
 class DataHelper
 {
+
+    /**
+     * Retornar datas formatadas
+     *
+     * @return array [ano, data_banco, data_ptbr, hora, data_hora_banco]
+     */
     public static function getDataHoraSistema():array
     {
         $date = new DateTime();
@@ -21,6 +27,23 @@ class DataHelper
             'data_ptbr' => $dataSistemaPtBr,
             'hora' => $hora,
             'data_hora_banco' => $dataHoraSistema
+        ];
+    }
+
+    /**
+     * Converter o formato da data
+     * 
+     * @param [type] $data
+     * @return array [data_ptbr, data_banco]
+     */
+    public static function converterData($data):array
+    {
+
+        $date = new DateTime($data);
+
+        return [
+            'data_ptbr' => $date->format('d/m/Y'),
+            'data_banco' => $date->format('Y-m-d')
         ];
     }
 }

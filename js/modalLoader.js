@@ -25,3 +25,106 @@ function fecharModal(idModal, urlModal) {
         }
     });
 }
+
+function abrirModalEditarExcluir(botaoClick, classIdTabela, idDataPesquisa, urlCaminho, classClickTrue, classBody, idModal, tamanhoModal, textoTituloModal) {
+
+    $(document).on('click', botaoClick, function (e) {
+        e.preventDefault();
+        let idPrincipal = $(this).closest(classIdTabela).data(idDataPesquisa);
+
+        if(botaoClick == '.icone-acao-editar') {
+            var capaModal = '/include/modal/capaModalEditar.php';
+        }
+
+        if(botaoClick == '.icone-acao-excluir') {
+            var capaModal = '/include/modal/capaModalExcluir.php';
+        }
+
+        $.ajax({
+            type: "POST",
+            url: baseUrl + capaModal,
+            data: {
+                'abrir-modal':true
+            },
+            success: function (response) {
+                $('.carregar-modal').html(response);    
+                let elementoTituloModal = $('.modal-title');
+                $('.modal-componente').addClass(tamanhoModal);
+
+                $.ajax({
+                    type: "POST",
+                    url: urlCaminho,
+                    data: {
+                        [classClickTrue]: true,
+                        idPrincipal: idPrincipal,
+                    },
+                    beforeSend: function() {
+                        let modeloSpinners = spinners();
+                        let htmlString = modeloSpinners['modelo-1-cor1'];
+                        $(elementoTituloModal).html(htmlString);
+                        $(classBody).html('<p>Carregando informações...</p>');
+                        $(idModal).modal('show');
+                    },
+                    success: function (response) {
+                        $(classBody).html(response);
+                        $(elementoTituloModal).html(textoTituloModal);
+                    }
+                });
+            }
+        });
+    });
+}
+
+function abrirModalCadastrar(urlCaminho, classBody, idModal, tamanhoModal, textoTituloModal) {
+
+    $.ajax({
+        type: "POST",
+        url: baseUrl + '/include/modal/capaModalCadastrar.php',
+        data: {
+            'abrir-modal':true
+        },
+        success: function (response) {
+            $('.carregar-modal').html(response);    
+            let elementoTituloModal = $('.modal-title');
+            $('.modal-componente').addClass(tamanhoModal);
+
+            $.ajax({
+                type: "POST",
+                url: urlCaminho,
+                beforeSend: function() {
+                    let modeloSpinners = spinners();
+                    let htmlString = modeloSpinners['modelo-1-cor1'];
+                    $(elementoTituloModal).html(htmlString);
+                    $(classBody).html('<p>Carregando informações...</p>');
+                    $(idModal).modal('show');
+                
+                },
+                success: function (response) {
+                    $(classBody).html(response);
+                    $(elementoTituloModal).html(textoTituloModal);
+                }
+            });
+        }
+    });
+}
+
+$(document).ready(function () {
+
+    $(document).on('click', '[data-bs-dismiss="modal"]', function () {
+        this.blur();
+    });
+
+    $(document).on('hidden.bs.modal', '.modal', function () {
+        $('.carregar-modal').html('');
+
+        if (document.activeElement && $(this).has(document.activeElement).length > 0) {
+            document.activeElement.blur();
+        }
+        
+        $(this).find('.modal-dialog').removeClass('modal-sm modal-md modal-lg modal-xl');
+
+    });
+
+    abrirModalEditarExcluir('.icone-acao-excluir', 'tr', 'key-public', 'include/mExcluirEquipamentoCalibracao.php', 'click-excluir', '.modal-body-excluir', '#modal-excluir', 'modal-md', '-');
+    abrirModalEditarExcluir('.icone-acao-editar', 'tr', 'key-public', 'include/mEditarEquipamentoCalibracao.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar equipamento de calibração');
+});

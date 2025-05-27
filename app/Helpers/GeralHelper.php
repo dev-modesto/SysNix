@@ -3,7 +3,7 @@ namespace App\Helpers;
 
 class GeralHelper 
 {
-    public static function gen_uuid() {
+    public static function genUuid() {
         return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
             mt_rand( 0, 0xffff ),
