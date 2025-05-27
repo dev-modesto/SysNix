@@ -38,6 +38,19 @@ class EquipamentoCalibracaoController
         return $dadosReturn;
     }
 
+    public function importar() {
+
+        if (!$_FILES['importar-equipamento-calibracao']['tmp_name']) {
+            return ['status' => 0, 'msg' => "Nenhum arquivo carregado.", 'alert' => 1, 'redirecionar' => 'apps/operacional/calibracaoEquipamentos'];
+        } 
+        $arquivo = $_FILES['importar-equipamento-calibracao'];
+
+        $equipamento = new EquipamentoCalibracaoService();
+        $dadosReturn = $equipamento->importarEquipamento($arquivo);
+
+        return $dadosReturn;
+    }
+
     public function remover($dados) {
         
         $uuidEquipamento = $dados['public-key'];
