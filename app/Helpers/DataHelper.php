@@ -5,6 +5,12 @@ use DateTime;
 
 class DataHelper
 {
+
+    /**
+     * Retornar datas formatadas
+     *
+     * @return array [ano, data_banco, data_ptbr, hora, data_hora_banco]
+     */
     public static function getDataHoraSistema():array
     {
         $date = new DateTime();
