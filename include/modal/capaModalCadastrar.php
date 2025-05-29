@@ -26,5 +26,42 @@
             </div>
         </div>
     HTML;
+?>
+<style>
 
+.modal-body {
+    position: relative;
+    min-height: 100px;
+    height: 100%;
+}
+
+.modal-loader {
+    display: flex;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,1);
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-conteudo {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid var(--color-t1);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+</style>
 
