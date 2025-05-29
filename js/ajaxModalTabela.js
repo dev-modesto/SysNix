@@ -24,7 +24,7 @@ function ajaxModalTabelaAcaoExcluir(publickey, controller, acao, baseUrl) {
     });
 }
 
-function ajaxControllerModalAcao(publickey = null, formSubmit, controller, acao, baseUrl) {
+function ajaxControllerModalAcao(publickey = null, classBody, formSubmit, controller, acao, baseUrl) {
 
     $(document).ready(function () {
 
@@ -50,7 +50,11 @@ function ajaxControllerModalAcao(publickey = null, formSubmit, controller, acao,
                 data: formData,
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    $(classBody).append('<div class="modal-loader"><div class="loader-conteudo"></div></div>');
+                },
                 success: function (response) {
+                    $(classBody).append('<div class="modal-loader"><div class="loader-conteudo"></div></div>');
                     window.location.href = `${baseUrl}/${response.data.redirecionar}?msg=${encodeURIComponent(response.data.msg)}&alert=${response.data.alert}`;
                 }
             });
