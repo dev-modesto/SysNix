@@ -125,7 +125,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 <script src="<?= BASE_URL ?>/js/ajaxModalTabela.js"></script>
 <script>
 
-    ajaxControllerModalAcao(null, '#form-importar-equipamento-calibracao', 'EquipamentoCalibracao', 'importar', baseUrl);
+    ajaxControllerModalAcao(null, '.modal-body-cadastrar', '#form-importar-equipamento-calibracao', 'EquipamentoCalibracao', 'importar', baseUrl);
 
     $('.input-importar').on('change', function () {
         let files = this.files;
