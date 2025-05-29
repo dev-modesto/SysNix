@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\StatusEquipamentoCalibracaoController;
+include_once '../../../../config/base.php';
 
 ?>
 
@@ -36,6 +37,6 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 <script src="<?= BASE_URL ?>/js/ajaxModalTabela.js"></script>
 <script>
 
-    ajaxControllerModalAcao(null, '#form-cadastrar-usuario', 'Usuario', 'cadastrar', baseUrl);
+    ajaxControllerModalAcao(null, '.modal-body-cadastrar', '#form-cadastrar-usuario', 'Usuario', 'cadastrar', baseUrl);
 
 </script>
