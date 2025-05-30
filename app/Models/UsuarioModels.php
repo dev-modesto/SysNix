@@ -38,4 +38,42 @@ class UsuarioModels
         };
     }
 
+    public function cadastrarUsuario($dados) {
+        $query = 
+            "INSERT INTO tbl_usuario 
+            (
+                uuid,
+                email,
+                nome,
+                sobrenome,
+                senha,
+                primeiro_acesso,
+                tentativas_login,
+                status,
+                created_at,
+                updated_at
+            ) VALUES (
+                :uuid, 
+                :email, 
+                :nome, 
+                :sobrenome, 
+                :senha, 
+                :primeiro_acesso, 
+                :tentativas_login, 
+                :status, 
+                :created_at, 
+                :updated_at
+            )
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+
+        $stmt->execute();
+        return $this->pdo->lastInsertId();
+    }
+
 }
