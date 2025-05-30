@@ -26,6 +26,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $acao = htmlspecialchars(trim($data['acao']));
     $controller = htmlspecialchars(trim($data['controller']));
+    header('Content-Type: application/json');
 
     if (str_starts_with($acao, '__')) {
         http_response_code(403);
