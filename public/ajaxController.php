@@ -14,9 +14,18 @@ $rotasPermitidas = [
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $acao = htmlspecialchars(trim($_POST['acao']));
-    $controller = htmlspecialchars(trim($_POST['controller']));
-    header('Content-Type: application/json');
+    $contentType = $_SERVER["CONTENT_TYPE"] ?? '';
+
+    if (stripos($contentType, 'application/json') !== false) {
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true) ?? [];
+
+    } else {
+        $data = $_POST;
+    }
+
+    $acao = htmlspecialchars(trim($data['acao']));
+    $controller = htmlspecialchars(trim($data['controller']));
 
     if (str_starts_with($acao, '__')) {
         http_response_code(403);
@@ -52,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     try {
-        $resposta = $controller->{$acao}($_POST);
+        $resposta = $controller->{$acao}($data);
         echo json_encode(['data' => $resposta], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
     } catch (Exception $e) {
