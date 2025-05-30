@@ -181,8 +181,8 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$primeiroAcesso</td>
                                             <td>$status</td>
                                             <td class="container-icone-acao td-icons">
-                                                <span class="material-symbols-rounded icone-acao-editar">edit</span>
-                                                <span class="material-symbols-rounded icone-acao-excluir">delete</span>
+                                                <span class="material-symbols-rounded icone-acao-editar-usuario" data-tipo-modal="modal-editar">edit</span>
+                                                <span class="material-symbols-rounded icone-acao-excluir-usuario" data-tipo-modal="modal-excluir">delete</span>
                                             </td>
                                             <td></td>
                                         </tr>
