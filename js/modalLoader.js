@@ -127,4 +127,5 @@ $(document).ready(function () {
 
     abrirModalEditarExcluir('.icone-acao-excluir', 'tr', 'key-public', 'include/mExcluirEquipamentoCalibracao.php', 'click-excluir', '.modal-body-excluir', '#modal-excluir', 'modal-md', '-');
     abrirModalEditarExcluir('.icone-acao-editar', 'tr', 'key-public', 'include/mEditarEquipamentoCalibracao.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar equipamento de calibração');
+    abrirModalEditarExcluir('.icone-acao-editar', 'tr', 'key-public', 'include/mEditarUsuario.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar usuário');
 });
