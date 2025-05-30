@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Models\UsuarioVinculo;
-
 use App\Config\Connection;
 use PDO;
 
-class UsuarioVinculo
+class UsuarioVinculoModel
 {
 
     protected PDO $pdo;

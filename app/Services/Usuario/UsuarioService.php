@@ -6,7 +6,7 @@ use App\Helpers\DataHelper;
 use App\Helpers\GeralHelper;
 use App\Helpers\UuidHelper;
 use App\Models\UsuarioModels;
-use App\Models\UsuarioVinculo\UsuarioVinculo;
+use App\Models\UsuarioVinculo\UsuarioVinculoModel;
 
 class UsuarioService
 {
@@ -71,7 +71,7 @@ class UsuarioService
             return ['status' => 1, 'msg' => 'Não foi possível cadastrar o usuario.', 'alert' => 1];
         }
 
-        $usuarioVinculo = new UsuarioVinculo();
+        $usuarioVinculo = new UsuarioVinculoModel();
         $dadosVincularUsuarioEmpresa = [
             'id_empresa' => $retornoIdEmpresa,
             'id_usuario' => $retornoIdUsuario,
