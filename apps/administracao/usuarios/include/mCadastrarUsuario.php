@@ -28,8 +28,7 @@ include_once '../../../../config/base.php';
 
         <div class="col-md-12 mb-4">
             <label class="font-1-s" for="empresa">Empresa <em>*</em></label><br>
-            <select class="form-select select-empresa" name="public-key-empresa" id="empresa" required>
-                <option value="" selected>Escolha uma empresa</option>
+            <select class="form-select js-example-basic-multiple" name="public-key-empresa[]" id="empresa" multiple="multiple" required>
                 <?php
 
                     $dadosEmpresas = EmpresaController::buscarEmpresas();
