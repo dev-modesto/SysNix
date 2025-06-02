@@ -31,17 +31,43 @@ class UsuarioService
         if (!$emailValido) {
             return ['status' => 1, 'mensagem' => 'E-mail inválido para cadastro.', 'alert' => 1];
         }
+      
+        $arrayEmpresa = [];
 
-        $publicKeyEmpresa = $dados['public-key-empresa'];
+        if (count($dados['public-key-empresa']) == 0) {
+            $arrayEmpresa[] = ['uuid_empresa' => $dados['public-key-empresa']];
+
+        } else {
+
+            foreach ($dados['public-key-empresa'] as $chave => $valorUuidEmpresa) {
+                $arrayEmpresa[] = ['uuid_empresa' => $valorUuidEmpresa];
+            }
+
+        };
 
         $uuidHelper = new UuidHelper();
-        $retornoUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_empresa', $publicKeyEmpresa);
 
-        if (empty($retornoUuidHelper)) {
-            return ['status' => 1, 'mensagem' => 'Número de ID não permitido.', 'alert' => 1];
-        } 
+        $arrayRetornoUuidHelper = [];
 
-        $retornoIdEmpresa = $retornoUuidHelper['id'];
+        foreach ($arrayEmpresa as $valorUuidEmpresa) {
+            $publicKeyEmpresa = $valorUuidEmpresa['uuid_empresa'];
+
+            $retornoUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_empresa', $publicKeyEmpresa);
+            
+            if (empty($retornoUuidHelper)) {
+                return ['status' => 1, 'mensagem' => 'Número de ID não permitido.', 'alert' => 1];
+            } 
+
+            $arrayRetornoUuidHelper[] = ['id' => $retornoUuidHelper['id']];
+
+        }
+
+        foreach ($arrayRetornoUuidHelper as $valor) {
+            $dadosVincularUsuarioEmpresa = [
+                'id_empresa' => $valor['id']
+
+            ];
+        }
 
         $senha = $dados['senha'];
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
@@ -72,15 +98,19 @@ class UsuarioService
         }
 
         $usuarioVinculo = new UsuarioVinculoModel();
-        $dadosVincularUsuarioEmpresa = [
-            'id_empresa' => $retornoIdEmpresa,
-            'id_usuario' => $retornoIdUsuario,
-            'created_at' => $dataHelper['data_hora_banco']
-        ];
-        $retornoIdUsuarioEmpresa = $usuarioVinculo->vincularUsuarioEmpresa($dadosVincularUsuarioEmpresa);
 
-        if (!$retornoIdUsuarioEmpresa) {
-            return ['status' => 1, 'msg' => 'Não foi possível vincular o usuário à empresa selecionada.', 'alert' => 1];
+        foreach ($arrayRetornoUuidHelper as $valor) {
+            $dadosVincularUsuarioEmpresa = [
+                'id_empresa' => $valor['id'],
+                'id_usuario' => $retornoIdUsuario,
+                'created_at' => $dataHelper['data_hora_banco']
+            ];
+
+            $retornoIdUsuarioEmpresa = $usuarioVinculo->vincularUsuarioEmpresa($dadosVincularUsuarioEmpresa);
+
+            if (!$retornoIdUsuarioEmpresa) {
+                return ['status' => 1, 'msg' => 'Não foi possível vincular o usuário à empresa selecionada.', 'alert' => 1];
+            }
         }
 
         return ['status' => 0, 'msg' => "Usuário $nome $sobrenome cadastrado com sucesso.", 'alert' => 0, 'redirecionar' => 'apps/administracao/usuarios/'];
