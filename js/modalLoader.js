@@ -106,6 +106,15 @@ function abrirModalCadastrar(urlCaminho, classBody, idModal, tamanhoModal, texto
                 success: function (response) {
                     $(classBody).html(response);
                     $(elementoTituloModal).html(textoTituloModal);
+
+                    $(idModal).find('.js-example-basic-multiple').each(function () {
+                        if (!$(this).hasClass('select2-hidden-accessible')) {
+                            $(this).select2({
+                                dropdownParent: $(idModal),
+                                width: '100%'
+                            });
+                        }
+                    });
                 }
             });
         }
