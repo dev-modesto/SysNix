@@ -76,4 +76,27 @@ class UsuarioModels
         return $this->pdo->lastInsertId();
     }
 
+    public function atualizarUsuario($dados) {
+        $query = 
+            "UPDATE 
+                tbl_usuario 
+            SET 
+                email = :email, 
+                nome = :nome, 
+                sobrenome = :sobrenome, 
+                updated_at = :updated_at
+            WHERE 
+                id = :id
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+
+        return $stmt->execute();
+        
+    }
+
 }
