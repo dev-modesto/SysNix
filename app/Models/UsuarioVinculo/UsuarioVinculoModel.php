@@ -37,4 +37,23 @@ class UsuarioVinculoModel
         return $this->pdo->lastInsertId();
     }
 
+    public function desvincularUsuarioEmpresa(array $dados) {
+        $query = 
+            "DELETE  
+            FROM 
+                tbl_usuario_empresa
+            WHERE
+                id_empresa = :id_empresa AND id_usuario = :id_usuario  
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
 }
