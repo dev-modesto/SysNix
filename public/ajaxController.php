@@ -8,7 +8,7 @@ $rotasPermitidas = [
     'Auth' => ['consultar', 'validarToken', 'validarEmpresaSelecionada'], 
     'EquipamentoCalibracao' => ['selecionar', 'cadastrar', 'atualizar', 'remover', 'importar'],
     'StatusEquipamentoCalibracao' => ['retornarStatusUso'],
-    'Usuario' => ['cadastrar'] 
+    'Usuario' => ['cadastrar', 'atualizar'] 
 ];
 
 
