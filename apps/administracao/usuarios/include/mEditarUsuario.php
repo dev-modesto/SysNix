@@ -33,7 +33,7 @@ include_once '../../../../config/base.php';
 ?>
 
 <div>
-    <form class="form-container" id="form-cadastrar-usuario">
+    <form class="form-container" id="form-editar-usuario">
         <div class="row mb-4">
             <div class="col-md-6">
                 <label class="font-1-s" for="nome">Nome<em>*</em></label><br>
@@ -85,19 +85,12 @@ include_once '../../../../config/base.php';
                 ?>
             </select>                                        
         </div>
-
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <label class="font-1-s" for="senha">Senha <em>*</em></label><br>
-                <input class="form-control" type="password" name="senha" id="senha" required>
-            </div>
-        </div>
     </form>
 </div>
 
 <script src="<?= BASE_URL ?>/js/ajaxModalTabela.js"></script>
 <script>
 
-    ajaxControllerModalAcao(null, '.modal-body-editar', '#form-editar-usuario', 'Usuario', 'atualizar', baseUrl);
+    ajaxControllerModalAcao(<?= json_encode($uuidPublic) ?>, '.modal-body-editar', '#form-editar-usuario', 'Usuario', 'atualizar', baseUrl);
 
 </script>
