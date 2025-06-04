@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers\UuidHelper;
 use App\Services\Usuario\UsuarioService;
 
 class UsuarioController
@@ -11,6 +12,20 @@ class UsuarioController
 
         $usuarioService = new UsuarioService();
         $dadosUsuarioService = $usuarioService->cadastrarUsuario($dados);
+
+        return $dadosUsuarioService;
+    }
+
+    public static function selecionarUsuarioUuid($uuidUsuario) {
+        $uuidHelper = new UuidHelper();
+        $dadosUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_usuario', $uuidUsuario);
+
+        return $dadosUuidHelper;
+    }
+
+    public static function atualizar($dados) {
+        $usuarioService = new UsuarioService();
+        $dadosUsuarioService = $usuarioService->atualizarUsuario($dados);
 
         return $dadosUsuarioService;
     }
