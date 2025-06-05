@@ -17,7 +17,8 @@
     padding: 12px 0px;
 }
 
-.modal-footer.excluir {
+.modal-footer.excluir,
+.modal-footer.geral {
     background-color: rgb(245, 245, 245);
     padding: 12px 12px;
 }
@@ -59,6 +60,23 @@
     background-color: #e05c5c;
     border: #D77C7C;
     color: white;
+}
+
+.btn-modal-alerta-acao {
+  background-color: var(--color-t1);
+  border: var(--color-t1);
+  color: #fff;
+}
+
+.btn-modal-alerta-acao:hover {
+    background-color: var(--color-c6);
+  border: var(--color-t1);
+    color: white;   
+}
+.btn-modal-alerta-acao:disabled {
+    background-color: var(--color-c6);
+    border: var(--color-t1);
+    color: white;   
 }
 
 .btn-modal-excluir:hover {
