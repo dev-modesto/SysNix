@@ -151,6 +151,25 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 $primeiroAcesso = $valor['primeiro_acesso'];
                                 $status = $valor['status'];
 
+                                $primeiroAcessoTextoFront = match ($primeiroAcesso) {
+                                    'sim' => 'Sim',
+                                    'nao' => 'Não'
+                                };
+
+                                $statusTextoFront = match ($status) {
+                                    'ativo' => 'Ativo',
+                                    'inativo' => 'Inativo',
+                                    'validar' => 'Validar'
+                                };
+
+                                $legendaStatus = match ($status) {
+                                    'ativo' => 'usuario-status-ativo',
+                                    'inativo' => 'usuario-status-inativo',
+                                    'validar' => 'usuario-status-validar',
+                                    default => 'status-sit-cal-0'
+                                };
+
+
                                 if ($status == 'validar' || $status == 'ativo') {
                                     $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-usuario" data-tipo-modal="modal-alerta-acao">block</span>';
 
@@ -163,8 +182,8 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$nomeCompleto</td>
                                             <td>$email</td>
                                             <td>$empresas</td>
-                                            <td>$primeiroAcesso</td>
-                                            <td>$status</td>
+                                            <td><span class="legenda-bg legenda-default">$primeiroAcessoTextoFront</span></td>
+                                            <td><span class="legenda-bg $legendaStatus">$statusTextoFront</span></td>
                                             <td class="container-icone-acao td-icons">
                                                 <span class="material-symbols-rounded icone-acao-editar-usuario" data-tipo-modal="modal-editar">edit</span>
                                                 $botao
