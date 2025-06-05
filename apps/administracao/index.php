@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\ModuloController;
 use App\Controllers\PermissaoViewController;
 use App\Helpers\MensagemHelper;
 
@@ -7,12 +8,12 @@ include_once '../../app/config/config.php';
 include SEGURANCA;
 include ARQUIVO_CONEXAO;
 
-$idUsuario = $_SESSION['id_usuario'];
-$moduloPagina = 'Configurações';
-
 $nomePasta = basename(__DIR__);
-$arrayDadosViewsPermissoes = PermissaoViewController::retornarViewsPermitidasModulo($idUsuario, $nomePasta);
+$arrayDadosModulo = ModuloController::retornarModuloCaminho($nomePasta);
+$nomeModulo = $arrayDadosModulo['nome'];
+$moduloPagina = $nomeModulo;
 
+$arrayDadosViewsPermissoes = PermissaoViewController::retornarViewsPermitidasModulo($_SESSION['id_usuario'], $nomePasta);
 
 ?>
 
@@ -85,7 +86,7 @@ $arrayDadosViewsPermissoes = PermissaoViewController::retornarViewsPermitidasMod
 <div id="container-msg" class="container-msg"></div>
 
 <div class="breadcrumb">
-    <span>Gestão do sistema</span>
+    <span><?= $moduloPagina ?></span>
 </div>
 
 <div class="conteudo">
