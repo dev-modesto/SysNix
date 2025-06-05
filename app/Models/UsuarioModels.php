@@ -13,7 +13,15 @@ class UsuarioModels
         $this->pdo = Connection::getInstance();
     }
 
-    public function selecionar() {
+    public function selecionar($arrayIdEmpresa = null) {
+        $where = "WHERE 1=1";
+
+        $dadosarrayIdEmpresa = implode(',', $arrayIdEmpresa);
+
+        if ($arrayIdEmpresa) {
+            $where .= " AND e.id IN($dadosarrayIdEmpresa)";
+        }
+
         $query = 
             "SELECT
                 u.id,
@@ -31,6 +39,7 @@ class UsuarioModels
             FROM tbl_usuario u
             INNER JOIN tbl_usuario_empresa ue ON ue.id_usuario = u.id
             INNER JOIN tbl_empresa e ON ue.id_empresa = e.id
+            $where
             GROUP BY
                 u.id, u.uuid, u.email, u.nome, u.sobrenome, u.senha,
                 u.foto, u.primeiro_acesso, u.tentativas_login, u.status
