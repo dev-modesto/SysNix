@@ -255,4 +255,79 @@ class UsuarioService
         return ['status' => 0, 'msg' => "Usuário $nome $sobrenome atualizado com sucesso.", 'alert' => 0, 'redirecionar' => 'apps/administracao/usuarios/'];
 
     }
+
+    public function ativarInativarUsuario(array $dados) {
+        $publicKeyUsuario = $dados['public-key'];
+
+        $camposVazios = array_filter($dados, function($valor) {
+            return empty($valor);
+        });
+
+        if (!empty($camposVazios)) {
+            $retorno = array_keys($camposVazios);
+            return ['status' => 1, 'dados' => $retorno, 'msg' => 'Não é possível o envio de dados vazios.', 'alert' => 1];
+        } 
+        
+        $uuidHelper = new UuidHelper();
+        $retornoUuidHelperUsuario = $uuidHelper->enviaUuidBuscaDados('tbl_usuario', $publicKeyUsuario);
+        $idUsuario = $retornoUuidHelperUsuario['id'];
+        $nome = $retornoUuidHelperUsuario['nome'];
+        $sobrenome = $retornoUuidHelperUsuario['sobrenome'];
+        $primeiroAcesso = $retornoUuidHelperUsuario['primeiro_acesso'];
+
+      
+        switch ($retornoUuidHelperUsuario['status']) {
+            case 'ativo':
+                $statusUsuarioAlterar = 'inativo';
+                break;
+            
+            case 'inativo':
+                $statusUsuarioAlterar = 'ativo';
+                break;
+            
+            default:
+                $statusUsuarioAlterar = 'inativo';
+                break;
+        };
+
+
+        if ($primeiroAcesso == 'sim' && $statusUsuarioAlterar == 'ativo') {
+            $statusUsuarioAlterar = 'validar';
+        }
+
+        $complementoMensagem = '';
+
+        switch ($statusUsuarioAlterar) {
+            case 'ativo':
+                $condicaoMensagem = 'ativado';
+                break;
+            
+            case 'validar':
+                $condicaoMensagem = 'ativado';
+                $complementoMensagem = 'Validação da conta do usuário está pendente.';
+                break;
+            
+            default:
+                $condicaoMensagem = 'inativado';
+                break;
+        };
+
+        $dataHelper = DataHelper::getDataHoraSistema();     
+
+        $dadosEnviar = [
+            'id' => $idUsuario,
+            'status' => $statusUsuarioAlterar,
+            'updated_at' => $dataHelper['data_hora_banco']
+        ];
+
+        $usuarioModel = new UsuarioModels();
+        $retornoIdUsuario = $usuarioModel->atualizarUsuario($dadosEnviar);
+        
+        if (!$retornoIdUsuario) {
+            return ['status' => 1, 'msg' => 'Não foi possível ativar/inativar o usuário.', 'alert' => 1];
+        }
+
+        return ['status' => 0, 'msg' => "Usuário $nome $sobrenome $condicaoMensagem com sucesso. $complementoMensagem", 'alert' => 0, 'redirecionar' => 'apps/administracao/usuarios/'];
+
+    }
 }
