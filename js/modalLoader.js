@@ -42,6 +42,10 @@ function abrirModalEditarExcluir(botaoClick, classIdTabela, urlCaminho, classCli
             if (tipoModal == 'modal-excluir') {
                 var capaModal = '/include/modal/capaModalExcluir.php';
             }
+            
+            if (tipoModal == 'modal-alerta-acao') {
+                var capaModal = '/include/modal/capaModalAlertaAcao.php';
+            }
         }
 
         $.ajax({
@@ -150,4 +154,6 @@ $(document).ready(function () {
     abrirModalEditarExcluir('.icone-acao-excluir-equipamento-calibracao', 'tr', 'include/mExcluirEquipamentoCalibracao.php', 'click-excluir', '.modal-body-excluir', '#modal-excluir', 'modal-md', '-');
     abrirModalEditarExcluir('.icone-acao-editar-equipamento-calibracao', 'tr', 'include/mEditarEquipamentoCalibracao.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar equipamento de calibração');
     abrirModalEditarExcluir('.icone-acao-editar-usuario', 'tr', 'include/mEditarUsuario.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-md', 'Editar usuário');
+
+    abrirModalEditarExcluir('.icone-acao-ativar-inativar-usuario', 'tr', 'include/mAtivarInativarUsuario.php', 'click-acao-modal', '.modal-body-alerta', '#modal-alerta-acao', 'modal-md', 'Ativar/Inativar usuário');
 });
