@@ -39,8 +39,6 @@
 
 .td-legenda-bg-2 {
     position: relative;
-    display: flex;
-    height: 51px !important;
 }
 
 .td-legenda-bg-2 p{
@@ -75,4 +73,35 @@
 
 .legenda-bg.legenda-default {
     background-color: var(--color-a3);
+}
+
+/* legenda modelo status bg 2 */
+.legenda-bg-2-status-green-3 {
+    background-color: var(--color-a-green3);
+    color: var(--color-a-green3);
+}
+
+.legenda-bg-2-status-red-3 {
+    background-color: var(--color-a-red3);
+    color: var(--color-a-red3);
+}
+
+.legenda-bg-2-status-yellow-3 {
+    background-color: var(--color-a-yellow3);
+    color: var(--color-a-yellow3);
+}
+
+.legenda-bg-2-status-green-4 {
+    background-color: var(--color-a-green4);
+    color: var(--color-a-green4);
+}
+
+.legenda-bg-2-status-red-4 {
+    background-color: var(--color-a-red4);
+    color: var(--color-a-red4);
+}
+
+.legenda-bg-2-status-yellow-4 {
+    background-color: var(--color-a-yellow4);
+    color: var(--color-a-yellow4);
 }
