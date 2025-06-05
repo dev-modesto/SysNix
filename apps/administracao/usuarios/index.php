@@ -1,7 +1,6 @@
 <?php
 
-use App\Controllers\EquipamentoCalibracaoController;
-use App\Helpers\DataHelper;
+use App\Controllers\UsuarioController;
 use App\Helpers\EquipamentoCalibracao\StatusEquipamentoCalibracaoHelper;
 use App\Helpers\MensagemHelper;
 
@@ -37,6 +36,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap5.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- fonts google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,6 +44,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+   
 </head>
 
     <style>
@@ -135,30 +136,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                 <tbody class="table-group-divider">
                     <?php
 
-                        // $allEquipamentoCalibracao = EquipamentoCalibracaoController::selecionar();
-
-                        $quey = "SELECT
-                                    u.id,
-                                    u.uuid,
-                                    u.email,
-                                    u.nome,
-                                    u.sobrenome,
-                                    u.senha,
-                                    u.foto,
-                                    u.primeiro_acesso,
-                                    u.tentativas_login,
-                                    u.status,
-                                    GROUP_CONCAT(e.nome_fantasia SEPARATOR ' | ') AS empresas,
-                                    GROUP_CONCAT(e.status SEPARATOR ', ') AS status_empresas
-                                FROM tbl_usuario u
-                                INNER JOIN tbl_usuario_empresa ue ON ue.id_usuario = u.id
-                                INNER JOIN tbl_empresa e ON ue.id_empresa = e.id
-                                GROUP BY
-                                    u.id, u.uuid, u.email, u.nome, u.sobrenome, u.senha,
-                                    u.foto, u.primeiro_acesso, u.tentativas_login, u.status
-                                ;";
-                        $dados = mysqli_query($con, $quey);
-                        $allUsuarios = mysqli_fetch_all($dados, MYSQLI_ASSOC);
+                        $allUsuarios = UsuarioController::selecionar();
 
                         if(count($allUsuarios) > 0) {
 
@@ -172,7 +150,14 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 $foto = $valor['foto'];
                                 $primeiroAcesso = $valor['primeiro_acesso'];
                                 $status = $valor['status'];
-    
+
+                                if ($status == 'validar' || $status == 'ativo') {
+                                    $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-usuario" data-tipo-modal="modal-alerta-acao">block</span>';
+
+                                } else {
+                                    $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-usuario" data-tipo-modal="modal-alerta-acao">check_circle</span>';
+                                }
+
                                 echo <<<HTML
                                         <tr data-key-public="$uuidUsuario">
                                             <td>$nomeCompleto</td>
@@ -182,7 +167,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$status</td>
                                             <td class="container-icone-acao td-icons">
                                                 <span class="material-symbols-rounded icone-acao-editar-usuario" data-tipo-modal="modal-editar">edit</span>
-                                                <span class="material-symbols-rounded icone-acao-excluir-usuario" data-tipo-modal="modal-excluir">delete</span>
+                                                $botao
                                             </td>
                                             <td></td>
                                         </tr>
@@ -194,7 +179,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 
                             echo <<<HTML
                                 <tr>
-                                    <td style="text-align: center;">Nenhum equipamento encontrado.</td>
+                                    <td style="text-align: center;">Nenhum usuário encontrado.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -221,7 +206,6 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 <!-- importação scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-2.2.2/datatables.min.js" integrity="sha384-2Ul6oqy3mEjM7dBJzKOck1Qb/mzlO+k/0BQv3D3C7u+Ri9+7OBINGa24AeOv5rgu" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.dataTables.js"></script>
@@ -244,6 +228,8 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 <script src="<?= BASE_URL ?>/vendor/igorescobar/jquery-mask-plugin/src/jquery.mask.js"></script>
 <script src="<?= BASE_URL ?>/js/menu.js"></script>
 <script src="<?= BASE_URL ?>/js/modalLoader.js"></script>
+<script src="<?= BASE_URL ?>/js/ajaxModalTabela.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>
 
