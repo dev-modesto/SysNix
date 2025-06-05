@@ -28,6 +28,9 @@ function ajaxControllerModalAcao(publickey = null, classBody, formSubmit, contro
 
     $(document).ready(function () {
 
+        $(document).off('submit', formSubmit);
+        $(document).off('click', '.btn-submit-modal');
+
         $(document).on('submit', `${formSubmit}`, function (e) {
             e.preventDefault();
 
