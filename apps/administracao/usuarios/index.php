@@ -1,8 +1,11 @@
 <?php
 
 use App\Controllers\UsuarioController;
+use App\Controllers\UsuarioEmpresaController;
+use App\Controllers\ViewController;
 use App\Helpers\EquipamentoCalibracao\StatusEquipamentoCalibracaoHelper;
 use App\Helpers\MensagemHelper;
+use App\Models\ViewModel;
 
 include_once '../../../app/config/config.php';
 include SEGURANCA;
@@ -11,6 +14,31 @@ include ARQUIVO_CONEXAO;
 $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipamentoCalibracao();
     $tituloPaginaHead = 'Home | Sysnix';
     $tituloPagina = 'Home';
+
+$nomePasta = basename(__DIR__);
+$arrayDadosTela = ViewController::retornarViewTelaController($nomePasta);
+$nomeTela = $arrayDadosTela['nome'];
+$idTela = $arrayDadosTela['id'];
+$telaPagina = $nomeTela;
+
+$viewsModulo = new ViewModel();
+$dadosViewsModuloTela = $viewsModulo->selecionarViewsModulo('tela', null, $idTela);
+
+$nomeModulo = $dadosViewsModuloTela[0]['nome_modulo'];
+$caminhoModulo = $dadosViewsModuloTela[0]['caminho_modulo'];
+$caminhoView = $dadosViewsModuloTela[0]['caminho_view'];
+
+$dadosBreadcrumb = [
+    [
+        'nome' => $nomeModulo,
+        'caminho' => BASE_URL . "/apps/" . $caminhoModulo
+    ],
+    [
+        'nome' => $telaPagina,
+        'caminho' => BASE_URL . "/apps/" . "$caminhoModulo/$caminhoView"
+    ]
+    
+];
 
 ?>
 
@@ -112,9 +140,19 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
 </div>
 
 <div class="breadcrumb">
-    <span>Usuários</span>
-    <!-- <a href="usuarios.php">Usuários</a> &gt;
-    <a href="usuarios.php">Usuários</a> &gt; -->
+
+    <?php
+
+        foreach ($dadosBreadcrumb as $chave => $valor) {
+            $nome = $valor['nome'];
+            $caminho = $valor['caminho'];
+            
+            echo <<<HTML
+                <a href="$caminho"><span>$nome</span></a>
+            HTML;
+        }
+
+    ?>
 </div>
 
 <div class="conteudo">
@@ -136,7 +174,14 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                 <tbody class="table-group-divider">
                     <?php
 
-                        $allUsuarios = UsuarioController::selecionar();
+                        $empresaUsuario = UsuarioEmpresaController::buscarEmpresasUsuario($_SESSION['id_usuario']);
+                        $arrayIdEmpresa = [];
+
+                        foreach ($empresaUsuario as $chave => $valor) {
+                            $arrayIdEmpresa[] = $valor['id'];
+                        }
+
+                        $allUsuarios = UsuarioController::selecionar($arrayIdEmpresa);
 
                         if(count($allUsuarios) > 0) {
 
@@ -163,10 +208,9 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                 };
 
                                 $legendaStatus = match ($status) {
-                                    'ativo' => 'usuario-status-ativo',
-                                    'inativo' => 'usuario-status-inativo',
-                                    'validar' => 'usuario-status-validar',
-                                    default => 'status-sit-cal-0'
+                                    'ativo' => 'legenda-bg-2-status-green-3',
+                                    'inativo' => 'legenda-bg-2-status-red-3',
+                                    'validar' => 'legenda-bg-2-status-yellow-3'
                                 };
 
 
@@ -183,7 +227,7 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$email</td>
                                             <td>$empresas</td>
                                             <td><span class="legenda-bg legenda-default">$primeiroAcessoTextoFront</span></td>
-                                            <td><span class="legenda-bg $legendaStatus">$statusTextoFront</span></td>
+                                            <td class="td-legenda-bg-2"><span class="legenda-bg-2 $legendaStatus"><p>$statusTextoFront</p></span></td>
                                             <td class="container-icone-acao td-icons">
                                                 <span class="material-symbols-rounded icone-acao-editar-usuario" data-tipo-modal="modal-editar">edit</span>
                                                 $botao
