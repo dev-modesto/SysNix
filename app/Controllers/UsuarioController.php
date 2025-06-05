@@ -3,10 +3,19 @@
 namespace App\Controllers;
 
 use App\Helpers\UuidHelper;
+use App\Models\UsuarioModels;
 use App\Services\Usuario\UsuarioService;
 
 class UsuarioController
 {
+
+    public static function selecionar() {
+
+        $UsuarioModel = new UsuarioModels();
+        $dadosUsuarioModel = $UsuarioModel->selecionar();
+
+        return $dadosUsuarioModel;
+    }
 
     public static function cadastrar(array $dados) {
 
@@ -26,6 +35,13 @@ class UsuarioController
     public static function atualizar($dados) {
         $usuarioService = new UsuarioService();
         $dadosUsuarioService = $usuarioService->atualizarUsuario($dados);
+
+        return $dadosUsuarioService;
+    }
+
+    public static function ativarInativar($dados) {
+        $usuarioService = new UsuarioService();
+        $dadosUsuarioService = $usuarioService->ativarInativarUsuario($dados);
 
         return $dadosUsuarioService;
     }
