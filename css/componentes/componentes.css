@@ -37,3 +37,42 @@
     border: 1px solid #dee2e6 !important;
 }
 
+.td-legenda-bg-2 {
+    position: relative;
+    display: flex;
+    height: 51px !important;
+}
+
+.td-legenda-bg-2 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.legenda-bg-2 {
+    content: '';
+    position: absolute;
+    display: flex;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: calc(50% - 5px);
+}
+
+.legenda-bg.usuario-status-inativo {
+    background-color: var(--color-a-red1);
+    color: var(--color-a-red7);
+}
+.legenda-bg.usuario-status-ativo {
+    background-color: var(--color-a-green2);
+    color: var(--color-a-green4);
+}
+.legenda-bg.usuario-status-validar {
+    background-color: var(--color-a-yellow2);
+    color: var(--color-a-yellow4);
+}
+
+.legenda-bg.legenda-default {
+    background-color: var(--color-a3);
+}
