@@ -9,10 +9,11 @@ use App\Services\Usuario\UsuarioService;
 class UsuarioController
 {
 
-    public static function selecionar() {
-
+    public static function selecionar($idEmpresa = null) {
+        $dadosIdEmpresa = $idEmpresa;
+        
         $UsuarioModel = new UsuarioModels();
-        $dadosUsuarioModel = $UsuarioModel->selecionar();
+        $dadosUsuarioModel = $UsuarioModel->selecionar($dadosIdEmpresa);
 
         return $dadosUsuarioModel;
     }
