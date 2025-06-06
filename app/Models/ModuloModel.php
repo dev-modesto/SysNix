@@ -35,4 +35,58 @@ class ModuloModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function cadastrarModulo($dados) {
+
+        $query = 
+            "INSERT INTO tbl_modulo (
+                uuid,
+                nome,
+                icone,
+                caminho,
+                status,
+                created_at,
+                updated_at
+            ) VALUES (
+                :uuid,
+                :nome,
+                :icone,
+                :caminho,
+                :status,
+                :created_at,
+                :updated_at
+            )
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+        $stmt->execute();
+        return $this->pdo->lastInsertId();
+
+    }
+
+    public function atualizarModulo($dados) {
+        $id = $dados['id'];
+        unset($dados['id']);
+
+        $campos = [];
+
+        foreach ($dados as $coluna => $valor) {
+            $campos[] = "{$coluna} = :{$coluna}";
+        }
+
+        $query = "UPDATE tbl_modulo SET " . implode(',', $campos) . " WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($query);
+        $dados['id'] = $id;
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+
+        return $stmt->execute();
+    }
+
 }
