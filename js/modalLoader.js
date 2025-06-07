@@ -155,6 +155,7 @@ $(document).ready(function () {
     abrirModalEditarExcluir('.icone-acao-editar-equipamento-calibracao', 'tr', 'include/mEditarEquipamentoCalibracao.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar equipamento de calibração');
     abrirModalEditarExcluir('.icone-acao-editar-usuario', 'tr', 'include/mEditarUsuario.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-md', 'Editar usuário');
     abrirModalEditarExcluir('.icone-acao-editar-modulo', 'tr', 'include/mEditarModulo.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-md', 'Editar módulo');
+    abrirModalEditarExcluir('.icone-acao-editar-tela', 'tr', 'include/mEditarTela.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-md', 'Editar tela');
 
     abrirModalEditarExcluir('.icone-acao-ativar-inativar-usuario', 'tr', 'include/mAtivarInativarUsuario.php', 'click-acao-modal', '.modal-body-alerta', '#modal-alerta-acao', 'modal-md', 'Ativar/Inativar usuário');
     
