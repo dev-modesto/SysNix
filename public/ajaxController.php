@@ -9,7 +9,8 @@ $rotasPermitidas = [
     'EquipamentoCalibracao' => ['selecionar', 'cadastrar', 'atualizar', 'remover', 'importar'],
     'StatusEquipamentoCalibracao' => ['retornarStatusUso'],
     'Usuario' => ['cadastrar', 'atualizar','ativarInativar'],
-    'Modulo' => ['cadastrar', 'atualizar', 'ativarInativar', 'remover'] 
+    'Modulo' => ['cadastrar', 'atualizar', 'ativarInativar', 'remover'] ,
+    'View' => ['cadastrar', 'atualizar', 'ativarInativar', 'remover']
 ];
 
 
