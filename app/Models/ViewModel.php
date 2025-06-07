@@ -80,4 +80,66 @@ class ViewModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function selecionarTelas() {
+        $query = "SELECT * FROM tbl_tela";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function cadastrarTela($dados) {
+
+        $query = 
+            "INSERT INTO tbl_tela (
+                uuid,
+                nome,
+                icone,
+                caminho,
+                status,
+                created_at,
+                updated_at
+            ) VALUES (
+                :uuid,
+                :nome,
+                :icone,
+                :caminho,
+                :status,
+                :created_at,
+                :updated_at
+            )
+        ";
+
+        $stmt = $this->pdo->prepare($query);
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+        $stmt->execute();
+        return $this->pdo->lastInsertId();
+
+    }
+
+    public function atualizarTela($dados) {
+        $id = $dados['id'];
+        unset($dados['id']);
+
+        $campos = [];
+
+        foreach ($dados as $coluna => $valor) {
+            $campos[] = "{$coluna} = :{$coluna}";
+        }
+
+        $query = "UPDATE tbl_tela SET " . implode(',', $campos) . " WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($query);
+        $dados['id'] = $id;
+
+        foreach ($dados as $chave => $valor) {
+            $stmt->bindValue(":$chave", $valor);
+        }
+
+        return $stmt->execute();
+    }
+
 }
