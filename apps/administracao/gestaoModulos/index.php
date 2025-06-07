@@ -151,87 +151,185 @@ $dadosBreadcrumb = [
 <div class="conteudo">
 
     <div class="container-principal">
-        <div class="container-tabela">
-            <table class="myTable table nowrap order-column table-hover text-left">
-                <thead class="">
-                    <tr>
-                        <th class="all">Nome</th>
-                        <th class="all">Ícone</th>
-                        <th class="all">Caminho</th>
-                        <th class="all">Status</th>
-                        <th class="all">Ação</th>
-                        <th class="all"></th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <?php
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-modulos" data-bs-toggle="tab" data-bs-target="#modulos" type="button" role="tab" aria-controls="modulos" aria-selected="true">Módulos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-telas" data-bs-toggle="tab" data-bs-target="#telas" type="button" role="tab" aria-controls="telas" aria-selected="false">Telas</button>
+                </li>
+            </ul>
 
-                        $allModulos = ModuloController::selecionar();
-                        
-                        $arrayId = [];
+        <div class="tab-content">
+            <div class="tab-pane active" id="modulos" role="tabpanel" aria-labelledby="tab-modulos" tabindex="0">
+                <div class="container-tabela">
+                    <table class="myTable-modulos table nowrap order-column table-hover text-left">
+                        <thead class="">
+                            <tr>
+                                <th class="all">Nome</th>
+                                <th class="all">Ícone</th>
+                                <th class="all">Caminho</th>
+                                <th class="all">Status</th>
+                                <th class="all">Ação</th>
+                                <th class="all"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <?php
 
-                        foreach ($allModulos as $chave => $valor) {
-                            $arrayId[] = $valor['id'];
-                        }
+                                $allModulos = ModuloController::selecionar();
+                                
+                                $arrayId = [];
 
-                        if(count($allModulos) > 0) {
-
-                            foreach ($allModulos as $chave => $valor) {
-                                $uuidModulo = $valor['uuid'];
-                                $nome = $valor['nome'];
-                                $icone = $valor['icone'];
-                                $caminho = $valor['caminho'];
-                                $status = $valor['status'];
-
-                                $statusTextoFront = match ($status) {
-                                    'ativo' => 'Ativo',
-                                    'inativo' => 'Inativo'
-                                };
-
-                                $legendaStatus = match ($status) {
-                                    'ativo' => 'legenda-bg-2-status-green-3',
-                                    'inativo' => 'legenda-bg-2-status-red-3'
-                                };
-
-
-                                if ($status == 'ativo') {
-                                    $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-usuario" data-tipo-modal="modal-alerta-acao">block</span>';
-
-                                } else {
-                                    $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-usuario" data-tipo-modal="modal-alerta-acao">check_circle</span>';
+                                foreach ($allModulos as $chave => $valor) {
+                                    $arrayId[] = $valor['id'];
                                 }
 
-                                echo <<<HTML
-                                        <tr data-key-public="$uuidModulo">
-                                            <td>$nome</td>
-                                            <td>$icone</td>
-                                            <td>$caminho</td>
-                                            <td class="td-legenda-bg-2"><span class="legenda-bg-2 $legendaStatus"><p>$statusTextoFront</p></span></td>
-                                            <td class="container-icone-acao td-icons">
-                                                <span class="material-symbols-rounded icone-acao-editar-modulo" data-tipo-modal="modal-editar">edit</span>
-                                                $botao
-                                            </td>
+                                if(count($allModulos) > 0) {
+
+                                    foreach ($allModulos as $chave => $valor) {
+                                        $uuidModulo = $valor['uuid'];
+                                        $nome = $valor['nome'];
+                                        $icone = $valor['icone'];
+                                        $caminho = $valor['caminho'];
+                                        $status = $valor['status'];
+
+                                        $statusTextoFront = match ($status) {
+                                            'ativo' => 'Ativo',
+                                            'inativo' => 'Inativo'
+                                        };
+
+                                        $legendaStatus = match ($status) {
+                                            'ativo' => 'legenda-bg-2-status-green-3',
+                                            'inativo' => 'legenda-bg-2-status-red-3'
+                                        };
+
+
+                                        if ($status == 'ativo') {
+                                            $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-modulo" data-tipo-modal="modal-alerta-acao">block</span>';
+
+                                        } else {
+                                            $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-modulo" data-tipo-modal="modal-alerta-acao">check_circle</span>';
+                                        }
+
+                                        echo <<<HTML
+                                                <tr data-key-public="$uuidModulo">
+                                                    <td>$nome</td>
+                                                    <td>$icone</td>
+                                                    <td>$caminho</td>
+                                                    <td class="td-legenda-bg-2"><span class="legenda-bg-2 $legendaStatus"><p>$statusTextoFront</p></span></td>
+                                                    <td class="container-icone-acao td-icons">
+                                                        <span class="material-symbols-rounded icone-acao-editar-modulo" data-tipo-modal="modal-editar">edit</span>
+                                                        $botao
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            HTML
+                                        ;
+                                    }
+
+                                } else {
+
+                                    echo <<<HTML
+                                        <tr>
+                                            <td style="text-align: center;">Nenhum módulo encontrado.</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td></td>
                                         </tr>
-                                    HTML
-                                ;
-                            }
+                                    HTML;
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                        } else {
+            <div class="tab-pane" id="telas" role="tabpanel" aria-label="tab-telas" tabindex="0">
+                <div class="container-tabela">
+                    <table class="myTable-telas table nowrap order-column table-hover text-left">
+                        <thead class="">
+                            <tr>
+                                <th class="all">Nome</th>
+                                <th class="all">Ícone</th>
+                                <th class="all">Caminho</th>
+                                <th class="all">Status</th>
+                                <th class="all">Ação</th>
+                                <th class="all"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <?php
 
-                            echo <<<HTML
-                                <tr>
-                                    <td style="text-align: center;">Nenhum módulo encontrado.</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            HTML;
-                        }
-                    ?>
-                </tbody>
-            </table>
+                                $allTelas = ViewController::selecionar();
+                                
+                                $arrayId = [];
+
+                                foreach ($allTelas as $chave => $valor) {
+                                    $arrayId[] = $valor['id'];
+                                }
+
+                                if(count($allTelas) > 0) {
+
+                                    foreach ($allTelas as $chave => $valor) {
+                                        $uuidTela = $valor['uuid'];
+                                        $nome = $valor['nome'];
+                                        $icone = $valor['icone'];
+                                        $caminho = $valor['caminho'];
+                                        $status = $valor['status'];
+
+                                        $statusTextoFront = match ($status) {
+                                            'ativo' => 'Ativo',
+                                            'inativo' => 'Inativo'
+                                        };
+
+                                        $legendaStatus = match ($status) {
+                                            'ativo' => 'legenda-bg-2-status-green-3',
+                                            'inativo' => 'legenda-bg-2-status-red-3'
+                                        };
+
+
+                                        if ($status == 'ativo') {
+                                            $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-tela" data-tipo-modal="modal-alerta-acao">block</span>';
+
+                                        } else {
+                                            $botao = '<span class="material-symbols-rounded icone-acao-ativar-inativar-tela" data-tipo-modal="modal-alerta-acao">check_circle</span>';
+                                        }
+
+                                        echo <<<HTML
+                                                <tr data-key-public="$uuidTela">
+                                                    <td>$nome</td>
+                                                    <td>$icone</td>
+                                                    <td>$caminho</td>
+                                                    <td class="td-legenda-bg-2"><span class="legenda-bg-2 $legendaStatus"><p>$statusTextoFront</p></span></td>
+                                                    <td class="container-icone-acao td-icons">
+                                                        <span class="material-symbols-rounded icone-acao-editar-tela" data-tipo-modal="modal-editar">edit</span>
+                                                        $botao
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            HTML
+                                        ;
+                                    }
+
+                                } else {
+
+                                    echo <<<HTML
+                                        <tr>
+                                            <td style="text-align: center;">Nenhuma tela encontrada.</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    HTML;
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -278,89 +376,191 @@ $dadosBreadcrumb = [
 <script>
     var baseUrl = <?= json_encode(BASE_URL)?>;
 
-    $(document).ready( function () {
-        new DataTable('.myTable', {
-            pagingType: 'simple_numbers',
-            language: {
-                url: '<?= BASE_URL ?>/js/pt_br.json'
-            },
-            order: [],
-            responsive: true,
+    function configTabActiveModulosTelas(tabActive) {
 
-            layout: {
-                topEnd: {
-                        pageLength: {
-                        menu: [10, 25, 50, 100],
-                        text: 'Linhas por página: _MENU_'
+        if (tabActive == 'tab-modulos') {
+            if (!$.fn.DataTable.isDataTable('.myTable-modulos')) {
+                new DataTable('.myTable-modulos', {
+                    pagingType: 'simple_numbers',
+                    language: {
+                        url: '<?= BASE_URL ?>/js/pt_br.json'
                     },
-                },
-                
-                topStart: {
-                    search: {
-                        text: '<span class="material-symbols-rounded">search</span>',
-                        placeholder: 'Buscar na tabela',
-                        className: 'barra-pesquisa',
-                        processing: true
-                    }
-                },
-                top2Start: {
-                    buttons: [
-                        {
-                            extend: 'colvis',
-                            text: 'Colunas visíveis',
-                            className: 'btn-personalizado-tabela btn-dropdown',
-                        }
-                    ]
-                },
-                top2End: {
-                    buttons: [
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: ':visible'
+                    order: [],
+                    responsive: true,
+
+                    layout: {
+                        topEnd: {
+                                pageLength: {
+                                menu: [10, 25, 50, 100],
+                                text: 'Linhas por página: _MENU_'
                             },
-                            messageTop:
-                            'The information in this table is copyright to Sirius Cybernetics Corp.',
-                            className: 'btn-personalizado-tabela btn-impressao',
                         },
-                        {
-                            extend: 'collection',
-                            text: '<span class="material-symbols-rounded icone">download</span>Exportar',
+                        
+                        topStart: {
+                            search: {
+                                text: '<span class="material-symbols-rounded">search</span>',
+                                placeholder: 'Buscar na tabela',
+                                className: 'barra-pesquisa',
+                                processing: true
+                            }
+                        },
+                        top2Start: {
                             buttons: [
                                 {
-                                    extend: 'excelHtml5',
-                                    text: 'Excel',
+                                    extend: 'colvis',
+                                    text: 'Colunas visíveis',
+                                    className: 'btn-personalizado-tabela btn-dropdown',
+                                }
+                            ]
+                        },
+                        top2End: {
+                            buttons: [
+                                {
+                                    extend: 'print',
                                     exportOptions: {
                                         columns: ':visible'
                                     },
-                                }
+                                    messageTop:
+                                    'The information in this table is copyright to Sirius Cybernetics Corp.',
+                                    className: 'btn-personalizado-tabela btn-impressao',
+                                },
+                                {
+                                    extend: 'collection',
+                                    text: '<span class="material-symbols-rounded icone">download</span>Exportar',
+                                    buttons: [
+                                        {
+                                            extend: 'excelHtml5',
+                                            text: 'Excel',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            },
+                                        }
+                                    ],
+                                    className: 'btn-personalizado-tabela btn-exportar',
+                                },
+                                {
+                                    text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
+                                    className: 'btn btn-personalizado-tabela btn-cadastro btn-cadastro-modulos',
+                                    action: function (e, dt, node, config, cb) {
+                                        abrirModalCadastrar('include/mCadastrarModulo.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-md','Cadastrar Módulo');
+                                    }
+                                },
                             ],
-                            className: 'btn-personalizado-tabela btn-exportar',
                         },
-                        {
-                            text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
-                            className: 'btn btn-personalizado-tabela btn-cadastro btn-cadastro-usuario',
-                            action: function (e, dt, node, config, cb) {
-                                abrirModalCadastrar('include/mCadastrarModulo.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-md','Cadastrar Módulo');
+                        bottomStart: 'info',
+                        bottomEnd: {
+                            paging: {
+                                type: 'first_last_numbers',
                             }
                         },
-                    ],
-                },
-                bottomStart: 'info',
-                bottomEnd: {
-                    paging: {
-                        type: 'first_last_numbers',
-                    }
-                },
-            },
-            columnDefs: [
-                {
-                    targets: -1,
-                    visible: false,
-                }
-            ]
+                    },
+                    columnDefs: [
+                        {
+                            targets: -1,
+                            visible: false,
+                        }
+                    ]
 
+                });
+            }
+        }
+        
+        if (tabActive == 'tab-telas') {
+            if (!$.fn.DataTable.isDataTable('.myTable-telas')) {
+                new DataTable('.myTable-telas', {
+                    pagingType: 'simple_numbers',
+                    language: {
+                        url: '<?= BASE_URL ?>/js/pt_br.json'
+                    },
+                    order: [],
+                    responsive: true,
+
+                    layout: {
+                        topEnd: {
+                                pageLength: {
+                                menu: [10, 25, 50, 100],
+                                text: 'Linhas por página: _MENU_'
+                            },
+                        },
+                        
+                        topStart: {
+                            search: {
+                                text: '<span class="material-symbols-rounded">search</span>',
+                                placeholder: 'Buscar na tabela',
+                                className: 'barra-pesquisa',
+                                processing: true
+                            }
+                        },
+                        top2Start: {
+                            buttons: [
+                                {
+                                    extend: 'colvis',
+                                    text: 'Colunas visíveis',
+                                    className: 'btn-personalizado-tabela btn-dropdown',
+                                }
+                            ]
+                        },
+                        top2End: {
+                            buttons: [
+                                {
+                                    extend: 'print',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    },
+                                    messageTop:
+                                    'The information in this table is copyright to Sirius Cybernetics Corp.',
+                                    className: 'btn-personalizado-tabela btn-impressao',
+                                },
+                                {
+                                    extend: 'collection',
+                                    text: '<span class="material-symbols-rounded icone">download</span>Exportar',
+                                    buttons: [
+                                        {
+                                            extend: 'excelHtml5',
+                                            text: 'Excel',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            },
+                                        }
+                                    ],
+                                    className: 'btn-personalizado-tabela btn-exportar',
+                                },
+                                {
+                                    text: '<span class="material-symbols-rounded icone">add</span>Cadastrar',
+                                    className: 'btn btn-personalizado-tabela btn-cadastro btn-cadastro-telas',
+                                    action: function (e, dt, node, config, cb) {
+                                        abrirModalCadastrar('include/mCadastrarTela.php', '.modal-body-cadastrar', '#modal-cadastrar', 'modal-md','Cadastrar Tela');
+                                    }
+                                },
+                            ],
+                        },
+                        bottomStart: 'info',
+                        bottomEnd: {
+                            paging: {
+                                type: 'first_last_numbers',
+                            }
+                        },
+                    },
+                    columnDefs: [
+                        {
+                            targets: -1,
+                            visible: false,
+                        }
+                    ]
+
+                });
+            }
+        }
+    }
+
+    let tabActive = $('.nav-link.active').attr('id');
+    configTabActiveModulosTelas(tabActive);
+
+    $(document).ready(function () {
+        $('.nav-link').on('shown.bs.tab', function (e) {
+            let tabActive = $(e.target).attr('id');
+            configTabActiveModulosTelas(tabActive);
         });
-    } );
+    });
 
 </script>
