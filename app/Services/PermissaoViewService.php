@@ -22,7 +22,7 @@ class PermissaoViewService
 
             // consultando as views do tipo tela do modulo em especifico
             $viewsModulo = new ViewModel();
-            $dadosViewsModuloTela = $viewsModulo->selecionarViewsModulo($idModulo,'tela');
+            $dadosViewsModuloTela = $viewsModulo->selecionarViewsModulo('tela',$idModulo);
             $arrayDadosTela = [];
 
             if (!empty($dadosViewsModuloTela)) {
@@ -33,7 +33,7 @@ class PermissaoViewService
             }
 
             // consultando as views do tipo submodulo do modulo em especifico
-            $dadosViewsModuloSubmodulo = $viewsModulo->selecionarViewsModulo($idModulo,'submodulo');
+            $dadosViewsModuloSubmodulo = $viewsModulo->selecionarViewsModulo('submodulo', $idModulo);
             $arrayDadosSubmodulo = [];
 
             if (!empty($dadosViewsModuloSubmodulo)) {

@@ -24,9 +24,12 @@ function ajaxModalTabelaAcaoExcluir(publickey, controller, acao, baseUrl) {
     });
 }
 
-function ajaxControllerModalAcao(publickey = null, formSubmit, controller, acao, baseUrl) {
+function ajaxControllerModalAcao(publickey = null, classBody, formSubmit, controller, acao, baseUrl) {
 
     $(document).ready(function () {
+
+        $(document).off('submit', formSubmit);
+        $(document).off('click', '.btn-submit-modal');
 
         $(document).on('submit', `${formSubmit}`, function (e) {
             e.preventDefault();
@@ -50,6 +53,15 @@ function ajaxControllerModalAcao(publickey = null, formSubmit, controller, acao,
                 data: formData,
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    $('.btn-submit-modal').prop('disabled', true);
+                    $('.btn-submit-modal').css('cursor', 'not-allowed');
+                    let modeloSpinners = spinners();
+                    let htmlString = modeloSpinners['modelo-1-cor1'];
+                    $(classBody).append('<div class="modal-loader"><div class="loader-conteudo"></div></div>');
+                    $('.loader-conteudo').append(htmlString);
+                    $('.loader-conteudo').append("<p>Processando informações...</p>");
+                },
                 success: function (response) {
                     window.location.href = `${baseUrl}/${response.data.redirecionar}?msg=${encodeURIComponent(response.data.msg)}&alert=${response.data.alert}`;
                 }

@@ -397,11 +397,11 @@ $totalStatusEquipamento = StatusEquipamentoCalibracaoHelper::totalStatusEquipame
                                             <td>$ei2a8</td>
                                             <td>$ei15a25</td>
                                             <td><span class="legenda-bg $legandaStatusFuncional">$statusFuncional</span></td>
-                                            <td class="legenda-bg-2"><span style="background-color: $corStatusUso"></span>$statusUso</td>
+                                            <td class="legenda-bg"><span style="background-color: $corStatusUso"></span>$statusUso</td>
                                             <td><span class="legenda-bg $legendaStatusCalibracao">$statusCalibracao</span></td>
                                             <td class="container-icone-acao td-icons">
-                                                <span class="material-symbols-rounded icone-acao-editar">edit</span>
-                                                <span class="material-symbols-rounded icone-acao-excluir">delete</span>
+                                                <span class="material-symbols-rounded icone-acao-editar-equipamento-calibracao" data-tipo-modal="modal-editar">edit</span>
+                                                <span class="material-symbols-rounded icone-acao-excluir-equipamento-calibracao" data-tipo-modal="modal-excluir">delete</span>
                                             </td>
                                             <td></td>
                                         </tr>

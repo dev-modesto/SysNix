@@ -1,5 +1,5 @@
 <?php
-    include_once 'config.php';
+    // include_once 'config.php';
     require_once BASE_PATH . '/vendor/autoload.php';
 
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);

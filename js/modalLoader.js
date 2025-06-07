@@ -26,18 +26,26 @@ function fecharModal(idModal, urlModal) {
     });
 }
 
-function abrirModalEditarExcluir(botaoClick, classIdTabela, idDataPesquisa, urlCaminho, classClickTrue, classBody, idModal, tamanhoModal, textoTituloModal) {
+function abrirModalEditarExcluir(botaoClick, classIdTabela, urlCaminho, classClickTrue, classBody, idModal, tamanhoModal, textoTituloModal) {
 
     $(document).on('click', botaoClick, function (e) {
         e.preventDefault();
-        let idPrincipal = $(this).closest(classIdTabela).data(idDataPesquisa);
+        let idPrincipal = $(this).closest(classIdTabela).data('key-public');
 
-        if(botaoClick == '.icone-acao-editar') {
-            var capaModal = '/include/modal/capaModalEditar.php';
-        }
+        if (botaoClick) {
+            let tipoModal = $(this).data('tipo-modal');
 
-        if(botaoClick == '.icone-acao-excluir') {
-            var capaModal = '/include/modal/capaModalExcluir.php';
+            if (tipoModal == 'modal-editar') {
+                var capaModal = '/include/modal/capaModalEditar.php';
+            }
+
+            if (tipoModal == 'modal-excluir') {
+                var capaModal = '/include/modal/capaModalExcluir.php';
+            }
+            
+            if (tipoModal == 'modal-alerta-acao') {
+                var capaModal = '/include/modal/capaModalAlertaAcao.php';
+            }
         }
 
         $.ajax({
@@ -68,6 +76,15 @@ function abrirModalEditarExcluir(botaoClick, classIdTabela, idDataPesquisa, urlC
                     success: function (response) {
                         $(classBody).html(response);
                         $(elementoTituloModal).html(textoTituloModal);
+
+                        $(idModal).find('.js-example-basic-multiple').each(function () {
+                            if (!$(this).hasClass('select2-hidden-accessible')) {
+                                $(this).select2({
+                                    dropdownParent: $(idModal),
+                                    width: '100%'
+                                });
+                            }
+                        });
                     }
                 });
             }
@@ -102,6 +119,15 @@ function abrirModalCadastrar(urlCaminho, classBody, idModal, tamanhoModal, texto
                 success: function (response) {
                     $(classBody).html(response);
                     $(elementoTituloModal).html(textoTituloModal);
+
+                    $(idModal).find('.js-example-basic-multiple').each(function () {
+                        if (!$(this).hasClass('select2-hidden-accessible')) {
+                            $(this).select2({
+                                dropdownParent: $(idModal),
+                                width: '100%'
+                            });
+                        }
+                    });
                 }
             });
         }
@@ -125,6 +151,11 @@ $(document).ready(function () {
 
     });
 
-    abrirModalEditarExcluir('.icone-acao-excluir', 'tr', 'key-public', 'include/mExcluirEquipamentoCalibracao.php', 'click-excluir', '.modal-body-excluir', '#modal-excluir', 'modal-md', '-');
-    abrirModalEditarExcluir('.icone-acao-editar', 'tr', 'key-public', 'include/mEditarEquipamentoCalibracao.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar equipamento de calibração');
+    abrirModalEditarExcluir('.icone-acao-excluir-equipamento-calibracao', 'tr', 'include/mExcluirEquipamentoCalibracao.php', 'click-excluir', '.modal-body-excluir', '#modal-excluir', 'modal-md', '-');
+    abrirModalEditarExcluir('.icone-acao-editar-equipamento-calibracao', 'tr', 'include/mEditarEquipamentoCalibracao.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-lg', 'Editar equipamento de calibração');
+    abrirModalEditarExcluir('.icone-acao-editar-usuario', 'tr', 'include/mEditarUsuario.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-md', 'Editar usuário');
+    abrirModalEditarExcluir('.icone-acao-editar-modulo', 'tr', 'include/mEditarModulo.php', 'click-acao-modal', '.modal-body-editar', '#modal-editar', 'modal-md', 'Editar módulo');
+
+    abrirModalEditarExcluir('.icone-acao-ativar-inativar-usuario', 'tr', 'include/mAtivarInativarUsuario.php', 'click-acao-modal', '.modal-body-alerta', '#modal-alerta-acao', 'modal-md', 'Ativar/Inativar usuário');
+    
 });

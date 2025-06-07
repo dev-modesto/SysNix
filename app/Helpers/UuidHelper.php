@@ -11,12 +11,12 @@ class UuidHelper {
         $this->pdo = Connection::getInstance();
     }
 
-    public function enviaUuidBuscaDados(string $tabela, string $uuid): ?array {
+    public function enviaUuidBuscaDados(string $tabela, string $uuid) {
         $query = "SELECT * FROM {$tabela} WHERE uuid = :uuid LIMIT 1";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':uuid', $uuid);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ?? null;
+        return $result;
     }
 }

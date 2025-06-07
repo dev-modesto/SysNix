@@ -42,7 +42,6 @@ $arrayDadosViewsPermissoes = PermissaoViewController::retornarViewsPermitidasMod
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 </head>
-
     <style>
         .container-msg {
             margin: 15px 0;
@@ -88,18 +87,14 @@ $arrayDadosViewsPermissoes = PermissaoViewController::retornarViewsPermitidasMod
 
 <div class="breadcrumb">
     <span><?= $moduloPagina ?></span>
-    <!-- <a href="usuarios.php">Usuários</a> &gt;
-    <a href="usuarios.php">Usuários</a> &gt; -->
 </div>
 
 <div class="conteudo">
-
     <div class="container-principal">
         <?php
             include BASE_PATH . '/include/viewsModulo/viewsModulo.php';
         ?>
     </div>
-
 </div>
 
 <div class="container-copyright">

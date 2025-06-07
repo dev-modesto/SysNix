@@ -26,4 +26,82 @@
     color: var(--color-a-purple9);
 }
 
+.js-example-basic-multiple {
+}
 
+.select2-container {
+}
+
+.select2-selection {
+    min-height: 38px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.td-legenda-bg-2 {
+    position: relative;
+}
+
+.td-legenda-bg-2 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.legenda-bg-2 {
+    content: '';
+    position: absolute;
+    display: flex;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: calc(50% - 5px);
+}
+
+.legenda-bg.usuario-status-inativo {
+    background-color: var(--color-a-red1);
+    color: var(--color-a-red7);
+}
+.legenda-bg.usuario-status-ativo {
+    background-color: var(--color-a-green2);
+    color: var(--color-a-green4);
+}
+.legenda-bg.usuario-status-validar {
+    background-color: var(--color-a-yellow2);
+    color: var(--color-a-yellow4);
+}
+
+.legenda-bg.legenda-default {
+    background-color: var(--color-a3);
+}
+
+/* legenda modelo status bg 2 */
+.legenda-bg-2-status-green-3 {
+    background-color: var(--color-a-green3);
+    color: var(--color-a-green3);
+}
+
+.legenda-bg-2-status-red-3 {
+    background-color: var(--color-a-red3);
+    color: var(--color-a-red3);
+}
+
+.legenda-bg-2-status-yellow-3 {
+    background-color: var(--color-a-yellow3);
+    color: var(--color-a-yellow3);
+}
+
+.legenda-bg-2-status-green-4 {
+    background-color: var(--color-a-green4);
+    color: var(--color-a-green4);
+}
+
+.legenda-bg-2-status-red-4 {
+    background-color: var(--color-a-red4);
+    color: var(--color-a-red4);
+}
+
+.legenda-bg-2-status-yellow-4 {
+    background-color: var(--color-a-yellow4);
+    color: var(--color-a-yellow4);
+}

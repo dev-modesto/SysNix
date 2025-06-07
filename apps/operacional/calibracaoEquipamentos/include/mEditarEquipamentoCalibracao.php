@@ -247,7 +247,7 @@ use App\Controllers\StatusEquipamentoCalibracaoController;
 
     });
 
-    ajaxControllerModalAcao(<?= json_encode($uuidPublic) ?>, '#form-editar-equipamento-calibracao', 'EquipamentoCalibracao', 'atualizar', baseUrl);
+    ajaxControllerModalAcao(<?= json_encode($uuidPublic) ?>, '.modal-body-editar', '#form-editar-equipamento-calibracao', 'EquipamentoCalibracao', 'atualizar', baseUrl);
 </script>
 
 
