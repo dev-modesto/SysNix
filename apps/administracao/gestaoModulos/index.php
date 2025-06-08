@@ -306,6 +306,7 @@ $dadosBreadcrumb = [
                                                     <td class="container-icone-acao td-icons">
                                                         <span class="material-symbols-rounded icone-acao-editar-tela" data-tipo-modal="modal-editar">edit</span>
                                                         $botao
+                                                        <span class="material-symbols-rounded icone-acao-excluir-tela" data-tipo-modal="modal-excluir">delete</span>
                                                     </td>
                                                     <td></td>
                                                 </tr>
