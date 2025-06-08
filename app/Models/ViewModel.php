@@ -142,4 +142,14 @@ class ViewModel
         return $stmt->execute();
     }
 
+    public function removerTela($id) {
+
+        $query = "DELETE FROM tbl_tela WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+        
+    }
+
 }
