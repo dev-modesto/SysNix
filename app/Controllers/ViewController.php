@@ -46,4 +46,26 @@ class ViewController
         return $dadosReturnCadastro;
     }
 
+    public static function remover($dados) {
+
+        $uuidEquipamento = $dados['public-key'];
+        $uuidHelper = new UuidHelper();
+        $retornoUuidHelper = $uuidHelper->enviaUuidBuscaDados('tbl_tela', $uuidEquipamento);
+        $retornoId = $retornoUuidHelper['id'];
+        $nome = $retornoUuidHelper['nome'];
+
+        if (empty($retornoId)) {
+            return ['status' => 1, 'msg' => 'Tela não localizada.', 'alert' => 1];
+        } 
+
+        $viewModel = new ViewModel();
+        $returnRemover = $viewModel->removerTela($retornoId);
+
+        if(!$returnRemover) {
+            return ['status' => 0, 'msg' => "Não foi possível remover a tela <strong>$nome</strong>", 'alert' => 1, 'redirecionar' => 'apps/administracao/gestaoModulos/'];
+        }
+
+        return ['status' => 0, 'msg' => "A tela <strong>$nome</strong> foi deletada com sucesso.", 'alert' => 0, 'redirecionar' => 'apps/administracao/gestaoModulos/'];
+    }
+
 }
