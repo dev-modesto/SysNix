@@ -15,7 +15,7 @@ class ModuloModel
     }
 
     public function selecionarModulos() {
-        $query = "SELECT * FROM tbl_modulo";
+        $query = "SELECT * FROM tbl_modulo ORDER BY nome asc";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
