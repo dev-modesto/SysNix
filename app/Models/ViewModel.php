@@ -149,7 +149,19 @@ class ViewModel
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         return $stmt->rowCount() > 0;
-        
+    }
+
+    public function selecionarTelasSemVinculoModulo() {
+        $query = 
+            "SELECT DISTINCT t.*
+            FROM tbl_tela t
+            LEFT JOIN tbl_view_modulo vm ON t.id = vm.id_view
+            WHERE vm.id_view IS NULL
+            ORDER BY t.nome ASC
+        ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
