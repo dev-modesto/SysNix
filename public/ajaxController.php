@@ -10,7 +10,8 @@ $rotasPermitidas = [
     'StatusEquipamentoCalibracao' => ['retornarStatusUso'],
     'Usuario' => ['cadastrar', 'atualizar','ativarInativar'],
     'Modulo' => ['cadastrar', 'atualizar', 'ativarInativar', 'remover'] ,
-    'View' => ['cadastrar', 'atualizar', 'ativarInativar', 'remover']
+    'View' => ['cadastrar', 'atualizar', 'ativarInativar', 'remover'],
+    'Vinculo' => ['cadastrar']
 ];
 
 
