@@ -68,4 +68,12 @@ class ViewController
         return ['status' => 0, 'msg' => "A tela <strong>$nome</strong> foi deletada com sucesso.", 'alert' => 0, 'redirecionar' => 'apps/administracao/gestaoModulos/'];
     }
 
+    public static function selecionarTelasSemVinculoModulo() {
+
+        $viewModel = new ViewModel();
+        $dadosReturn = $viewModel->selecionarTelasSemVinculoModulo();
+
+        return $dadosReturn;
+    }
+
 }
